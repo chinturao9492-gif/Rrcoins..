@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#0f1220;color:#fff;padding-bottom:82px}
+#splash{position:fixed;inset:0;background:#0f1220;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99;padding:20px;text-align:center}
+.logo{width:96px;height:96px;border-radius:50%;background:linear-gradient(135deg,#ffd54a,#ff9800);display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:bold;color:#3b2500;box-shadow:0 0 30px #ffb30088}
+.logo.sm{width:44px;height:44px;font-size:16px}
+#splash h2{margin-top:16px}
+.page{display:none;padding:16px}
+.page.active{display:block}
+.top{text-align:center;margin:8px 0 16px}
+.top .big{font-size:34px;font-weight:bold;color:#ffd54a}
+.card{background:#1b2038;border-radius:16px;padding:16px;margin-bottom:12px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.muted{color:#9aa3c7;font-size:13px}
+.val{font-size:22px;font-weight:bold}
+button{background:#ffb300;color:#2b1c00;border:0;border-radius:10px;padding:10px 14px;font-weight:bold;font-size:14px;cursor:pointer}
+button.alt{background:#2c3358;color:#fff}
+button:disabled{opacity:.5;cursor:not-allowed}
+input,select{width:100%;padding:12px;border-radius:10px;border:1px solid #2c3358;background:#12162b;color:#fff;margin:6px 0 10px;font-size:15px}
+nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:#161a30;border-top:1px solid #2c3358;z-index:20}
+nav div{flex:1;text-align:center;padding:10px 0;font-size:11px;color:#9aa3c7;cursor:pointer}
+nav div b{display:block;font-size:20px}
+nav div.active{color:#ffd54a}
+.tag{padding:3px 8px;border-radius:8px;font-size:12px;background:#2c3358}
+.note{background:#332a10;border:1px solid #ffb300;border-radius:12px;padding:12px;margin-bottom:12px;font-size:14px}
+#toast{position:fixed;top:14px;left:50%;transform:translateX(-50%);background:#fff;color:#000;padding:10px 16px;border-radius:10px;display:none;z-index:100;max-width:90%}
+.friend{border-top:1px solid #303653;padding:12px 0}
+.friend:first-child{border-top:0}
+.small{font-size:12px;color:#9aa3c7;margin-top:4px;word-break:break-all}
+.collect-card{margin-top:32px;padding:22px 16px 24px;text-align:center;background:linear-gradient(160deg,#202744,#171c32);border:1px solid #343d61;border-radius:20px}
+.collect-title{font-size:18px;font-weight:bold;color:#ffd54a;margin-bottom:18px}
+.collect-circle{width:218px;height:218px;max-width:75vw;max-height:75vw;margin:0 auto 20px;border-radius:50%;border:7px solid #ffb300;background:radial-gradient(circle,#252d4c 0%,#171c32 70%);box-shadow:0 0 12px #ffb30088,inset 0 0 18px #ffb30022;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative}
+.collect-circle::before{content:'';position:absolute;inset:8px;border:1px solid #ffcf6570;border-radius:50%}
+.collect-label{font-size:12px;color:#aeb8dc;letter-spacing:1px;margin-bottom:8px}
+.collect-time{color:#ffd54a;font-size:29px;font-weight:bold;letter-spacing:1px}
+.collect-status{font-size:13px;margin-top:8px}
+.collect-reward{font-size:15px;font-weight:bold;color:#ffd54a;margin:12px 0 16px}
+.collect-button{width:100%;max-width:260px;padding:14px;border-radius:12px;font-size:16px}
+.collect-info{color:#9aa3c7;font-size:12px;line-height:1.6;margin-top:12px}
+</style>
+</head>
+<body>
+
+<div id="splash">
+  <div class="logo">RR</div>
+  <h2 id="sname">RR Coins</h2>
+  <div class="muted" id="smsg" style="margin-top:8px">Loading...</div>
+</div>
+<div id="toast"></div>
+
+<div id="home" class="page active">
+  <div class="top">
+    <div class="logo sm" style="margin:0 auto 8px">RR</div>
+    <div class="muted">Total Coins</div>
+    <div class="big" id="hCoins">0</div>
+  </div>
+  <div class="card">
+    <div class="muted" style="margin-bottom:10px">Dashboard</div>
+    <div class="row">
+      <div><div class="muted">Total Balance</div><div class="val" id="hUsd">$0</div></div>
+      <div style="text-align:right"><div class="muted">Coins</div><div class="val" id="hCoins2">0</div></div>
+    </div>
+  </div>
+  <div class="note" id="webNote" style="display:none;margin-top:12px">Website mode: Daily Collecting works here. Channel tasks and withdrawals need Telegram (@RrCoinsEarnBot).</div>
+  <div class="collect-card">
+    <div class="collect-title">DAILY COLLECTING</div>
+    <div class="collect-circle">
+      <div class="collect-label" id="collectLabel">24 HOURS</div>
+      <div class="collect-time" id="collectTime">24:00:00</div>
+      <div class="collect-status" id="collectStatus">Ready to start</div>
+    </div>
+    <div class="collect-reward" id="collectReward">🪙 2 Coins / Hour &nbsp;|&nbsp; 48 Coins / 24 Hours</div>
+    <button id="collectBtn" class="collect-button" onclick="collectAction()">Start Collecting</button>
+    <div class="collect-info" id="collectInfo"></div>
+  </div>
+</div>
+
+<div id="tasks" class="page">
+  <h3 style="margin-bottom:12px">Tasks</h3>
+  <div class="note" id="taskNote"></div>
+  <div id="taskList"></div>
+</div>
+
+<div id="friends" class="page">
+  <h3 style="margin-bottom:12px">Friends</h3>
+  <div class="card">
+    <div class="muted">Your referral link</div>
+    <input id="refLink" readonly>
+    <div class="row">
+      <button onclick="copyRef()">Copy</button>
+      <button class="alt" onclick="shareRef()">Share</button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="muted" id="refNote"></div>
+    <div class="val" id="refCount">0 Referrals</div>
+  </div>
+  <div class="card">
+    <h4 style="margin-bottom:10px">Your invited friends</h4>
+    <div id="friendList" class="muted">No referrals yet.</div>
+  </div>
+</div>
+
+<div id="profile" class="page">
+  <h3 style="margin-bottom:12px" id="pName">Profile</h3>
+  <div class="card">
+    <div class="row"><span class="muted">Referral Coins Claimed</span><b id="pRefCoins">0</b></div><br>
+    <div class="row"><span class="muted">Invited Friends</span><b id="pInv">0</b></div><br>
+    <div class="row"><span class="muted">Tasks Completed</span><b id="pTasks">0</b></div><br>
+    <div class="row"><span class="muted">Your User ID</span><b id="pId" style="font-size:13px"></b></div>
+  </div>
+  <h4 style="margin:14px 0 8px">Withdrawal History</h4>
+  <div id="hist"></div>
+</div>
+
+<div id="withdraw" class="page">
+  <h3 style="margin-bottom:12px">Withdraw</h3>
+  <div class="note" id="wNote"></div>
+  <div class="card">
+    <div class="muted">Method</div>
+    <select id="wMethod"><option>USDT</option><option>TON</option></select>
+    <div class="muted">Wallet address</div>
+    <input id="wAddr" placeholder="Wallet address">
+    <div class="muted" id="wMinLbl">Coins</div>
+    <input id="wCoins" type="number" placeholder="Coins" oninput="calcUsd()">
+    <div class="muted" id="wUsd">= $0.0000</div><br>
+    <button id="wBtn" onclick="doWithdraw()" style="width:100%">Withdraw</button>
+  </div>
+</div>
+
+<nav id="nav">
+  <div data-p="home" class="active"><b>🏠</b>Home</div>
+  <div data-p="tasks"><b>✅</b>Tasks</div>
+  <div data-p="friends"><b>👥</b>Friends</div>
+  <div data-p="profile"><b>👤</b>Profile</div>
+  <div data-p="withdraw"><b>💸</b>Withdraw</div>
+</nav>
+
+<script>
+'use strict';
+const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
+if (tg) { tg.ready(); tg.expand(); }
+const initData = tg ? tg.initData : '';
+const API_URL = 'https://script.google.com/macros/s/AKfycbyQxWz31pd31MS1hM2wglA6ACs1UVIBJpiOBD9Kc7BaKNw0kDDr0FZc8MackPVPkATL8w/exec';
+let S = null, collectTimer = null;
+
+function getBrowserToken() {
+  if (initData) return '';
+  const key = 'RR_COINS_BROWSER_TOKEN';
+  let t = '';
+  try { t = localStorage.getItem(key) || ''; } catch (e) {}
+  if (t.length < 20) {
+    t = (window.crypto && crypto.randomUUID)
+      ? crypto.randomUUID() + crypto.randomUUID()
+      : String(Date.now()) + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
+    try { localStorage.setItem(key, t); } catch (e) {}
+  }
+  return t;
+}
+const browserToken = getBrowserToken();
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g,
+  c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function toast(m) {
+  const t = $('toast');
+  t.textContent = m;
+  t.style.display = 'block';
+  clearTimeout(toast.timer);
+  toast.timer = setTimeout(() => { t.style.display = 'none'; }, 3500);
+}
+
+function call(action, payload) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 25000);
+  return fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({ action: action, initData: initData, payload: Object.assign({ browserToken: browserToken }, payload || {}) }),
+    signal: ctrl.signal
+  })
+    .then(r => r.json())
+    .then(r => {
+      clearTimeout(timer);
+      if (r && r.ok) return r.data;
+      throw new Error(r && r.error ? r.error : 'Server returned an empty response.');
+    })
+    .catch(e => {
+      clearTimeout(timer);
+      throw new Error(e.name === 'AbortError'
+        ? 'Server is slow. Please refresh and try again.'
+        : (e.message || 'Network error'));
+    });
+}
+
+function showPage(name) {
+  document.querySelectorAll('#nav div').forEach(x => x.classList.toggle('active', x.dataset.p === name));
+  document.querySelectorAll('.page').forEach(x => x.classList.toggle('active', x.id === name));
+}
+document.querySelectorAll('#nav div').forEach(d =>
+  d.addEventListener('click', () => showPage(d.dataset.p)));
+
+function render() {
+  const cfg = S.cfg || {};
+  $('sname').textContent = S.appName || 'RR Coins';
+  const coins = Number(S.coins || 0).toLocaleString();
+  $('hCoins').textContent = coins;
+  $('hCoins2').textContent = coins;
+  $('hUsd').textContent = '$' + Number(S.usd || 0).toFixed(4);
+
+  $('collectReward').innerHTML = '🪙 ' + cfg.perHour + ' Coins / Hour &nbsp;|&nbsp; ' +
+    cfg.collectReward + ' Coins / ' + cfg.collectHours + ' Hours';
+  $('taskNote').innerHTML = 'Each completed channel task reward: <b>' + cfg.taskReward +
+    ' coins</b>. Join the channel first, then press Claim. Membership is checked by the bot.';
+  $('refNote').textContent = 'Invite a friend. You can claim ' + cfg.refReward +
+    ' coins after that friend completes 5 tasks.';
+  $('wNote').innerHTML = 'Minimum withdrawal: <b>' + cfg.min + ' coins (at least $' + cfg.minUsd +
+    ')</b><br>1 Coin = <b>$' + cfg.rate + '</b>';
+  $('wMinLbl').textContent = 'Coins (minimum ' + cfg.min + ')';
+  $('wCoins').min = cfg.min;
+  $('wCoins').placeholder = cfg.min;
+
+  $('taskList').innerHTML = (S.channels || []).map(c => `
+    <div class="card"><div class="row">
+      <div><b>Join ${esc(c.name)}</b><div class="muted">Reward: ${Number(c.reward)} coins</div></div>
+      ${c.done ? '<span class="tag">✔ Claimed</span>' : `
+        <div style="display:flex;gap:6px">
+          <button class="alt" onclick="openCh(${Number(c.index)})">Join</button>
+          <button id="cb${Number(c.index)}" onclick="claim(${Number(c.index)})">Claim</button>
+        </div>`}
+    </div></div>`).join('');
+
+  $('refLink').value = S.refLink || '';
+  $('refCount').textContent = Number(S.referrals || 0) + ' Referrals';
+
+  $('friendList').innerHTML = (S.friends || []).length ? S.friends.map(f => `
+    <div class="friend">
+      <b>${esc(f.username ? '@' + f.username : f.name)}</b>
+      <div class="small">User ID: ${esc(f.id)}</div>
+      <div class="small">Tasks completed: ${Number(f.tasksDone)}/5</div>
+      ${f.claimed ? '<span class="tag">Reward claimed</span>'
+        : f.eligible ? `<button style="margin-top:8px" onclick="claimReferral('${esc(f.id)}')">Claim ${Number(cfg.refReward)} Coins</button>`
+        : '<span class="tag">Complete 5 tasks to unlock</span>'}
+    </div>`).join('') : '<div class="muted">No referrals yet.</div>';
+
+  $('pName').textContent = S.name || 'Profile';
+  $('pRefCoins').textContent = Number(S.referralCoins || 0);
+  $('pInv').textContent = Number(S.referrals || 0);
+  $('pTasks').textContent = Number(S.tasksDone || 0);
+  $('pId').textContent = S.id || '';
+
+  $('hist').innerHTML = (S.history || []).length ? S.history.map(h => `
+    <div class="card"><div class="row">
+      <div><b>${esc(h.method)}</b> • ${Number(h.coins)} coins ($${Number(h.usd).toFixed(4)})
+        <div class="muted">${esc(h.time)}</div></div>
+      <span class="tag">${esc(h.status)}</span>
+    </div></div>`).join('') : '<div class="muted">No withdrawals yet</div>';
+
+  calcUsd();
+  renderCollecting();
+}
+
+function fmt(ms) {
+  const t = Math.floor(ms / 1000);
+  return [Math.floor(t / 3600), Math.floor((t % 3600) / 60), t % 60]
+    .map(n => String(n).padStart(2, '0')).join(':');
+}
+
+function renderCollecting() {
+  if (!S || !S.collecting) return;
+  const c = S.collecting, cfg = S.cfg || {}, btn = $('collectBtn');
+  clearInterval(collectTimer);
+  collectTimer = null;
+
+  if (!c.startedAt) {
+    $('collectLabel').textContent = cfg.collectHours + ' HOURS';
+    $('collectTime').textContent = cfg.collectHours + ':00:00';
+    $('collectStatus').textContent = 'Ready to start';
+    btn.textContent = 'Start Collecting';
+    btn.disabled = false;
+    $('collectInfo').textContent = 'Start collecting and return after ' + cfg.collectHours +
+      ' hours to claim ' + cfg.collectReward + ' coins.';
+    return;
+  }
+  if (c.ready) {
+    $('collectLabel').textContent = 'COMPLETED';
+    $('collectTime').textContent = '00:00:00';
+    $('collectStatus').textContent = 'Your coins are ready!';
+    btn.textContent = 'Claim ' + cfg.collectReward + ' Coins';
+    btn.disabled = false;
+    $('collectInfo').textContent = cfg.collectHours + ' hours completed. Claim your coins now.';
+    return;
+  }
+  btn.textContent = 'Collecting...';
+  btn.disabled = true;
+  $('collectLabel').textContent = 'TIME LEFT';
+  $('collectStatus').textContent = 'Collecting in progress';
+  $('collectInfo').textContent = 'Please wait until the timer finishes.';
+
+  const end = Date.now() + Number(c.remainingMs || 0);
+  const tick = () => {
+    const r = end - Date.now();
+    if (r <= 0) {
+      clearInterval(collectTimer);
+      collectTimer = null;
+      $('collectTime').textContent = '00:00:00';
+      setTimeout(refreshState, 1500);
+      return;
+    }
+    $('collectTime').textContent = fmt(r);
+  };
+  tick();
+  collectTimer = setInterval(tick, 1000);
+}
+
+async function refreshState() {
+  try { S = await call('init', {}); render(); } catch (e) { toast(e.message); }
+}
+
+async function collectAction() {
+  const btn = $('collectBtn');
+  btn.disabled = true;
+  try {
+    const claiming = S.collecting && S.collecting.ready;
+    S = await call(claiming ? 'claimCollecting' : 'startCollecting', {});
+    render();
+    toast(claiming ? S.cfg.collectReward + ' Coins added to your balance!'
+      : 'Collecting started! Come back after ' + S.cfg.collectHours + ' hours.');
+  } catch (e) {
+    toast(e.message);
+    btn.disabled = false;
+  }
+}
+
+function openLink(url) {
+  if (tg && tg.openTelegramLink) tg.openTelegramLink(url);
+  else window.open(url, '_blank');
+}
+function openCh(i) {
+  const ch = S.channels[i];
+  if (ch) openLink(ch.url);
+}
+
+async function claim(i) {
+  const b = $('cb' + i);
+  if (b) b.disabled = true;
+  try {
+    S = await call('claim', { index: i });
+    render();
+    toast('Reward added to your balance!');
+  } catch (e) {
+    toast(e.message);
+    if (b) b.disabled = false;
+  }
+}
+
+async function claimReferral(friendId) {
+  try {
+    S = await call('claimReferral', { friendId: friendId });
+    render();
+    toast(S.cfg.refReward + ' Coins added to your balance!');
+  } catch (e) { toast(e.message); }
+}
+
+function copyRef() {
+  const el = $('refLink');
+  el.select();
+  el.setSelectionRange(0, 99999);
+  const ok = () => toast('Copied!');
+  const fallback = () => { try { document.execCommand('copy'); ok(); } catch (e) { toast('Could not copy'); } };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(el.value).then(ok).catch(fallback);
+  } else fallback();
+}
+
+function shareRef() {
+  if (!S || !S.refLink) return;
+  openLink('https://t.me/share/url?url=' + encodeURIComponent(S.refLink) +
+    '&text=' + encodeURIComponent('Join ' + (S.appName || 'RR Coins') + ' and earn coins!'));
+}
+
+function calcUsd() {
+  const rate = S && S.cfg && S.cfg.rate ? Number(S.cfg.rate) : 0.0003;
+  $('wUsd').textContent = '= $' + ((Number($('wCoins').value) || 0) * rate).toFixed(4);
+}
+
+async function doWithdraw() {
+  const btn = $('wBtn');
+  const min = S && S.cfg ? Number(S.cfg.min) : 3334;
+  const coins = Number($('wCoins').value) || 0;
+  if (coins < min) { toast('Minimum withdrawal is ' + min + ' coins'); return; }
+  btn.disabled = true;
+  try {
+    S = await call('withdraw', {
+      method: $('wMethod').value,
+      address: $('wAddr').value.trim(),
+      coins: $('wCoins').value
+    });
+    render();
+    toast('Withdraw request sent ✅');
+    $('wCoins').value = '';
+    $('wAddr').value = '';
+    calcUsd();
+  } catch (e) { toast(e.message); }
+  btn.disabled = false;
+}
+
+function fail(msg) {
+  $('splash').style.display = 'flex';
+  $('smsg').innerHTML = esc(msg) + '<br><br><button onclick="location.reload()">Retry</button>';
+}
+
+/* START */
+if (!initData) $('webNote').style.display = 'block';
+call('init', {})
+  .then(d => { S = d; render(); setTimeout(() => { $('splash').style.display = 'none'; }, 600); })
+  .catch(e => fail(e.message));
+</script>
+</body>
+</html>
