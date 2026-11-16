@@ -148,7 +148,7 @@ nav div.active{color:#ffd54a}
 const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
 if (tg) { tg.ready(); tg.expand(); }
 const initData = tg ? tg.initData : '';
-const API_URL = 'https://script.google.com/macros/s/AKfycbyZJ4vtErc3ZaxxjsP-KLAJ8zRjDd-CWYCtLE48Suzk3FSsDOJ0L8CdIiD4R71Fh2FzWA/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbyQxWz31pd31MS1hM2wglA6ACs1UVIBJpiOBD9Kc7BaKNw0kDDr0FZc8MackPVPkATL8w/exec';
 let S = null, collectTimer = null;
 
 function getBrowserToken() {
@@ -455,4 +455,4 @@ call('init', {})
   .catch(e => fail(e.message));
 </script>
 </body>
-        </html>
+      </html>
