@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -167,7 +168,7 @@ function getBrowserToken() {
 const browserToken = getBrowserToken();
 
 let adCtrl = null;
-try { if (window.Adsgram) adCtrl = window.Adsgram.init({ blockId: '59985' }); } catch (e) { adCtrl = null; }
+try { if (window.Adsgram) adCtrl = window.Adsgram.init({ blockId: '56641' }); } catch (e) { adCtrl = null; }
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g,
@@ -455,4 +456,4 @@ call('init', {})
   .catch(e => fail(e.message));
 </script>
 </body>
-      </html>
+    </html>
