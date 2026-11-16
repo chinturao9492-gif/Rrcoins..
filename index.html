@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://sad.adsgram.ai/js/sad.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
 body{background:#0f1220;color:#fff;padding-bottom:82px}
@@ -147,7 +148,7 @@ nav div.active{color:#ffd54a}
 const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
 if (tg) { tg.ready(); tg.expand(); }
 const initData = tg ? tg.initData : '';
-const API_URL = 'https://script.google.com/macros/s/AKfycbxCvsnBgx3b1iDcdh5J_fJuur9TuyzfoZaxtP_A1Yl2VI_ulqqvIhxdN_FS7eL88WkgDQ/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbyQxWz31pd31MS1hM2wglA6ACs1UVIBJpiOBD9Kc7BaKNw0kDDr0FZc8MackPVPkATL8w/exec';
 let S = null, collectTimer = null;
 
 function getBrowserToken() {
@@ -164,6 +165,9 @@ function getBrowserToken() {
   return t;
 }
 const browserToken = getBrowserToken();
+
+let adCtrl = null;
+try { if (window.Adsgram) adCtrl = window.Adsgram.init({ blockId: '59985' }); } catch (e) { adCtrl = null; }
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g,
@@ -227,7 +231,7 @@ function render() {
   $('wCoins').min = cfg.min;
   $('wCoins').placeholder = cfg.min;
 
-  $('taskList').innerHTML = (S.channels || []).map(c => `
+  $('taskList').innerHTML = adCard() + (S.channels || []).map(c => `
     <div class="card"><div class="row">
       <div><b>Join ${esc(c.name)}</b><div class="muted">Reward: ${Number(c.reward)} coins</div></div>
       ${c.done ? '<span class="tag">✔ Claimed</span>' : `
@@ -412,6 +416,33 @@ async function doWithdraw() {
   btn.disabled = false;
 }
 
+function adCard() {
+  const a = S.ads || { reward: 0, left: 0, limit: 0, used: 0 };
+  return `<div class="card"><div class="row">
+    <div><b>Watch Ad</b><div class="muted">Reward: ${Number(a.reward)} coins • ${Number(a.used)}/${Number(a.limit)} today</div></div>
+    ${a.left > 0 ? '<button id="adBtn" onclick="watchAd()">Watch</button>' : '<span class="tag">Limit reached</span>'}
+  </div></div>`;
+}
+
+async function watchAd() {
+  if (!initData) { toast('Ads work only inside Telegram.'); return; }
+  if (!adCtrl) { toast('Ads are not available right now. Please try again later.'); return; }
+  const btn = $('adBtn');
+  if (btn) btn.disabled = true;
+  try {
+    await call('adStart', {});
+    const r = await adCtrl.show();
+    if (r && r.done === false) throw new Error('Ad was not completed.');
+    S = await call('adReward', {});
+    render();
+    toast(S.ads.reward + ' coins added to your balance!');
+  } catch (e) {
+    toast(e && e.message ? e.message
+      : (e && e.description ? 'Ad: ' + e.description : 'No ad available right now. Try again later.'));
+    if (btn) btn.disabled = false;
+  }
+}
+
 function fail(msg) {
   $('splash').style.display = 'flex';
   $('smsg').innerHTML = esc(msg) + '<br><br><button onclick="location.reload()">Retry</button>';
@@ -424,4 +455,4 @@ call('init', {})
   .catch(e => fail(e.message));
 </script>
 </body>
-</html>
+        </html>
