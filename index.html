@@ -88,8 +88,8 @@ nav div b{display:block;font-size:20px}nav div.active{color:#ffd54a}
 <nav id="nav">
   <div data-p="home" class="active"><b>🏠</b>Home</div><div data-p="tasks"><b>✅</b>Tasks</div>
   <div data-p="friends"><b>👥</b>Friends</div><div data-p="profile"><b>👤</b>Profile</div><div data-p="withdraw"><b>💸</b>Withdraw</div>
-    </nav>
-    <script>
+                      </nav>
+<script>
 'use strict';
 const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
 if (tg) { tg.ready(); tg.expand(); }
@@ -255,7 +255,7 @@ async function doWithdraw() {
 }
 function adCard() {
   const a = S.ads || { reward: 0, left: 0, limit: 0, used: 0 };
-  return `<div class="card"><div class="row"><div><b>Watch Ad (optional)</b><div class="muted">Watch a short ad to earn ${Number(a.reward)} coins • ${Number(a.used)}/${Number(a.limit)} today</div></div>
+  return `<div class="card"><div class="row"><div><b>Watch Ad</b><div class="muted">Watch a short ad to earn ${Number(a.reward)} coins • ${Number(a.used)}/${Number(a.limit)} today</div></div>
     ${a.left > 0 ? '<button id="adBtn" onclick="watchAd()">Watch</button>' : '<span class="tag">Limit reached</span>'}</div></div>`;
 }
 async function watchAd() {
@@ -270,9 +270,17 @@ async function watchAd() {
   } catch (e) { toast(e && e.message ? e.message : 'No ad available right now. Try again later.'); if (btn) btn.disabled = false; }
 }
 function adsunCard() {
-  const a = S.adsun || { reward: 3, left: 0, limit: 20, used: 0 };
-  return `<div class="card"><div class="row"><div><b>Adsun Reward Ad</b><div class="muted">Watch a full Adsun ad to earn ${Number(a.reward)} coins • ${Number(a.used)}/${Number(a.limit)} today</div></div>
-    ${a.left > 0 ? '<button id="adsunBtn" onclick="watchAdsun()">Watch Adsun</button>' : '<span class="tag">Daily limit reached</span>'}</div></div>`;
+  const a = S.adsun || {};
+  const reward = Number(a.reward ?? 3);
+  const used = Number(a.used ?? 0);
+  const limit = Number(a.limit ?? 20);
+  // Older deployed API responses may omit `left`; calculate it from limit-used.
+  const reportedLeft = Number(a.left);
+  const left = Number.isFinite(reportedLeft) && !(reportedLeft <= 0 && used < limit)
+    ? reportedLeft : Math.max(0, limit - used);
+  const canWatch = left > 0;
+  return `<div class="card"><div class="row"><div><b>Watch Ad</b><div class="muted">Watch full Adsun ad and earn ${reward} coins • ${used}/${limit} today</div></div>
+    <button id="adsunBtn" onclick="watchAdsun()" ${canWatch ? '' : 'disabled'}>Watch Ads</button></div></div>`;
 }
 async function watchAdsun() {
   if (!initData) { toast('Ads work only inside Telegram.'); return; }
@@ -300,4 +308,4 @@ call('init', {}).then(d => { S = d; render(); setTimeout(() => { $('splash').sty
   .catch(e => fail(e.message));
 </script>
 </body>
-  </html>
+</html>
