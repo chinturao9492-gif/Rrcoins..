@@ -199,9 +199,8 @@ async function playExistingAd_() {
   if (!initData) throw new Error('Ads work only inside Telegram.');
   const showAd = window['show_' + MONETAG_ZONE];
   if (typeof showAd !== 'function') throw new Error('Ads are not available right now. Please try again later.');
-  await call('adStart', {});
-  await showAd({ ymid: String(S.id) + '_' + Date.now() });
-  S = await call('adReward', {});
+  await call('collectAdStart', {});
+  await showAd({ ymid: 'c_' + String(S.id) + '_' + Date.now() });
 }
 
 async function collectAction() {
@@ -224,7 +223,7 @@ async function claim(i) {
   catch (e) { toast(e.message); if (b) b.disabled = false; }
 }
 async function claimReferral(friendId) {
-  try { S = await call('claimReferral', { friendId: friendId }); render(); toast(S.cfg.refReward + ' Coins added to your balance!'); }
+  try { await playExistingAd_(); S = await call('claimReferral', { friendId: friendId }); render(); toast(S.cfg.refReward + ' Coins added to your balance!'); }
   catch (e) { toast(e.message); }
 }
 function copyRef() {
@@ -276,4 +275,4 @@ call('init', {}).then(d => { S = d; render(); setTimeout(() => { $('splash').sty
   .catch(e => fail(e.message));
 </script>
 </body>
-  </html>
+                                                        </html>
