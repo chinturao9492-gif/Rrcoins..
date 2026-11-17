@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<script src='//libtl.com/sdk.js' data-zone='12281843' data-sdk='show_12281843'></script>
+<script src="https://libtl.com/sdk.js" data-zone="12281843" data-sdk="show_12281843"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
 body{background:#0f1220;color:#fff;padding-bottom:82px}
@@ -168,13 +168,8 @@ function getBrowserToken() {
 }
 const browserToken = getBrowserToken();
 
-// Monetag rewarded interstitial (Zone ID)
+// Monetag Rewarded Interstitial zone ID (must match the zone in the SDK script tag above)
 const MONETAG_ZONE = '12281843';
-function monetagShow() {
-  const fn = window['show_' + MONETAG_ZONE];
-  if (typeof fn !== 'function') return null;
-  return fn({ ymid: String((S && S.id) || '') });
-}
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g,
@@ -412,7 +407,7 @@ function calcUsd() {
 
 async function doWithdraw() {
   const btn = $('wBtn');
-  const min = S && S.cfg ? Number(S.cfg.min) : 3334;
+  const min = S && S.cfg ? Number(S.cfg.min) : 334;
   const coins = Number($('wCoins').value) || 0;
   if (coins < min) { toast('Minimum withdrawal is ' + min + ' coins'); return; }
   btn.disabled = true;
@@ -441,13 +436,13 @@ function adCard() {
 
 async function watchAd() {
   if (!initData) { toast('Ads work only inside Telegram.'); return; }
+  const showAd = window['show_' + MONETAG_ZONE];
+  if (typeof showAd !== 'function') { toast('Ads are not available right now. Please try again later.'); return; }
   const btn = $('adBtn');
   if (btn) btn.disabled = true;
   try {
     await call('adStart', {});
-    const p = monetagShow();
-    if (!p) throw new Error('Ads are not available right now. Please try again later.');
-    await p;
+    await showAd({ ymid: String(S.id) + '_' + Date.now() });
     S = await call('adReward', {});
     render();
     toast(S.ads.reward + ' coins added to your balance!');
@@ -469,4 +464,4 @@ call('init', {})
   .catch(e => fail(e.message));
 </script>
 </body>
-  </html>
+    </html>
