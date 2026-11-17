@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+<script src='//libtl.com/sdk.js' data-zone='12281843' data-sdk='show_12281843'></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
 body{background:#0f1220;color:#fff;padding-bottom:82px}
@@ -150,7 +150,7 @@ nav div.active{color:#ffd54a}
 const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
 if (tg) { tg.ready(); tg.expand(); }
 const initData = tg ? tg.initData : '';
-const API_URL = 'https://script.google.com/macros/s/AKfycbyZ4XU-frd3Cy--5aFsGwELeJ0IPJzhbL4wDPCBE8MYbrcyv7dijLqKCMe-ycFcZgZz6A/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbyRXkX8A_fOsoESC4R7fNrqmsVTc6AH1nPBFit1Fk-rxMciqs6uDJCKS1TIhbzORAW6XQ/exec';
 let S = null, collectTimer = null;
 
 function getBrowserToken() {
@@ -168,10 +168,13 @@ function getBrowserToken() {
 }
 const browserToken = getBrowserToken();
 
-// Put your approved AdsGram Rewarded block ID here (only this line needs changing)
-const ADSGRAM_BLOCK_ID = '56641';
-let adCtrl = null;
-try { if (window.Adsgram) adCtrl = window.Adsgram.init({ blockId: ADSGRAM_BLOCK_ID }); } catch (e) { adCtrl = null; }
+// Monetag rewarded interstitial (Zone ID)
+const MONETAG_ZONE = '12281843';
+function monetagShow() {
+  const fn = window['show_' + MONETAG_ZONE];
+  if (typeof fn !== 'function') return null;
+  return fn({ ymid: String((S && S.id) || '') });
+}
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g,
@@ -409,7 +412,7 @@ function calcUsd() {
 
 async function doWithdraw() {
   const btn = $('wBtn');
-  const min = S && S.cfg ? Number(S.cfg.min) : 334;
+  const min = S && S.cfg ? Number(S.cfg.min) : 3334;
   const coins = Number($('wCoins').value) || 0;
   if (coins < min) { toast('Minimum withdrawal is ' + min + ' coins'); return; }
   btn.disabled = true;
@@ -438,19 +441,18 @@ function adCard() {
 
 async function watchAd() {
   if (!initData) { toast('Ads work only inside Telegram.'); return; }
-  if (!adCtrl) { toast('Ads are not available right now. Please try again later.'); return; }
   const btn = $('adBtn');
   if (btn) btn.disabled = true;
   try {
     await call('adStart', {});
-    const r = await adCtrl.show();
-    if (r && r.done === false) throw new Error('Ad was not completed.');
+    const p = monetagShow();
+    if (!p) throw new Error('Ads are not available right now. Please try again later.');
+    await p;
     S = await call('adReward', {});
     render();
     toast(S.ads.reward + ' coins added to your balance!');
   } catch (e) {
-    toast(e && e.message ? e.message
-      : (e && e.description ? 'Ad: ' + e.description : 'No ad available right now. Try again later.'));
+    toast(e && e.message ? e.message : 'No ad available right now. Try again later.');
     if (btn) btn.disabled = false;
   }
 }
@@ -467,4 +469,4 @@ call('init', {})
   .catch(e => fail(e.message));
 </script>
 </body>
-                                                                     </html>
+  </html>
