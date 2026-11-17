@@ -133,6 +133,8 @@ nav div.active{color:#ffd54a}
     <div class="muted" id="wUsd">= $0.0000</div><br>
     <button id="wBtn" onclick="doWithdraw()" style="width:100%">Withdraw</button>
   </div>
+  <h4 style="margin:14px 0 8px">Recent Payouts (public proof)</h4>
+  <div id="payouts"></div>
 </div>
 
 <nav id="nav">
@@ -148,7 +150,7 @@ nav div.active{color:#ffd54a}
 const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
 if (tg) { tg.ready(); tg.expand(); }
 const initData = tg ? tg.initData : '';
-const API_URL = 'https://script.google.com/macros/s/AKfycbwlKRS9mGJ4liisj-IybF_2ly2A68kd7_hq3_BBPqqviwNgfvWJDkoS3v79L0GphqOycA/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbyQxWz31pd31MS1hM2wglA6ACs1UVIBJpiOBD9Kc7BaKNw0kDDr0FZc8MackPVPkATL8w/exec';
 let S = null, collectTimer = null;
 
 function getBrowserToken() {
@@ -166,8 +168,10 @@ function getBrowserToken() {
 }
 const browserToken = getBrowserToken();
 
+// Put your approved AdsGram Rewarded block ID here (only this line needs changing)
+const ADSGRAM_BLOCK_ID = '56641';
 let adCtrl = null;
-try { if (window.Adsgram) adCtrl = window.Adsgram.init({ blockId: '56641' }); } catch (e) { adCtrl = null; }
+try { if (window.Adsgram) adCtrl = window.Adsgram.init({ blockId: ADSGRAM_BLOCK_ID }); } catch (e) { adCtrl = null; }
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g,
@@ -266,6 +270,14 @@ function render() {
         <div class="muted">${esc(h.time)}</div></div>
       <span class="tag">${esc(h.status)}</span>
     </div></div>`).join('') : '<div class="muted">No withdrawals yet</div>';
+
+  $('payouts').innerHTML = (S.payouts || []).length ? S.payouts.map(p => `
+    <div class="card"><div class="row">
+      <div><b>${esc(p.method)}</b> • $${Number(p.usd).toFixed(4)} (${Number(p.coins)} coins)
+        <div class="muted">User ${esc(p.user)} • ${esc(p.time)}</div>
+        ${p.tx ? '<div class="small">Tx: ' + esc(p.tx) + '</div>' : ''}</div>
+      <span class="tag">Paid</span>
+    </div></div>`).join('') : '<div class="muted">No payouts yet</div>';
 
   calcUsd();
   renderCollecting();
@@ -397,7 +409,7 @@ function calcUsd() {
 
 async function doWithdraw() {
   const btn = $('wBtn');
-  const min = S && S.cfg ? Number(S.cfg.min) : 3334;
+  const min = S && S.cfg ? Number(S.cfg.min) : 334;
   const coins = Number($('wCoins').value) || 0;
   if (coins < min) { toast('Minimum withdrawal is ' + min + ' coins'); return; }
   btn.disabled = true;
@@ -419,7 +431,7 @@ async function doWithdraw() {
 function adCard() {
   const a = S.ads || { reward: 0, left: 0, limit: 0, used: 0 };
   return `<div class="card"><div class="row">
-    <div><b>Watch Ad</b><div class="muted">Reward: ${Number(a.reward)} coins • ${Number(a.used)}/${Number(a.limit)} today</div></div>
+    <div><b>Watch Ad (optional)</b><div class="muted">Watch a short ad to earn ${Number(a.reward)} coins • ${Number(a.used)}/${Number(a.limit)} today</div></div>
     ${a.left > 0 ? '<button id="adBtn" onclick="watchAd()">Watch</button>' : '<span class="tag">Limit reached</span>'}
   </div></div>`;
 }
@@ -455,4 +467,4 @@ call('init', {})
   .catch(e => fail(e.message));
 </script>
 </body>
-    </html>
+                                                                     </html>
