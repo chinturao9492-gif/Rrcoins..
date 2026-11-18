@@ -4,8 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<script src="https://libtl.com/sdk.js" data-zone="12281843" data-sdk="show_12281843"></script>
-<script src="https://api.adsun.io/sdk.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
 body{background:#0f1220;color:#fff;padding-bottom:82px}
@@ -88,8 +86,8 @@ nav div b{display:block;font-size:20px}nav div.active{color:#ffd54a}
 <nav id="nav">
   <div data-p="home" class="active"><b>🏠</b>Home</div><div data-p="tasks"><b>✅</b>Tasks</div>
   <div data-p="friends"><b>👥</b>Friends</div><div data-p="profile"><b>👤</b>Profile</div><div data-p="withdraw"><b>💸</b>Withdraw</div>
-                      </nav>
-<script>
+  </nav>
+  <script>
 'use strict';
 const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
 if (tg) { tg.ready(); tg.expand(); }
@@ -108,8 +106,6 @@ function getBrowserToken() {
   return t;
 }
 const browserToken = getBrowserToken();
-const MONETAG_ZONE = '12281843';
-const ADSUN_BLOCK_ID = '50269';
 const $ = id => document.getElementById(id);
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g,
   c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -143,20 +139,20 @@ function render() {
   $('hCoins2').textContent = coins; $('hUsd').textContent = '$' + Number(S.usd || 0).toFixed(4);
   $('collectReward').innerHTML = '🪙 ' + cfg.perHour + ' Coins / Hour &nbsp;|&nbsp; ' + cfg.collectReward + ' Coins / ' + cfg.collectHours + ' Hours';
   $('taskNote').innerHTML = 'Each completed channel task reward: <b>' + cfg.taskReward + ' coins</b>. Join the channel first, then press Claim. Membership is checked by the bot.';
-  $('refNote').textContent = 'Invite a friend. You can claim ' + cfg.refReward + ' coins after that friend watches ' + cfg.referralAdsRequired + ' ads.';
+  $('refNote').textContent = 'Invite a friend. You can claim ' + cfg.refReward + ' coins after that friend completes all ' + cfg.referralTasksRequired + ' channel tasks.';
   $('wNote').innerHTML = 'Minimum withdrawal: <b>' + cfg.min + ' coins (at least $' + cfg.minUsd + ')</b><br>1 Coin = <b>$' + cfg.rate + '</b>';
   $('wMinLbl').textContent = 'Coins (minimum ' + cfg.min + ')'; $('wCoins').min = cfg.min; $('wCoins').placeholder = cfg.min;
-  $('taskList').innerHTML = adCard() + adsunCard() + (S.channels || []).map(c => `
+  $('taskList').innerHTML = '<div class="card"><b>Reward Ads</b><div class="muted" style="margin-top:6px">Coming soon. Ads will be enabled after AdsGram approval. No ads are running now.</div></div>' + (S.channels || []).map(c => `
     <div class="card"><div class="row"><div><b>Join ${esc(c.name)}</b><div class="muted">Reward: ${Number(c.reward)} coins</div></div>
     ${c.done ? '<span class="tag">✔ Claimed</span>' : `<div style="display:flex;gap:6px"><button class="alt" onclick="openCh(${Number(c.index)})">Join</button><button id="cb${Number(c.index)}" onclick="claim(${Number(c.index)})">Claim</button></div>`}
     </div></div>`).join('');
   $('refLink').value = S.refLink || ''; $('refCount').textContent = Number(S.referrals || 0) + ' Referrals';
   $('friendList').innerHTML = (S.friends || []).length ? S.friends.map(f => `
     <div class="friend"><b>${esc(f.username ? '@' + f.username : f.name)}</b>
-      <div class="small">User ID: ${esc(f.id)}</div><div class="small">Ads watched: ${Number(f.adsWatched)}/${Number(cfg.referralAdsRequired)}</div>
+      <div class="small">User ID: ${esc(f.id)}</div><div class="small">Channel tasks: ${Number(f.tasksDone)}/${Number(f.tasksRequired)}</div>
       ${f.claimed ? '<span class="tag">Reward claimed</span>' : f.eligible
         ? `<button style="margin-top:8px" onclick="claimReferral('${esc(f.id)}')">Claim ${Number(cfg.refReward)} Coins</button>`
-        : '<span class="tag">Watch ' + Number(cfg.referralAdsRequired) + ' ads to unlock</span>'}
+        : '<span class="tag">Complete ' + Number(f.tasksRequired) + ' channel tasks to unlock</span>'}
     </div>`).join('') : '<div class="muted">No referrals yet.</div>';
   $('pName').textContent = S.name || 'Profile'; $('pRefCoins').textContent = Number(S.referralCoins || 0);
   $('pInv').textContent = Number(S.referrals || 0); $('pTasks').textContent = Number(S.tasksDone || 0); $('pId').textContent = S.id || '';
@@ -197,20 +193,11 @@ function renderCollecting() {
 }
 async function refreshState() { try { S = await call('init', {}); render(); } catch (e) { toast(e.message); } }
 
-async function playExistingAd_() {
-  if (!initData) throw new Error('Ads work only inside Telegram.');
-  const showAd = window['show_' + MONETAG_ZONE];
-  if (typeof showAd !== 'function') throw new Error('Ads are not available right now. Please try again later.');
-  await call('adStart', {});
-  await showAd({ ymid: String(S.id) + '_' + Date.now() });
-  S = await call('adReward', {});
-}
 
 async function collectAction() {
   const btn = $('collectBtn'); btn.disabled = true;
   try {
     const claiming = S.collecting && S.collecting.ready;
-    await playExistingAd_();
     S = await call(claiming ? 'claimCollecting' : 'startCollecting', {});
     render();
     toast(claiming ? S.cfg.collectReward + ' Coins added to your balance!'
@@ -252,52 +239,6 @@ async function doWithdraw() {
     render(); toast('Withdraw request sent ✅'); $('wCoins').value = ''; $('wAddr').value = ''; calcUsd();
   } catch (e) { toast(e.message); }
   btn.disabled = false;
-}
-function adCard() {
-  const a = S.ads || { reward: 0, left: 0, limit: 0, used: 0 };
-  return `<div class="card"><div class="row"><div><b>Watch Ad</b><div class="muted">Watch a short ad to earn ${Number(a.reward)} coins • ${Number(a.used)}/${Number(a.limit)} today</div></div>
-    ${a.left > 0 ? '<button id="adBtn" onclick="watchAd()">Watch</button>' : '<span class="tag">Limit reached</span>'}</div></div>`;
-}
-async function watchAd() {
-  if (!initData) { toast('Ads work only inside Telegram.'); return; }
-  const showAd = window['show_' + MONETAG_ZONE];
-  if (typeof showAd !== 'function') { toast('Ads are not available right now. Please try again later.'); return; }
-  const btn = $('adBtn'); if (btn) btn.disabled = true;
-  try {
-    await call('adStart', {});
-    await showAd({ ymid: String(S.id) + '_' + Date.now() });
-    S = await call('adReward', {}); render(); toast(S.ads.reward + ' coins added to your balance!');
-  } catch (e) { toast(e && e.message ? e.message : 'No ad available right now. Try again later.'); if (btn) btn.disabled = false; }
-}
-function adsunCard() {
-  const a = S.adsun || {};
-  const reward = Number(a.reward ?? 3);
-  const used = Number(a.used ?? 0);
-  const limit = Number(a.limit ?? 20);
-  // Older deployed API responses may omit `left`; calculate it from limit-used.
-  const reportedLeft = Number(a.left);
-  const left = Number.isFinite(reportedLeft) && !(reportedLeft <= 0 && used < limit)
-    ? reportedLeft : Math.max(0, limit - used);
-  const canWatch = left > 0;
-  return `<div class="card"><div class="row"><div><b>Watch Ad</b><div class="muted">Watch full Adsun ad and earn ${reward} coins • ${used}/${limit} today</div></div>
-    <button id="adsunBtn" onclick="watchAdsun()" ${canWatch ? '' : 'disabled'}>Watch Ads</button></div></div>`;
-}
-async function watchAdsun() {
-  if (!initData) { toast('Ads work only inside Telegram.'); return; }
-  const btn = $('adsunBtn'); if (btn) btn.disabled = true;
-  try {
-    if (!window.Adsun || typeof window.Adsun.init !== 'function') throw new Error('Adsun SDK is not available. Please try again later.');
-    const session = await call('adsunStart', {});
-    const controller = window.Adsun.init({ blockId: ADSUN_BLOCK_ID });
-    if (!controller || typeof controller.show !== 'function') throw new Error('Adsun ad could not be opened.');
-    const result = await controller.show();
-    if (!result || result.done !== true) throw new Error('Ad was skipped or not completed. No coins were added.');
-    S = await call('adsunReward', { sessionId: session.adsunSessionId });
-    render(); toast(S.adsun.reward + ' coins added from Adsun!');
-  } catch (e) {
-    toast(e && e.message ? e.message : 'No Adsun ad available right now.');
-    if (btn) btn.disabled = false;
-  }
 }
 function fail(msg) {
   $('splash').style.display = 'flex';
