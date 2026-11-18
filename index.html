@@ -1,252 +1,101 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#090d1b"><title>RR Crypto Earning</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{background:#0f1220;color:#fff;padding-bottom:82px}
-#splash{position:fixed;inset:0;background:#0f1220;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:99;padding:20px;text-align:center}
-.logo{width:96px;height:96px;border-radius:50%;background:linear-gradient(135deg,#ffd54a,#ff9800);display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:bold;color:#3b2500;box-shadow:0 0 30px #ffb30088}
-.logo.sm{width:44px;height:44px;font-size:16px}
-#splash h2{margin-top:16px}
-.page{display:none;padding:16px}.page.active{display:block}
-.top{text-align:center;margin:8px 0 16px}.top .big{font-size:34px;font-weight:bold;color:#ffd54a}
-.card{background:#1b2038;border-radius:16px;padding:16px;margin-bottom:12px}
-.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.muted{color:#9aa3c7;font-size:13px}.val{font-size:22px;font-weight:bold}
-button{background:#ffb300;color:#2b1c00;border:0;border-radius:10px;padding:10px 14px;font-weight:bold;font-size:14px;cursor:pointer}
-button.alt{background:#2c3358;color:#fff}button:disabled{opacity:.5;cursor:not-allowed}
-input,select{width:100%;padding:12px;border-radius:10px;border:1px solid #2c3358;background:#12162b;color:#fff;margin:6px 0 10px;font-size:15px}
-nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:#161a30;border-top:1px solid #2c3358;z-index:20}
-nav div{flex:1;text-align:center;padding:10px 0;font-size:11px;color:#9aa3c7;cursor:pointer}
-nav div b{display:block;font-size:20px}nav div.active{color:#ffd54a}
-.tag{padding:3px 8px;border-radius:8px;font-size:12px;background:#2c3358}
-.note{background:#332a10;border:1px solid #ffb300;border-radius:12px;padding:12px;margin-bottom:12px;font-size:14px}
-#toast{position:fixed;top:14px;left:50%;transform:translateX(-50%);background:#fff;color:#000;padding:10px 16px;border-radius:10px;display:none;z-index:100;max-width:90%}
-.friend{border-top:1px solid #303653;padding:12px 0}.friend:first-child{border-top:0}
-.small{font-size:12px;color:#9aa3c7;margin-top:4px;word-break:break-all}
-.collect-card{margin-top:32px;padding:22px 16px 24px;text-align:center;background:linear-gradient(160deg,#202744,#171c32);border:1px solid #343d61;border-radius:20px}
-.collect-title{font-size:18px;font-weight:bold;color:#ffd54a;margin-bottom:18px}
-.collect-circle{width:218px;height:218px;max-width:75vw;max-height:75vw;margin:0 auto 20px;border-radius:50%;border:7px solid #ffb300;background:radial-gradient(circle,#252d4c 0%,#171c32 70%);box-shadow:0 0 12px #ffb30088,inset 0 0 18px #ffb30022;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative}
-.collect-circle::before{content:'';position:absolute;inset:8px;border:1px solid #ffcf6570;border-radius:50%}
-.collect-label{font-size:12px;color:#aeb8dc;letter-spacing:1px;margin-bottom:8px}
-.collect-time{color:#ffd54a;font-size:29px;font-weight:bold;letter-spacing:1px}
-.collect-status{font-size:13px;margin-top:8px}
-.collect-reward{font-size:15px;font-weight:bold;color:#ffd54a;margin:12px 0 16px}
-.collect-button{width:100%;max-width:260px;padding:14px;border-radius:12px;font-size:16px}
-.collect-info{color:#9aa3c7;font-size:12px;line-height:1.6;margin-top:12px}
-</style>
-</head>
-<body>
-<div id="splash"><div class="logo">RR</div><h2 id="sname">RR Coins</h2><div class="muted" id="smsg" style="margin-top:8px">Loading...</div></div>
-<div id="toast"></div>
-<div id="home" class="page active">
-  <div class="top"><div class="logo sm" style="margin:0 auto 8px">RR</div><div class="muted">Total Coins</div><div class="big" id="hCoins">0</div></div>
-  <div class="card"><div class="muted" style="margin-bottom:10px">Dashboard</div><div class="row">
-    <div><div class="muted">Total Balance</div><div class="val" id="hUsd">$0</div></div>
-    <div style="text-align:right"><div class="muted">Coins</div><div class="val" id="hCoins2">0</div></div>
-  </div></div>
-  <div class="note" id="webNote" style="display:none;margin-top:12px">Website mode: Daily Collecting works here. Channel tasks and withdrawals need Telegram (@RrCoinsEarnBot).</div>
-  <div class="collect-card">
-    <div class="collect-title">DAILY COLLECTING</div>
-    <div class="collect-circle"><div class="collect-label" id="collectLabel">24 HOURS</div><div class="collect-time" id="collectTime">24:00:00</div><div class="collect-status" id="collectStatus">Ready to start</div></div>
-    <div class="collect-reward" id="collectReward">🪙 2 Coins / Hour &nbsp;|&nbsp; 48 Coins / 24 Hours</div>
-    <button id="collectBtn" class="collect-button" onclick="collectAction()">Start Collecting</button>
-    <div class="collect-info" id="collectInfo"></div>
-  </div>
-</div>
-<div id="tasks" class="page"><h3 style="margin-bottom:12px">Tasks</h3><div class="note" id="taskNote"></div><div id="taskList"></div></div>
-<div id="friends" class="page">
-  <h3 style="margin-bottom:12px">Friends</h3>
-  <div class="card"><div class="muted">Your referral link</div><input id="refLink" readonly><div class="row"><button onclick="copyRef()">Copy</button><button class="alt" onclick="shareRef()">Share</button></div></div>
-  <div class="card"><div class="muted" id="refNote"></div><div class="val" id="refCount">0 Referrals</div></div>
-  <div class="card"><h4 style="margin-bottom:10px">Your invited friends</h4><div id="friendList" class="muted">No referrals yet.</div></div>
-</div>
-<div id="profile" class="page">
-  <h3 style="margin-bottom:12px" id="pName">Profile</h3>
-  <div class="card">
-    <div class="row"><span class="muted">Referral Coins Claimed</span><b id="pRefCoins">0</b></div><br>
-    <div class="row"><span class="muted">Invited Friends</span><b id="pInv">0</b></div><br>
-    <div class="row"><span class="muted">Tasks Completed</span><b id="pTasks">0</b></div><br>
-    <div class="row"><span class="muted">Your User ID</span><b id="pId" style="font-size:13px"></b></div>
-  </div>
-  <h4 style="margin:14px 0 8px">Withdrawal History</h4><div id="hist"></div>
-</div>
-<div id="withdraw" class="page">
-  <h3 style="margin-bottom:12px">Withdraw</h3><div class="note" id="wNote"></div>
-  <div class="card"><div class="muted">Method</div><select id="wMethod"><option>USDT</option><option>TON</option></select>
-    <div class="muted">Wallet address</div><input id="wAddr" placeholder="Wallet address">
-    <div class="muted" id="wMinLbl">Coins</div><input id="wCoins" type="number" placeholder="Coins" oninput="calcUsd()">
-    <div class="muted" id="wUsd">= $0.0000</div><br><button id="wBtn" onclick="doWithdraw()" style="width:100%">Withdraw</button>
-  </div>
-  <h4 style="margin:14px 0 8px">Recent Payouts (public proof)</h4><div id="payouts"></div>
-</div>
-<nav id="nav">
-  <div data-p="home" class="active"><b>🏠</b>Home</div><div data-p="tasks"><b>✅</b>Tasks</div>
-  <div data-p="friends"><b>👥</b>Friends</div><div data-p="profile"><b>👤</b>Profile</div><div data-p="withdraw"><b>💸</b>Withdraw</div>
-  </nav>
-  <script>
+:root{--bg:#090d1b;--panel:#121a2d;--card:#17223a;--line:#273653;--gold:#f5c451;--cyan:#55d6e8;--text:#f5f7ff;--muted:#9eabc5;--green:#57d69b}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -10%,#1d3152 0,#090d1b 42%);color:var(--text);font-family:Inter,system-ui,Arial,sans-serif;padding:0 0 86px}
+button,input,select{font:inherit}button{border:0;border-radius:13px;padding:12px 15px;background:linear-gradient(135deg,#ffe08a,#e9a92d);color:#171522;font-weight:800;cursor:pointer;min-height:44px}button:disabled{opacity:.45;cursor:not-allowed}.secondary{background:#263653;color:#eef4ff;border:1px solid #3a4c6c}.outline{background:transparent;border:1px solid var(--line);color:var(--text)}
+#splash{position:fixed;inset:0;background:#090d1b;z-index:100;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center}.brandmark{width:68px;height:68px;border-radius:22px;display:grid;place-items:center;font-weight:1000;font-size:24px;color:#171522;background:linear-gradient(135deg,#ffe38e,#e4a52a);box-shadow:0 12px 36px #e5a92b33}.splashname{font-size:24px;font-weight:900;margin:14px 0 5px}.muted{color:var(--muted);font-size:13px}.wrap{max-width:720px;margin:auto;padding:16px}.header{display:flex;align-items:center;justify-content:space-between;padding:16px 16px 8px;gap:12px}.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.2px}.brand .brandmark{width:42px;height:42px;border-radius:14px;font-size:15px}.avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#243553;color:var(--gold);font-weight:900}
+.page{display:none}.page.active{display:block}.welcome{margin:8px 0 16px}.welcome h1{font-size:23px;margin:4px 0}.hero{padding:21px;border-radius:24px;background:linear-gradient(135deg,#1d3554,#18233b 62%,#292b45);border:1px solid #354a69;position:relative;overflow:hidden}.hero:after{content:"₿";position:absolute;right:5px;top:-30px;font-size:150px;font-weight:900;color:#ffffff0a}.eyebrow{color:#c2cee4;font-size:12px;letter-spacing:1.5px;text-transform:uppercase}.balance{font-size:38px;font-weight:950;color:#ffdc7a;margin:6px 0}.balance small{font-size:14px;color:#d6e0f3}.herofoot{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}.pill{border:1px solid #ffffff20;background:#ffffff0c;padding:8px 11px;border-radius:12px;font-size:12px;color:#dce6f8}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin:14px 0}.stat,.card{background:linear-gradient(155deg,#17243b,#111a2c);border:1px solid var(--line);border-radius:18px;padding:15px}.stat strong{display:block;font-size:21px;margin-top:5px}.sectionhead{display:flex;align-items:center;justify-content:space-between;margin:20px 0 11px}.sectionhead h2{font-size:17px;margin:0}.featuregrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.feature{padding:15px;background:#131f34;border:1px solid #2a3a57;border-radius:17px;min-height:105px;text-align:left;color:var(--text)}.feature .ico{font-size:25px;display:block;margin-bottom:8px}.feature b{display:block;font-size:14px}.feature span:last-child{font-size:11px;color:var(--muted)}
+.collect{text-align:center;padding:19px;background:linear-gradient(145deg,#172944,#121a2d);border:1px solid #344865;border-radius:22px;margin-top:13px}.collect-ring{width:174px;height:174px;border:7px solid var(--gold);border-radius:50%;margin:15px auto;display:flex;align-items:center;justify-content:center;flex-direction:column;background:radial-gradient(circle,#263a59,#121a2d);box-shadow:0 0 26px #e9b53c22}.timer{font-size:26px;font-weight:900;color:#ffe08a}.collect button{width:100%;max-width:280px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px}.row+.row{margin-top:12px}input,select{width:100%;background:#0d1526;color:#fff;border:1px solid #334462;border-radius:12px;padding:13px;margin:7px 0 12px;min-height:46px}.note{background:#302817;border:1px solid #8e6b2d;color:#ffe6a8;border-radius:14px;padding:12px;font-size:12px;line-height:1.5;margin:12px 0}
+.item{padding:13px 0;border-bottom:1px solid #293750}.item:last-child{border-bottom:0}.item p{margin:6px 0;color:var(--muted);font-size:13px;line-height:1.55}.badge{font-size:11px;color:#bcefe0;background:#173d38;border-radius:20px;padding:5px 9px}.lesson{display:flex;gap:12px;align-items:flex-start}.lessonicon{width:40px;height:40px;flex:none;border-radius:13px;background:#263b59;display:grid;place-items:center;font-size:20px}
+.question{padding:15px;border:1px solid var(--line);background:#121d31;border-radius:16px;margin:11px 0}.option{display:block;width:100%;text-align:left;margin-top:8px;background:#22324d;color:#eff5ff;border:1px solid #3a4d6d}.option.selected{border-color:var(--gold);background:#45391f}
+.coinchoices{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:15px 0}.coin{font-size:31px;min-height:75px;background:#22324d;color:#fff;border:1px solid #415675}.coin:active{transform:scale(.97)}.target{font-size:28px;color:var(--gold);font-weight:900}
+.rank{display:grid;grid-template-columns:35px 1fr auto;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #293750}.ranknum{font-weight:900;color:var(--gold)}.winner{background:linear-gradient(120deg,#3b321c,#17243b);border:1px solid #8e7134;border-radius:16px;padding:14px;margin-bottom:12px}.small{font-size:11px;color:var(--muted);word-break:break-all}
+nav{position:fixed;bottom:0;left:0;right:0;z-index:50;background:#0c1424f5;border-top:1px solid #273653;display:flex;justify-content:space-around;padding:7px 3px calc(7px + env(safe-area-inset-bottom));backdrop-filter:blur(14px)}nav button{background:transparent;color:#92a1bd;border-radius:10px;min-width:0;flex:1;padding:6px 2px;font-size:10px;min-height:52px}nav button span{display:block;font-size:19px;margin-bottom:2px}nav button.active{color:var(--gold);background:#ffffff0a}
+#toast{display:none;position:fixed;top:12px;left:50%;transform:translateX(-50%);background:#f5f7ff;color:#111;padding:12px 16px;border-radius:13px;z-index:200;max-width:90%;font-size:13px;font-weight:700;box-shadow:0 8px 28px #0008}
+@media(min-width:600px){.featuregrid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{padding:26px}.wrap{padding:20px}}
+</style></head><body>
+<div id="splash"><div class="brandmark">RR</div><div class="splashname">RR CRYPTO EARNING</div><div class="muted" id="smsg">Loading your account…</div></div><div id="toast" role="status" aria-live="polite"></div>
+<header class="header"><div class="brand"><div class="brandmark">RR</div><div>RR CRYPTO <span style="color:var(--gold)">EARNING</span></div></div><div class="avatar" id="headAvatar">RR</div></header>
+<main class="wrap">
+<section class="page active" id="home">
+ <div class="welcome"><div class="muted">WELCOME BACK</div><h1 id="welcomeName">Crypto Explorer 👋</h1><div class="muted">Learn • Play • Earn Coins</div></div>
+ <div class="hero"><div class="eyebrow">Your total coin balance</div><div class="balance" id="hCoins">0 <small>COINS</small></div><div class="muted" id="hUsd">Estimated value $0.0000</div><div class="herofoot"><span class="pill" id="hRefs">👥 0 Referrals</span><span class="pill" id="hLessons">📚 0/5 Lessons</span></div></div>
+ <div class="grid"><div class="stat"><div class="muted">Tasks completed</div><strong id="hTasks">0</strong></div><div class="stat"><div class="muted">Game best score</div><strong id="hScore">0</strong></div></div>
+ <div class="sectionhead"><h2>Explore RR</h2><span class="muted">Choose a feature</span></div>
+ <div class="featuregrid">
+  <button class="feature" data-go="learn"><span class="ico">📚</span><b>Crypto Learning</b><span>Learn in English</span></button>
+  <button class="feature" data-go="games"><span class="ico">🎮</span><b>Mini Games</b><span>Play & score coins</span></button>
+  <button class="feature" data-go="quiz"><span class="ico">🧠</span><b>Daily Quiz</b><span>Test your knowledge</span></button>
+  <button class="feature" data-go="leaderboard"><span class="ico">🏆</span><b>Leaderboard</b><span>Top players & winner prize</span></button>
+  <button class="feature" data-go="tasks"><span class="ico">✅</span><b>Tasks</b><span>Complete channel tasks</span></button>
+  <button class="feature" data-go="friends"><span class="ico">👥</span><b>Invite Friends</b><span>Grow your community</span></button>
+ </div>
+ <div class="collect"><div class="eyebrow">Daily reward</div><h2 style="margin-top:5px">⏳ Daily Collecting</h2><div class="collect-ring"><div class="muted" id="collectLabel">24 HOURS</div><div class="timer" id="collectTime">24:00:00</div><div class="muted" id="collectStatus">Ready to start</div></div><div class="muted" id="collectInfo">Collect every 24 hours</div><button id="collectBtn" onclick="collectAction()">Start Collecting</button></div>
+</section>
+<section class="page" id="learn"><div class="sectionhead"><h2>📚 Crypto Learning</h2><span class="muted">English lessons</span></div><div class="note">Read each lesson and tap “Complete Lesson”. This content is for education only and is not investment advice.</div><div id="lessonList"></div></section>
+<section class="page" id="lessonDetail"><button class="secondary" onclick="go('learn')">← Back to Lessons</button><div class="card" style="margin-top:13px"><div class="muted">RR CRYPTO ACADEMY</div><h2 id="lessonTitle" style="margin:10px 0"></h2><p id="lessonBody" style="line-height:1.8;color:#d5deef"></p><button id="lessonDone" style="width:100%;margin-top:18px" onclick="completeLesson()">Complete Lesson</button></div></section>
+<section class="page" id="games"><div class="sectionhead"><h2>🎮 RR Mini Games</h2><span class="badge">Play & Learn</span></div><div class="card"><div class="row"><div><b>🔎 Find the Correct Coin</b><p class="muted" style="margin-top:5px">Find the target symbol and select the matching coin.</p></div><span style="font-size:28px">🪙</span></div><button style="width:100%;margin-top:13px" onclick="startCoinGame()">Play Now</button></div><div class="card"><b>🧠 Memory Match</b><p class="muted" style="margin:7px 0 12px">Match pairs of cards. Coming soon.</p><button class="secondary" disabled>Coming Soon</button></div><div class="card"><b>🔢 Number Guess</b><p class="muted" style="margin:7px 0 12px">Guess the correct number. Coming soon.</p><button class="secondary" disabled>Coming Soon</button></div></section>
+<section class="page" id="coinGame"><button class="secondary" onclick="go('games')">← Games</button><div class="card" style="margin-top:12px;text-align:center"><div class="eyebrow">FIND THE CORRECT COIN</div><h2 style="margin:12px 0">Find This Symbol</h2><div class="target" id="targetCoin">₿</div><div class="muted" style="margin-top:8px">Select the correct symbol from the six options below.</div><div class="coinchoices" id="coinChoices"></div><div id="gameResult" class="muted" aria-live="polite"></div><button class="secondary" style="width:100%;margin-top:12px" onclick="startCoinGame()">New Round</button></div></section>
+<section class="page" id="quiz"><div class="sectionhead"><h2>🧠 Daily Crypto Quiz</h2><span class="badge" id="quizStatus">Daily</span></div><div id="quizArea"></div><button id="quizSubmit" style="width:100%" onclick="submitQuiz()">Submit Answers</button></section>
+<section class="page" id="leaderboard"><div class="sectionhead"><h2>🏆 Leaderboard</h2><span class="muted">Game points</span></div><div class="winner"><div class="eyebrow">🏆 ONE WINNER PRIZE</div><b>Winner Prize</b><p class="muted" style="margin-top:6px">The admin decides the prize amount in Coins. The prize appears only after the winner is officially announced.</p></div><div id="leaderList"></div><div class="sectionhead"><h2>🎁 Winner Announcements</h2></div><div id="prizeList" class="card"><div class="muted">No winner has been announced yet.</div></div><div id="adminBox" style="display:none" class="card"><h3>Admin — Award Winner Prize</h3><p class="muted" style="margin:7px 0">Select one winner and award the number of Coins you choose.</p><label class="muted">Winner Telegram User ID</label><input id="winnerId" placeholder="Winner user ID"><label class="muted">Prize Coins</label><input id="prizeCoins" type="number" min="1" placeholder="Enter the prize amount in Coins"><label class="muted">Announcement note</label><input id="prizeNote" placeholder="Winner Prize"><button style="width:100%" onclick="awardPrize()">Award One Prize</button></div></section>
+<section class="page" id="tasks"><div class="sectionhead"><h2>✅ Tasks</h2><span class="muted">Earn Coins</span></div><div class="note">Channel membership verification works only inside Telegram.</div><div id="taskList"></div></section>
+<section class="page" id="friends"><div class="sectionhead"><h2>👥 Invite Friends</h2></div><div class="card"><div class="muted">Your personal referral link</div><input id="refLink" readonly><div class="row"><button onclick="copyRef()">Copy Link</button><button class="secondary" onclick="shareRef()">Share</button></div></div><div class="card"><div class="muted">Total invited friends</div><h2 id="refCount">0</h2><div class="muted">Referral reward unlocks after your friend completes 5 channel tasks.</div></div><div class="card"><b>Your Friends</b><div id="friendList" style="margin-top:10px"></div></div></section>
+<section class="page" id="withdraw"><div class="sectionhead"><h2>💸 Withdraw</h2></div><div class="note" id="wNote"></div><div class="card"><label class="muted">Payment Network</label><select id="wMethod"><option>USDT</option><option>TON</option></select><label class="muted">Wallet Address</label><input id="wAddr" placeholder="Enter wallet address"><label class="muted">Coins</label><input id="wCoins" type="number" min="1" placeholder="Enter coins" oninput="calcUsd()"><div class="muted" id="wUsd">Estimated value: $0.0000</div><button id="wBtn" style="width:100%;margin-top:12px" onclick="doWithdraw()">Submit Withdrawal</button></div><div class="sectionhead"><h2>Withdrawal History</h2></div><div id="withdrawHistory"></div></section>
+<section class="page" id="profile"><div class="sectionhead"><h2>👤 My Profile</h2></div><div class="card"><h2 id="pName">User</h2><p class="muted" id="pId"></p><div class="row" style="margin-top:16px"><span class="muted">Coin Balance</span><b id="pCoins">0</b></div><div class="row"><span class="muted">Referrals</span><b id="pRefs">0</b></div><div class="row"><span class="muted">Tasks Completed</span><b id="pTasks">0</b></div><div class="row"><span class="muted">Lessons Completed</span><b id="pLessons">0/5</b></div></div><div class="note">Crypto assets are volatile. RR Crypto Earning educational content is not financial advice. Never share wallet seed phrases or private keys.</div></section>
+</main>
+<nav id="nav"><button class="active" data-page="home"><span>🏠</span>Home</button><button data-page="learn"><span>📚</span>Learn</button><button data-page="games"><span>🎮</span>Games</button><button data-page="leaderboard"><span>🏆</span>Ranks</button><button data-page="friends"><span>👥</span>Invite</button><button data-page="profile"><span>👤</span>Profile</button></nav>
+<script>
 'use strict';
-const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
-if (tg) { tg.ready(); tg.expand(); }
-const initData = tg ? tg.initData : '';
-const API_URL = 'https://script.google.com/macros/s/AKfycbxFfw93amQgNep9IQTECjf7-Y9HPc97-HH26Ts1gQ_PeRqUUl7PRevwYr78iOtsJPJF1Q/exec';
-let S = null, collectTimer = null;
-function getBrowserToken() {
-  if (initData) return '';
-  const key = 'RR_COINS_BROWSER_TOKEN'; let t = '';
-  try { t = localStorage.getItem(key) || ''; } catch (e) {}
-  if (t.length < 20) {
-    t = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() + crypto.randomUUID()
-      : String(Date.now()) + Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
-    try { localStorage.setItem(key, t); } catch (e) {}
-  }
-  return t;
+const tg=window.Telegram&&window.Telegram.WebApp?window.Telegram.WebApp:null;if(tg){tg.ready();tg.expand();}
+const initData=tg?tg.initData:'';const API_URL='https://script.google.com/macros/s/AKfycbzWi8qlkptts22vu9K_f5TineJhW95pvAMSsFrYnL_8pZqg9XYAfmXsu3k_yHCXXzOEgg/exec';
+let S=null,collectTimer=null,currentLesson=null,quizAnswers=[],coinChallenge=null;
+const $=id=>document.getElementById(id),esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function browserToken(){if(initData)return '';const k='RR_EARNING_SESSION';let t='';try{t=localStorage.getItem(k)||'';}catch(e){}if(t.length<20){t=(crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random().toString(36).slice(2))+Math.random().toString(36).slice(2);try{localStorage.setItem(k,t);}catch(e){}}return t;}
+const token=browserToken();
+function toast(m){const e=$('toast');e.textContent=m;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',3200);}
+async function call(action,payload={}){const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action,initData,payload:Object.assign({browserToken:token},payload)})});const j=await r.json();if(!j.ok)throw new Error(j.error||'Request failed');return j.data;}
+function go(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));if(id==='quiz')renderQuiz();if(id==='leaderboard')renderLeaderboard();}
+document.querySelectorAll('#nav button').forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
+function render(){
+ $('welcomeName').textContent='Welcome, '+(S.name||'Crypto Explorer')+' 👋';$('headAvatar').textContent=(S.name||'RR').slice(0,2).toUpperCase();
+ $('hCoins').innerHTML=Number(S.coins||0).toLocaleString()+' <small>COINS</small>';$('hUsd').textContent='Estimated value $'+Number(S.usd||0).toFixed(4);
+ $('hRefs').textContent='👥 '+Number(S.referrals||0)+' Referrals';$('hLessons').textContent='📚 '+(S.completedLessons||[]).length+'/5 Lessons';$('hTasks').textContent=S.tasksDone||0;
+ const myRank=(S.leaderboard||[]).find(x=>x.id===S.id);$('hScore').textContent=myRank?myRank.score:0;
+ $('lessonList').innerHTML=(S.lessons||[]).map((l,i)=>`<div class="card lesson"><div class="lessonicon">${['₿','⛓️','🔗','🔐','💵'][i]}</div><div style="flex:1"><b>${esc(l.title)}</b><p class="muted" style="margin:5px 0 9px">${esc(l.desc)}</p><button class="secondary" onclick="openLesson('${esc(l.id)}')">${(S.completedLessons||[]).includes(l.id)?'Review Lesson':'Open Lesson'}</button> ${(S.completedLessons||[]).includes(l.id)?'<span class="badge">Completed</span>':''}</div></div>`).join('');
+ $('taskList').innerHTML=(S.channels||[]).map(c=>`<div class="card"><div class="row"><div><b>${esc(c.name)}</b><div class="muted">Reward: ${c.reward} Coins</div></div>${c.done?'<span class="badge">Claimed</span>':`<button onclick="openChannel('${esc(c.url)}')">Join</button>`}</div>${c.done?'':`<button class="secondary" style="width:100%;margin-top:9px" onclick="claimTask(${c.index})">Verify & Claim</button>`}</div>`).join('');
+ $('refLink').value=S.refLink||'';$('refCount').textContent=S.referrals||0;
+ $('friendList').innerHTML=(S.friends||[]).length?S.friends.map(f=>`<div class="item"><b>${esc(f.username?'@'+f.username:f.name)}</b><div class="small">ID: ${esc(f.id)} • Tasks: ${f.tasksDone}/5</div>${f.claimed?'<span class="badge">Reward claimed</span>':f.eligible?`<button style="margin-top:8px" onclick="claimReferral('${esc(f.id)}')">Claim ${S.cfg.refReward} Coins</button>`:'<span class="muted">Complete 5 tasks to unlock</span>'}</div>`).join(''):'<div class="muted">No invited friends yet.</div>';
+ $('pName').textContent=S.name||'User';$('pId').textContent='Telegram ID: '+S.id;$('pCoins').textContent=Number(S.coins||0).toLocaleString();$('pRefs').textContent=S.referrals||0;$('pTasks').textContent=S.tasksDone||0;$('pLessons').textContent=(S.completedLessons||[]).length+'/5';
+ $('withdrawHistory').innerHTML=(S.history||[]).length?S.history.map(h=>`<div class="card"><div class="row"><div><b>${esc(h.method)} • ${h.coins} Coins</b><div class="muted">${esc(h.time)}</div></div><span class="badge">${esc(h.status)}</span></div></div>`).join(''):'<div class="muted">No withdrawal history.</div>';
+ $('wNote').textContent='Minimum withdrawal: '+S.cfg.min+' Coins. Rate estimate: '+S.cfg.rate+' USD per Coin.';
+ $('adminBox').style.display=S.isAdmin?'block':'none';renderCollecting();renderLeaderboard();calcUsd();
 }
-const browserToken = getBrowserToken();
-const $ = id => document.getElementById(id);
-const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g,
-  c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function toast(m) {
-  const t = $('toast'); t.textContent = m; t.style.display = 'block';
-  clearTimeout(toast.timer); toast.timer = setTimeout(() => { t.style.display = 'none'; }, 3500);
-}
-function call(action, payload) {
-  const ctrl = new AbortController(), timer = setTimeout(() => ctrl.abort(), 25000);
-  return fetch(API_URL, {
-    method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify({ action: action, initData: initData,
-      payload: Object.assign({ browserToken: browserToken }, payload || {}) }), signal: ctrl.signal
-  }).then(r => r.json()).then(r => {
-    clearTimeout(timer); if (r && r.ok) return r.data;
-    throw new Error(r && r.error ? r.error : 'Server returned an empty response.');
-  }).catch(e => {
-    clearTimeout(timer); throw new Error(e.name === 'AbortError'
-      ? 'Server is slow. Please refresh and try again.' : (e.message || 'Network error'));
-  });
-}
-function showPage(name) {
-  document.querySelectorAll('#nav div').forEach(x => x.classList.toggle('active', x.dataset.p === name));
-  document.querySelectorAll('.page').forEach(x => x.classList.toggle('active', x.id === name));
-}
-document.querySelectorAll('#nav div').forEach(d => d.addEventListener('click', () => showPage(d.dataset.p)));
-
-function render() {
-  const cfg = S.cfg || {}, coins = Number(S.coins || 0).toLocaleString();
-  $('sname').textContent = S.appName || 'RR Coins'; $('hCoins').textContent = coins;
-  $('hCoins2').textContent = coins; $('hUsd').textContent = '$' + Number(S.usd || 0).toFixed(4);
-  $('collectReward').innerHTML = '🪙 ' + cfg.perHour + ' Coins / Hour &nbsp;|&nbsp; ' + cfg.collectReward + ' Coins / ' + cfg.collectHours + ' Hours';
-  $('taskNote').innerHTML = 'Each completed channel task reward: <b>' + cfg.taskReward + ' coins</b>. Join the channel first, then press Claim. Membership is checked by the bot.';
-  $('refNote').textContent = 'Invite a friend. You can claim ' + cfg.refReward + ' coins after that friend completes all ' + cfg.referralTasksRequired + ' channel tasks.';
-  $('wNote').innerHTML = 'Minimum withdrawal: <b>' + cfg.min + ' coins (at least $' + cfg.minUsd + ')</b><br>1 Coin = <b>$' + cfg.rate + '</b>';
-  $('wMinLbl').textContent = 'Coins (minimum ' + cfg.min + ')'; $('wCoins').min = cfg.min; $('wCoins').placeholder = cfg.min;
-  $('taskList').innerHTML = '<div class="card"><b>Reward Ads</b><div class="muted" style="margin-top:6px">Coming soon. Ads will be enabled after AdsGram approval. No ads are running now.</div></div>' + (S.channels || []).map(c => `
-    <div class="card"><div class="row"><div><b>Join ${esc(c.name)}</b><div class="muted">Reward: ${Number(c.reward)} coins</div></div>
-    ${c.done ? '<span class="tag">✔ Claimed</span>' : `<div style="display:flex;gap:6px"><button class="alt" onclick="openCh(${Number(c.index)})">Join</button><button id="cb${Number(c.index)}" onclick="claim(${Number(c.index)})">Claim</button></div>`}
-    </div></div>`).join('');
-  $('refLink').value = S.refLink || ''; $('refCount').textContent = Number(S.referrals || 0) + ' Referrals';
-  $('friendList').innerHTML = (S.friends || []).length ? S.friends.map(f => `
-    <div class="friend"><b>${esc(f.username ? '@' + f.username : f.name)}</b>
-      <div class="small">User ID: ${esc(f.id)}</div><div class="small">Channel tasks: ${Number(f.tasksDone)}/${Number(f.tasksRequired)}</div>
-      ${f.claimed ? '<span class="tag">Reward claimed</span>' : f.eligible
-        ? `<button style="margin-top:8px" onclick="claimReferral('${esc(f.id)}')">Claim ${Number(cfg.refReward)} Coins</button>`
-        : '<span class="tag">Complete ' + Number(f.tasksRequired) + ' channel tasks to unlock</span>'}
-    </div>`).join('') : '<div class="muted">No referrals yet.</div>';
-  $('pName').textContent = S.name || 'Profile'; $('pRefCoins').textContent = Number(S.referralCoins || 0);
-  $('pInv').textContent = Number(S.referrals || 0); $('pTasks').textContent = Number(S.tasksDone || 0); $('pId').textContent = S.id || '';
-  $('hist').innerHTML = (S.history || []).length ? S.history.map(h => `
-    <div class="card"><div class="row"><div><b>${esc(h.method)}</b> • ${Number(h.coins)} coins ($${Number(h.usd).toFixed(4)} )<div class="muted">${esc(h.time)}</div></div><span class="tag">${esc(h.status)}</span></div></div>`).join('') : '<div class="muted">No withdrawals yet</div>';
-  $('payouts').innerHTML = (S.payouts || []).length ? S.payouts.map(p => `
-    <div class="card"><div class="row"><div><b>${esc(p.method)}</b> • $${Number(p.usd).toFixed(4)} (${Number(p.coins)} coins)
-      <div class="muted">User ${esc(p.user)} • ${esc(p.time)}</div>${p.tx ? '<div class="small">Tx: ' + esc(p.tx) + '</div>' : ''}</div><span class="tag">Paid</span></div></div>`).join('') : '<div class="muted">No payouts yet</div>';
-  calcUsd(); renderCollecting();
-}
-function fmt(ms) {
-  const t = Math.floor(ms / 1000);
-  return [Math.floor(t / 3600), Math.floor((t % 3600) / 60), t % 60].map(n => String(n).padStart(2, '0')).join(':');
-}
-function renderCollecting() {
-  if (!S || !S.collecting) return;
-  const c = S.collecting, cfg = S.cfg || {}, btn = $('collectBtn');
-  clearInterval(collectTimer); collectTimer = null;
-  if (!c.startedAt) {
-    $('collectLabel').textContent = cfg.collectHours + ' HOURS'; $('collectTime').textContent = cfg.collectHours + ':00:00';
-    $('collectStatus').textContent = 'Ready to start'; btn.textContent = 'Start Collecting'; btn.disabled = false;
-    $('collectInfo').textContent = 'Start collecting and return after ' + cfg.collectHours + ' hours to claim ' + cfg.collectReward + ' coins.'; return;
-  }
-  if (c.ready) {
-    $('collectLabel').textContent = 'COMPLETED'; $('collectTime').textContent = '00:00:00';
-    $('collectStatus').textContent = 'Your coins are ready!'; btn.textContent = 'Claim ' + cfg.collectReward + ' Coins'; btn.disabled = false;
-    $('collectInfo').textContent = cfg.collectHours + ' hours completed. Claim your coins now.'; return;
-  }
-  btn.textContent = 'Collecting...'; btn.disabled = true; $('collectLabel').textContent = 'TIME LEFT';
-  $('collectStatus').textContent = 'Collecting in progress'; $('collectInfo').textContent = 'Please wait until the timer finishes.';
-  const end = Date.now() + Number(c.remainingMs || 0);
-  const tick = () => {
-    const r = end - Date.now();
-    if (r <= 0) { clearInterval(collectTimer); collectTimer = null; $('collectTime').textContent = '00:00:00'; setTimeout(refreshState, 1500); return; }
-    $('collectTime').textContent = fmt(r);
-  };
-  tick(); collectTimer = setInterval(tick, 1000);
-}
-async function refreshState() { try { S = await call('init', {}); render(); } catch (e) { toast(e.message); } }
-
-
-async function collectAction() {
-  const btn = $('collectBtn'); btn.disabled = true;
-  try {
-    const claiming = S.collecting && S.collecting.ready;
-    S = await call(claiming ? 'claimCollecting' : 'startCollecting', {});
-    render();
-    toast(claiming ? S.cfg.collectReward + ' Coins added to your balance!'
-      : 'Collecting started! Come back after ' + S.cfg.collectHours + ' hours.');
-  } catch (e) { toast(e.message); btn.disabled = false; }
-}
-
-function openLink(url) { if (tg && tg.openTelegramLink) tg.openTelegramLink(url); else window.open(url, '_blank'); }
-function openCh(i) { const ch = S.channels[i]; if (ch) openLink(ch.url); }
-async function claim(i) {
-  const b = $('cb' + i); if (b) b.disabled = true;
-  try { S = await call('claim', { index: i }); render(); toast('Reward added to your balance!'); }
-  catch (e) { toast(e.message); if (b) b.disabled = false; }
-}
-async function claimReferral(friendId) {
-  try { S = await call('claimReferral', { friendId: friendId }); render(); toast(S.cfg.refReward + ' Coins added to your balance!'); }
-  catch (e) { toast(e.message); }
-}
-function copyRef() {
-  const el = $('refLink'); el.select(); el.setSelectionRange(0, 99999);
-  const ok = () => toast('Copied!');
-  const fallback = () => { try { document.execCommand('copy'); ok(); } catch (e) { toast('Could not copy'); } };
-  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(el.value).then(ok).catch(fallback); else fallback();
-}
-function shareRef() {
-  if (!S || !S.refLink) return;
-  openLink('https://t.me/share/url?url=' + encodeURIComponent(S.refLink) + '&text=' + encodeURIComponent('Join ' + (S.appName || 'RR Coins') + ' and earn coins!'));
-}
-function calcUsd() {
-  const rate = S && S.cfg && S.cfg.rate ? Number(S.cfg.rate) : 0.0003;
-  $('wUsd').textContent = '= $' + ((Number($('wCoins').value) || 0) * rate).toFixed(4);
-}
-async function doWithdraw() {
-  const btn = $('wBtn'), min = S && S.cfg ? Number(S.cfg.min) : 334, coins = Number($('wCoins').value) || 0;
-  if (coins < min) { toast('Minimum withdrawal is ' + min + ' coins'); return; }
-  btn.disabled = true;
-  try {
-    S = await call('withdraw', { method: $('wMethod').value, address: $('wAddr').value.trim(), coins: $('wCoins').value });
-    render(); toast('Withdraw request sent ✅'); $('wCoins').value = ''; $('wAddr').value = ''; calcUsd();
-  } catch (e) { toast(e.message); }
-  btn.disabled = false;
-}
-function fail(msg) {
-  $('splash').style.display = 'flex';
-  $('smsg').innerHTML = esc(msg) + '<br><br><button onclick="location.reload()">Retry</button>';
-}
-if (!initData) $('webNote').style.display = 'block';
-call('init', {}).then(d => { S = d; render(); setTimeout(() => { $('splash').style.display = 'none'; }, 600); })
-  .catch(e => fail(e.message));
-</script>
-</body>
-</html>
+function openLesson(id){currentLesson=(S.lessons||[]).find(x=>x.id===id);if(!currentLesson)return;$('lessonTitle').textContent=currentLesson.title;$('lessonBody').textContent=currentLesson.body;$('lessonDone').disabled=(S.completedLessons||[]).includes(id);$('lessonDone').textContent=$('lessonDone').disabled?'Completed':'Complete Lesson';go('lessonDetail');}
+async function completeLesson(){try{S=await call('completeLesson',{lessonId:currentLesson.id});render();toast('Lesson progress saved!');go('learn');}catch(e){toast(e.message);}}
+function fmt(ms){let n=Math.max(0,Math.floor(ms/1000));return [Math.floor(n/3600),Math.floor(n%3600/60),n%60].map(x=>String(x).padStart(2,'0')).join(':');}
+function renderCollecting(){const c=S.collecting||{},btn=$('collectBtn');clearInterval(collectTimer);if(!c.startedAt){$('collectLabel').textContent='24 HOURS';$('collectTime').textContent='24:00:00';$('collectStatus').textContent='Ready to start';$('collectInfo').textContent='Start and return after 24 hours to collect 48 Coins.';btn.disabled=false;btn.textContent='Start Collecting';return;}if(c.ready){$('collectLabel').textContent='COMPLETED';$('collectTime').textContent='00:00:00';$('collectStatus').textContent='Coins are ready!';$('collectInfo').textContent='Claim your 48 Coins now.';btn.disabled=false;btn.textContent='Claim 48 Coins';return;}btn.disabled=true;btn.textContent='Collecting…';$('collectLabel').textContent='TIME LEFT';$('collectStatus').textContent='Collecting in progress';const end=Date.now()+Number(c.remainingMs||0);const tick=()=>{const left=end-Date.now();$('collectTime').textContent=fmt(left);if(left<=0){clearInterval(collectTimer);refresh();}};tick();collectTimer=setInterval(tick,1000);}
+async function collectAction(){const b=$('collectBtn');b.disabled=true;try{S=await call(S.collecting&&S.collecting.ready?'claimCollecting':'startCollecting');render();toast(S.collecting.startedAt?'Collecting started!':'48 Coins added!');}catch(e){toast(e.message);b.disabled=false;}}
+function renderQuiz(){if(S.quizDone){$('quizStatus').textContent='Completed today';$('quizArea').innerHTML='<div class="card">You have completed today’s quiz. Come back tomorrow! 🎉</div>';$('quizSubmit').disabled=true;return;}$('quizSubmit').disabled=false;quizAnswers=[];$('quizStatus').textContent='5 Questions';$('quizArea').innerHTML=(S.quiz||[]).map((q,i)=>`<div class="question"><b>${i+1}. ${esc(q.q)}</b>${q.a.map((a,j)=>`<button class="option" data-q="${i}" data-a="${j}">${esc(a)}</button>`).join('')}</div>`).join('');$('quizArea').querySelectorAll('.option').forEach(b=>b.addEventListener('click',()=>{const q=Number(b.dataset.q),a=Number(b.dataset.a);quizAnswers[q]=a;$('quizArea').querySelectorAll(`[data-q="${q}"]`).forEach(x=>x.classList.toggle('selected',x===b));}));}
+async function submitQuiz(){if(quizAnswers.length!==5||quizAnswers.some(x=>x===undefined)){toast('Answer all 5 questions first.');return;}try{const r=await call('submitQuiz',{answers:quizAnswers});S=r.state;render();$('quizArea').innerHTML=`<div class="card"><h2>Quiz completed 🎉</h2><p style="margin-top:8px">Your score: <b>${r.score}/${r.total}</b></p><p class="muted" style="margin-top:8px">You earned ${r.score} Coins.</p></div>`;$('quizSubmit').disabled=true;}catch(e){toast(e.message);}}
+async function startCoinGame(){try{coinChallenge=await call('newCoinChallenge');$('targetCoin').textContent=coinChallenge.target;$('gameResult').textContent='';$('coinChoices').innerHTML=coinChallenge.options.map((x,i)=>`<button class="coin" data-index="${i}">${x}</button>`).join('');$('coinChoices').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>playCoin(Number(b.dataset.index))));go('coinGame');}catch(e){toast(e.message);}}
+async function playCoin(answer){$('coinChoices').querySelectorAll('button').forEach(b=>b.disabled=true);try{const r=await call('submitCoinChallenge',{challengeId:coinChallenge.challengeId,answer});S=r.state;render();$('gameResult').textContent=r.correct?'Correct! +'+r.score+' Coins 🎉':'Not correct. Try a new round.'; }catch(e){$('gameResult').textContent=e.message;}}
+function renderLeaderboard(){if(!S)return;const list=S.leaderboard||[];$('leaderList').innerHTML=list.length?list.map((x,i)=>`<div class="rank"><div class="ranknum">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</div><div><b>${esc(x.name||'Player')}</b><div class="small">${esc(x.id===S.id?'You':'Player')}</div></div><b>${Number(x.score)} pts</b></div>`).join(''):'<div class="card muted">No game scores yet. You could be the first winner!</div>';
+ $('prizeList').innerHTML=(S.prizes||[]).length?S.prizes.map(p=>`<div class="item"><b>🏆 ${esc(p.note||'Winner Prize')}</b><div class="muted">Winner: ${esc(p.winner)} • ${p.coins} Coins • ${esc(p.time)}</div></div>`).join(''):'<div class="muted">No winner has been announced yet.</div>';}
+async function awardPrize(){try{S=await call('adminAwardPrize',{winnerId:$('winnerId').value.trim(),coins:$('prizeCoins').value,note:$('prizeNote').value.trim()||'Winner Prize'});render();$('winnerId').value='';$('prizeCoins').value='';$('prizeNote').value='';toast('One Winner Prize awarded successfully.');}catch(e){toast(e.message);}}
+function openChannel(url){if(tg&&tg.openTelegramLink)tg.openTelegramLink(url);else window.open(url,'_blank');}
+async function claimTask(i){try{S=await call('claimTask',{index:i});render();toast('Task reward added!');}catch(e){toast(e.message);}}
+async function claimReferral(id){try{S=await call('claimReferral',{friendId:id});render();toast('Referral Coins added!');}catch(e){toast(e.message);}}
+function copyRef(){const v=$('refLink');v.select();try{document.execCommand('copy');toast('Referral link copied!');}catch(e){toast('Copy not supported');}}
+function shareRef(){const url='https://t.me/share/url?url='+encodeURIComponent(S.refLink)+'&text='+encodeURIComponent('Join RR Crypto Earning!');if(tg&&tg.openTelegramLink)tg.openTelegramLink(url);else window.open(url,'_blank');}
+function calcUsd(){if(!$('wUsd'))return;const rate=S&&S.cfg?Number(S.cfg.rate):0;$('wUsd').textContent='Estimated value: $'+((Number($('wCoins').value)||0)*rate).toFixed(4);}
+async function doWithdraw(){const b=$('wBtn');b.disabled=true;try{S=await call('withdraw',{method:$('wMethod').value,address:$('wAddr').value.trim(),coins:$('wCoins').value});render();$('wAddr').value='';$('wCoins').value='';toast('Withdrawal request submitted.');}catch(e){toast(e.message);}b.disabled=false;}
+async function refresh(){try{S=await call('init');render();}catch(e){toast(e.message);}}
+async function boot(){try{S=await call('init');render();$('splash').style.display='none';}catch(e){$('smsg').innerHTML=esc(e.message)+'<br><br><button onclick="location.reload()">Retry</button>';}}
+boot();
+</script></body></html>
