@@ -59,7 +59,7 @@ nav{position:fixed;bottom:0;left:0;right:0;z-index:50;background:#0c1424f5;borde
 <script>
 'use strict';
 const tg=window.Telegram&&window.Telegram.WebApp?window.Telegram.WebApp:null;if(tg){tg.ready();tg.expand();}
-const initData=tg?tg.initData:'';const API_URL='https://script.google.com/macros/s/AKfycbzt3m8qI0nxs7kDBz1Ovvwjkn61aICwXCf9cxvFrVQFpLmxcWTTjiHQqpw1Jx202lv5_A/exec';
+const initData=tg?tg.initData:'';const API_URL='https://script.google.com/macros/s/AKfycbynR4N3viToXOKgOPjhaVr1nW9ALp16R9zi5JQaSvKAsusqw3R8TuQiNnbmi_iFlivYFA/exec';
 let S=null,collectTimer=null,currentLesson=null,quizAnswers=[],coinChallenge=null;
  const $=id=>document.getElementById(id),esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function browserToken(){if(initData)return '';const k='RR_EARNING_SESSION';let t='';try{t=localStorage.getItem(k)||'';}catch(e){}if(t.length<20){t=(crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random().toString(36).slice(2))+Math.random().toString(36).slice(2);try{localStorage.setItem(k,t);}catch(e){}}return t;}
