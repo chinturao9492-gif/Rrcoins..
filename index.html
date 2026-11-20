@@ -126,3 +126,4 @@ async function doWithdraw(){const b=$('wBtn');b.disabled=true;try{S=await call('
 async function refresh(){try{S=await call('init');render();}catch(e){toast(e.message);}}
 async function boot(){try{S=await call('init');render();$('splash').style.display='none';}catch(e){$('smsg').innerHTML=esc(e.message)+'<br><br><button onclick="location.reload()">Retry</button>';}}
 boot();
+</script></body></html>
