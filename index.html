@@ -61,7 +61,7 @@ nav{position:fixed;bottom:0;left:0;right:0;z-index:50;background:#0c1424f5;borde
 <script>
 'use strict';
 const tg=window.Telegram&&window.Telegram.WebApp?window.Telegram.WebApp:null;if(tg){tg.ready();tg.expand();}
-const initData=tg?tg.initData:'';const API_URL='https://script.google.com/macros/s/AKfycby6JRvLOVgrAKE4kOGiQjy4JNSw1kteJhx1At6oH9hk2xosyV2EdGvhkxglOT8Ghf9e/exec';
+const initData=tg?tg.initData:'';const API_URL='https://script.google.com/macros/s/AKfycbzHN6DDJMV_ZFwxV0hr8gJAuumK6zRAct-3UpYyqyPDoaBlmIGkpaqJ10oX6uJcTECv/exec';
 let S=null,collectTimer=null,currentLesson=null,quizAnswers=[],coinChallenge=null,mathChallenge=null;
 let memoryCards=[],memoryOpen=[],memoryMatched=[];
 const $=id=>document.getElementById(id),esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
