@@ -1,145 +1,251 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#090d1b"><title>RR Crypto Earning</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script><script src="//libtl.com/sdk.js" data-zone="12281843" data-sdk="show_12281843"></script><script src="https://api.adsun.io/sdk.js"></script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>RR Crypto Earning</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<!-- Monetag SDK -->
+<script src="//libtl.com/sdk.js" data-zone="12281843" data-sdk="show_12281843"></script>
 <style>
-:root{--bg:#090d1b;--panel:#121a2d;--card:#17223a;--line:#273653;--gold:#f5c451;--cyan:#55d6e8;--text:#f5f7ff;--muted:#9eabc5;--green:#57d69b}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -10%,#1d3152 0,#090d1b 42%);color:var(--text);font-family:Inter,system-ui,Arial,sans-serif;padding:0 0 86px}
-button,input,select{font:inherit}button{border:0;border-radius:13px;padding:12px 15px;background:linear-gradient(135deg,#ffe08a,#e9a92d);color:#171522;font-weight:800;cursor:pointer;min-height:44px}button:disabled{opacity:.45;cursor:not-allowed}.secondary{background:#263653;color:#eef4ff;border:1px solid #3a4c6c}.outline{background:transparent;border:1px solid var(--line);color:var(--text)}
-#splash{position:fixed;inset:0;background:#090d1b;z-index:100;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center}.brandmark{width:68px;height:68px;border-radius:22px;display:grid;place-items:center;font-weight:1000;font-size:24px;color:#171522;background:linear-gradient(135deg,#ffe38e,#e4a52a);box-shadow:0 12px 36px #e5a92b33}.splashname{font-size:24px;font-weight:900;margin:14px 0 5px}.muted{color:var(--muted);font-size:13px}.wrap{max-width:720px;margin:auto;padding:16px}.header{display:flex;align-items:center;justify-content:space-between;padding:16px 16px 8px;gap:12px}.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.2px}.brand .brandmark{width:42px;height:42px;border-radius:14px;font-size:15px}.avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#243553;color:var(--gold);font-weight:900}
-.page{display:none}.page.active{display:block}.welcome{margin:8px 0 16px}.welcome h1{font-size:23px;margin:4px 0}.hero{padding:21px;border-radius:24px;background:linear-gradient(135deg,#1d3554,#18233b 62%,#292b45);border:1px solid #354a69;position:relative;overflow:hidden}.hero:after{content:"₿";position:absolute;right:5px;top:-30px;font-size:150px;font-weight:900;color:#ffffff0a}.withdraw-shortcut{position:absolute;z-index:2;right:14px;top:78px;width:112px;min-height:86px;border-radius:17px;border:1px solid #ffe08a99;background:linear-gradient(145deg,#ffe08a,#e5a52b);box-shadow:0 8px 22px #e5a52b35;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:8px;color:#171522}.withdraw-shortcut span{font-size:25px;line-height:1.1}.withdraw-shortcut b{font-size:12px;letter-spacing:.4px}.withdraw-shortcut small{font-size:10px;font-weight:700;opacity:.75}.hero{padding-right:138px}.eyebrow{color:#c2cee4;font-size:12px;letter-spacing:1.5px;text-transform:uppercase}.balance{font-size:38px;font-weight:950;color:#ffdc7a;margin:6px 0}.balance small{font-size:14px;color:#d6e0f3}.herofoot{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}.pill{border:1px solid #ffffff20;background:#ffffff0c;padding:8px 11px;border-radius:12px;font-size:12px;color:#dce6f8}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin:14px 0}.stat,.card{background:linear-gradient(155deg,#17243b,#111a2c);border:1px solid var(--line);border-radius:18px;padding:15px}.stat strong{display:block;font-size:21px;margin-top:5px}.sectionhead{display:flex;align-items:center;justify-content:space-between;margin:20px 0 11px}.sectionhead h2{font-size:17px;margin:0}.featuregrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.feature{padding:15px;background:#131f34;border:1px solid #2a3a57;border-radius:17px;min-height:105px;text-align:left;color:var(--text)}.feature .ico{font-size:25px;display:block;margin-bottom:8px}.feature b{display:block;font-size:14px}.feature span:last-child{font-size:11px;color:var(--muted)}
-.collect{text-align:center;padding:19px;background:linear-gradient(145deg,#172944,#121a2d);border:1px solid #344865;border-radius:22px;margin-top:13px}.collect-ring{width:174px;height:174px;border:7px solid var(--gold);border-radius:50%;margin:15px auto;display:flex;align-items:center;justify-content:center;flex-direction:column;background:radial-gradient(circle,#263a59,#121a2d);box-shadow:0 0 26px #e9b53c22}.timer{font-size:26px;font-weight:900;color:#ffe08a}.collect button{width:100%;max-width:280px}
-.row{display:flex;align-items:center;justify-content:space-between;gap:10px}.row+.row{margin-top:12px}input,select{width:100%;background:#0d1526;color:#fff;border:1px solid #334462;border-radius:12px;padding:13px;margin:7px 0 12px;min-height:46px}.note{background:#302817;border:1px solid #8e6b2d;color:#ffe6a8;border-radius:14px;padding:12px;font-size:12px;line-height:1.5;margin:12px 0}
-.item{padding:13px 0;border-bottom:1px solid #293750}.item:last-child{border-bottom:0}.item p{margin:6px 0;color:var(--muted);font-size:13px;line-height:1.55}.badge{font-size:11px;color:#bcefe0;background:#173d38;border-radius:20px;padding:5px 9px}.lesson{display:flex;gap:12px;align-items:flex-start}.lessonicon{width:40px;height:40px;flex:none;border-radius:13px;background:#263b59;display:grid;place-items:center;font-size:20px}
-.question{padding:15px;border:1px solid var(--line);background:#121d31;border-radius:16px;margin:11px 0}.option{display:block;width:100%;text-align:left;margin-top:8px;background:#22324d;color:#eff5ff;border:1px solid #3a4d6d}.option.selected{border-color:var(--gold);background:#45391f}
-.coinchoices{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:15px 0}.coin{font-size:31px;min-height:75px;background:#22324d;color:#fff;border:1px solid #415675}.coin:active{transform:scale(.97)}.target{font-size:28px;color:var(--gold);font-weight:900}
-.rank{display:grid;grid-template-columns:35px 1fr auto;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid #293750}.ranknum{font-weight:900;color:var(--gold)}.winner{background:linear-gradient(120deg,#3b321c,#17243b);border:1px solid #8e7134;border-radius:16px;padding:14px;margin-bottom:12px}.small{font-size:11px;color:var(--muted);word-break:break-all}
-nav{position:fixed;bottom:0;left:0;right:0;z-index:50;background:#0c1424f5;border-top:1px solid #273653;display:flex;justify-content:space-around;padding:7px 3px calc(7px + env(safe-area-inset-bottom));backdrop-filter:blur(14px)}nav button{background:transparent;color:#92a1bd;border-radius:10px;min-width:0;flex:1;padding:6px 2px;font-size:10px;min-height:52px}nav button span{display:block;font-size:19px;margin-bottom:2px}nav button.active{color:var(--gold);background:#ffffff0a}
-#toast{display:none;position:fixed;top:12px;left:50%;transform:translateX(-50%);background:#f5f7ff;color:#111;padding:12px 16px;border-radius:13px;z-index:200;max-width:90%;font-size:13px;font-weight:700;box-shadow:0 8px 28px #0008}
-@media(min-width:600px){.featuregrid{grid-template-columns:repeat(3,minmax(0,1fr))}.hero{padding:26px}.wrap{padding:20px}}
-#joinGate{display:none;position:fixed;inset:0;z-index:300;background:linear-gradient(160deg,#0b1325,#172b48);padding:24px 18px;align-items:center;justify-content:center;text-align:center}#joinGate .gatebox{width:100%;max-width:430px;background:#121d31;border:1px solid #3b5274;border-radius:24px;padding:24px;box-shadow:0 18px 55px #0008}#joinGate h1{font-size:24px;margin:10px 0}#joinGate .gateitem{display:flex;align-items:center;gap:12px;text-align:left;background:#1b2a43;border:1px solid #344967;border-radius:14px;padding:13px;margin:10px 0}#joinGate .step{width:30px;height:30px;flex:none;border-radius:50%;display:grid;place-items:center;background:#f5c451;color:#171522;font-weight:900}.speaker{font-size:28px;animation:blink 1s infinite}@keyframes blink{50%{opacity:.25;transform:scale(1.12)}}
-</style></head><body>
-<div id="joinGate"><div class="gatebox"><div class="brandmark" style="margin:auto">RR</div><div class="speaker">🔔</div><h1>Join our channels first</h1><p class="muted">Unlock RR Crypto Earning</p><div class="gateitem"><span class="step">1</span><div><b>Join Channel 1</b><div class="muted">@besteearningbot</div><button class="secondary" onclick="openChannel('https://t.me/besteearningbot')">Join Channel</button></div></div><div class="gateitem"><span class="step">2</span><div><b>Join Channel 2</b><div class="muted">@rrcommunity1</div><button class="secondary" onclick="openChannel('https://t.me/rrcommunity1')">Join Channel</button></div></div><div class="gateitem"><span class="step">3</span><div><b>Verify membership</b><div class="muted">Join both channels, then verify.</div></div></div><button style="width:100%;margin-top:12px" onclick="checkGate()">Verify &amp; Continue</button><div class="small" id="gateStatus" style="margin-top:10px">Membership is checked securely.</div></div></div>
-<div id="splash"><div class="brandmark">RR</div><div class="splashname">RR CRYPTO EARNING</div><div class="muted" id="smsg">Loading your account…</div></div><div id="toast" role="status" aria-live="polite"></div>
-<header class="header"><div class="brand"><div class="brandmark">RR</div><div>RR CRYPTO <span style="color:var(--gold)">EARNING</span></div></div><div class="avatar" id="headAvatar">RR</div></header>
-<main class="wrap">
-<section class="page active" id="home">
- <div class="welcome"><div class="muted">WELCOME BACK</div><h1 id="welcomeName">Crypto Explorer 👋</h1><div class="muted">Learn • Play • Earn Coins</div></div>
- <div class="hero"><button class="withdraw-shortcut" onclick="go('withdraw')"><span>💸</span><b>WITHDRAW</b><small>Cash out</small></button><div class="eyebrow">Your total coin balance</div><div class="balance" id="hCoins">0 <small>COINS</small></div><div class="muted" id="hUsd">Estimated value $0.0000</div><div class="herofoot"><span class="pill" id="hRefs">👥 0 Referrals</span><span class="pill" id="hLessons">📚 0/5 Lessons</span></div></div>
- <div class="grid"><div class="stat"><div class="muted">Tasks completed</div><strong id="hTasks">0</strong></div><div class="stat"><div class="muted">Game best score</div><strong id="hScore">0</strong></div></div>
- <div class="sectionhead"><h2>Explore RR</h2><span class="muted">Choose a feature</span></div>
- <div class="featuregrid">
-  <button class="feature" data-go="learn"><span class="ico">📚</span><b>Crypto Learning</b><span>Learn in English</span></button>
-  <button class="feature" data-go="games"><span class="ico">🎮</span><b>Mini Games</b><span>Play & score coins</span></button>
-  <button class="feature" data-go="quiz"><span class="ico">🧠</span><b>Daily Quiz</b><span>Test your knowledge</span></button>
-  <button class="feature" data-go="leaderboard"><span class="ico">🏆</span><b>Leaderboard</b><span>Top players & winner prize</span></button>
-  <button class="feature" data-go="tasks"><span class="ico">✅</span><b>Tasks</b><span>Complete channel tasks</span></button>
-  <button class="feature" data-go="friends"><span class="ico">👥</span><b>Invite Friends</b><span>Grow your community</span></button>
- </div>
- <div class="card" style="margin-top:13px"><div class="row"><div><b>▶ Watch Ads</b><div class="muted">Earn 3 Coins per completed ad • 10 ads per day</div><div class="muted" id="adCounter">0/10 ads today</div></div><span style="font-size:28px">📺</span></div><button id="watchAdBtn" style="width:100%;margin-top:12px" onclick="watchRewardAd()">Watch Ad</button><div class="small" id="adMessage" style="margin-top:8px">Ad rewards are confirmed by the server.</div></div><div class="collect"><div class="eyebrow">Daily reward</div><h2 style="margin-top:5px">⏳ Daily Collecting</h2><div class="collect-ring"><div class="muted" id="collectLabel">24 HOURS</div><div class="timer" id="collectTime">24:00:00</div><div class="muted" id="collectStatus">Ready to start</div></div><div class="muted" id="collectInfo">Collect every 24 hours</div><button id="collectBtn" onclick="collectAction()">Start Collecting</button></div>
-</section>
-<section class="page" id="learn"><div class="sectionhead"><h2>📚 Crypto Learning</h2><span class="muted">English lessons</span></div><div class="note">Read each lesson and tap “Complete Lesson”. This content is for education only and is not investment advice.</div><div id="lessonList"></div></section>
-<section class="page" id="lessonDetail"><button class="secondary" onclick="go('learn')">← Back to Lessons</button><div class="card" style="margin-top:13px"><div class="muted">RR CRYPTO ACADEMY</div><h2 id="lessonTitle" style="margin:10px 0"></h2><p id="lessonBody" style="line-height:1.8;color:#d5deef"></p><button id="lessonDone" style="width:100%;margin-top:18px" onclick="completeLesson()">Complete Lesson</button></div></section>
-<section class="page" id="games"><div class="sectionhead"><h2>🎮 RR Mini Games</h2><span class="badge">Play & Learn</span></div><div class="card"><div class="row"><div><b>🔎 Find the Correct Coin</b><p class="muted" style="margin-top:5px">Find the target symbol and select the matching coin.</p></div><span style="font-size:28px">🪙</span></div><button style="width:100%;margin-top:13px" onclick="startCoinGame()">Play Now</button></div><div class="card"><b>🧠 Memory Match</b><p class="muted" style="margin:7px 0 12px">Match all crypto symbol pairs before time runs out.</p><button style="width:100%" onclick="startMemoryGame()">Play Memory Match</button></div><div class="card"><b>🧮 Math Challenge</b><p class="muted" style="margin:7px 0 12px">Solve a challenging math question. Each round is validated by the server.</p><button style="width:100%" onclick="startMathGame()">Play Math Challenge</button></div></section>
-<section class="page" id="coinGame"><button class="secondary" onclick="go('games')">← Games</button><div class="card" style="margin-top:12px;text-align:center"><div class="eyebrow">FIND THE CORRECT COIN</div><h2 style="margin:12px 0">Find This Symbol</h2><div class="target" id="targetCoin">₿</div><div class="muted" style="margin-top:8px">Select the correct symbol from the six options below.</div><div class="coinchoices" id="coinChoices"></div><div id="gameResult" class="muted" aria-live="polite"></div><button class="secondary" style="width:100%;margin-top:12px" onclick="startCoinGame()">New Round</button></div></section>
-<section class="page" id="memoryGame"><button class="secondary" onclick="go('games')">← Games</button><div class="card" style="margin-top:12px"><h2>Memory Match</h2><p class="muted">Match all pairs. Complete the board to earn up to 5 Coins once per day.</p><div id="memoryBoard" class="coinchoices"></div><div id="memoryStatus" class="muted"></div></div></section><section class="page" id="mathGame"><button class="secondary" onclick="go('games')">← Games</button><div class="card" style="margin-top:12px"><h2>Math Challenge</h2><p class="muted" id="mathPrompt">Get a new challenge.</p><div id="mathOptions" class="coinchoices"></div><div id="mathStatus" class="muted" style="margin-top:10px"></div><button class="secondary" style="width:100%;margin-top:12px" onclick="startMathGame()">New Challenge</button></div></section><section class="page" id="quiz"><div class="sectionhead"><h2>🧠 Daily Crypto Quiz</h2><span class="badge" id="quizStatus">Daily</span></div><div id="quizArea"></div><button id="quizSubmit" style="width:100%" onclick="submitQuiz()">Submit Answers</button></section>
-<section class="page" id="leaderboard"><div class="sectionhead"><h2>🏆 Leaderboard</h2><span class="muted">Game points</span></div><div class="winner"><div class="eyebrow">🏆 ONE WINNER PRIZE</div><b>Winner Prize</b><p class="muted" style="margin-top:6px">The admin decides the prize amount in Coins. The prize appears only after the winner is officially announced.</p></div><div id="leaderList"></div><div class="sectionhead"><h2>🎁 Winner Announcements</h2></div><div id="prizeList" class="card"><div class="muted">No winner has been announced yet.</div></div><div id="adminBox" style="display:none" class="card"><h3>Admin — Award Winner Prize</h3><p class="muted" style="margin:7px 0">Select one winner and award the number of Coins you choose.</p><label class="muted">Winner Telegram User ID</label><input id="winnerId" placeholder="Winner user ID"><label class="muted">Prize Coins</label><input id="prizeCoins" type="number" min="1" placeholder="Enter the prize amount in Coins"><label class="muted">Announcement note</label><input id="prizeNote" placeholder="Winner Prize"><button style="width:100%" onclick="awardPrize()">Award One Prize</button></div></section>
-<section class="page" id="tasks"><div class="sectionhead"><h2>✅ Tasks</h2><span class="muted">Earn Coins</span></div><div class="note">Channel membership verification works only inside Telegram.</div><div id="taskList"></div><div class="card" style="margin-top:12px"><b>▶ Watch Ads</b><div class="muted">Earn 3 Coins per valid ad • Task ads 10/day</div><div class="muted" id="taskAdMonetagCount">0/10</div><button style="width:100%;margin-top:10px" onclick="watchRewardAd('task_monetag')">Watch Ads</button></div><div class="card" style="margin-top:10px"><b>▶ Watch Ads</b><div class="muted">Earn 3 Coins per valid ad • Task ads 10/day</div><div class="muted" id="taskAdAdsunCount">0/10</div><button style="width:100%;margin-top:10px" onclick="watchRewardAd('task_adsun')">Watch Ads</button></div></section>
-<section class="page" id="friends"><div class="sectionhead"><h2>👥 Invite Friends</h2></div><div class="card"><div class="muted">Your personal referral link</div><input id="refLink" readonly><div class="row"><button onclick="copyRef()">Copy Link</button><button class="secondary" onclick="shareRef()">Share</button></div></div><div class="card"><div class="muted">Total invited friends</div><h2 id="refCount">0</h2><div class="muted">Referral reward unlocks after your friend completes 10 valid ads.</div></div><div class="card"><b>Your Friends</b><div id="friendList" style="margin-top:10px"></div></div></section>
-<section class="page" id="withdraw">
- <div class="sectionhead"><h2>💸 Withdraw</h2><span class="badge">1 Coin = $0.0001</span></div>
- <div class="card" style="margin-bottom:12px"><div class="row"><div><div class="muted">MINIMUM WITHDRAWAL</div><h2 style="margin:5px 0;color:var(--gold)">$0.10</h2><div class="muted">1,000 Coins required</div></div><div style="font-size:34px">💰</div></div></div>
- <div class="note" id="wNote"></div>
- <div class="card"><label class="muted">Payment Network</label><select id="wMethod"><option>USDT</option><option>TON</option></select><label class="muted">Wallet Address</label><input id="wAddr" placeholder="Enter wallet address"><label class="muted">Coins</label><input id="wCoins" type="number" min="1000" placeholder="Minimum 1,000 coins" oninput="calcUsd()"><div class="muted" id="wUsd">Estimated value: $0.0000</div><button id="wBtn" style="width:100%;margin-top:12px" onclick="doWithdraw()">Submit Withdrawal</button></div>
-  <div class="sectionhead"><h2>Withdrawal History</h2><span class="badge" id="withdrawCount">0 Requests</span></div><div id="withdrawHistory"></div>
- <div class="sectionhead"><h2>✅ Recent Payment Proofs</h2><span class="muted">Latest paid withdrawals</span></div><div id="paymentProofs"></div>
-</section>
-<section class="page" id="profile"><div class="sectionhead"><h2>👤 My Profile</h2></div><div class="card"><h2 id="pName">User</h2><p class="muted" id="pId"></p><div class="row" style="margin-top:16px"><span class="muted">Coin Balance</span><b id="pCoins">0</b></div><div class="row"><span class="muted">Referrals</span><b id="pRefs">0</b></div><div class="row"><span class="muted">Tasks Completed</span><b id="pTasks">0</b></div><div class="row"><span class="muted">Lessons Completed</span><b id="pLessons">0/5</b></div></div><div class="note">Crypto assets are volatile. RR Crypto Earning educational content is not financial advice. Never share wallet seed phrases or private keys.</div></section>
-</main>
-<nav id="nav"><button class="active" data-page="home"><span>🏠</span>Home</button><button data-page="learn"><span>📚</span>Learn</button><button data-page="games"><span>🎮</span>Games</button><button data-page="leaderboard"><span>🏆</span>Ranks</button><button data-page="friends"><span>👥</span>Invite</button><button data-page="profile"><span>👤</span>Profile</button></nav>
+:root{--bg:#0b1220;--card:#121c33;--line:#22304f;--txt:#e8eefc;--mut:#8fa0c4;--gold:#f5c04a;--green:#34d399;--red:#f87171}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding-bottom:84px}
+header{padding:16px;display:flex;justify-content:space-between;align-items:center}
+header h1{font-size:18px;margin:0}
+.bal{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px 14px;text-align:right}
+.bal b{color:var(--gold);font-size:18px}.bal small{display:block;color:var(--mut)}
+main{padding:0 14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px}
+.tile{cursor:pointer}.tile .ic{font-size:30px}.tile b{display:block;margin-top:6px}.tile small{color:var(--mut)}
+h2{font-size:17px;margin:6px 0 12px}
+button{font:inherit;border:0;border-radius:12px;padding:12px 14px;background:var(--gold);color:#1b1b1b;font-weight:700;width:100%}
+button.sec{background:#1d2b4a;color:var(--txt)}button:disabled{opacity:.5}
+input,select{width:100%;padding:12px;border-radius:10px;border:1px solid var(--line);background:#0e1730;color:var(--txt);font:inherit;margin:6px 0}
+.mut{color:var(--mut);font-size:13px}.ok{color:var(--green)}.bad{color:var(--red)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line)}
+.row:last-child{border:0}
+nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:#0e1730;border-top:1px solid var(--line);padding:6px}
+nav div{flex:1;text-align:center;font-size:11px;color:var(--mut);padding:6px 0;border-radius:10px}
+nav div span{display:block;font-size:20px}nav .on{color:var(--gold);background:#1a2745}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.opts button{background:#1d2b4a;color:var(--txt);font-size:20px}
+.mem{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.mem div{aspect-ratio:1;border-radius:12px;background:#1d2b4a;display:flex;align-items:center;justify-content:center;font-size:26px}
+.mem .f{background:#2b3f6b}.mem .m{background:#14532d}
+.bar{height:8px;background:#0e1730;border-radius:6px;overflow:hidden;margin:8px 0}.bar i{display:block;height:100%;background:var(--gold)}
+#toast{position:fixed;top:14px;left:50%;transform:translateX(-50%);background:#fff;color:#111;padding:10px 16px;border-radius:12px;max-width:88%;display:none;z-index:9;text-align:center}
+.center{text-align:center;padding:40px 16px}
+</style>
+</head>
+<body>
+<div id="toast"></div>
+<div id="app"><div class="center">Loading…</div></div>
+
 <script>
-'use strict';
-const tg=window.Telegram&&window.Telegram.WebApp?window.Telegram.WebApp:null;if(tg){tg.ready();tg.expand();}
-const initData=tg?tg.initData:'';const API_URL='https://script.google.com/macros/s/AKfycbzyy7cYe4XvIJ0vr7XrGxXGgr83ex34aSs55lSrnKDKMz9eeOz45MVELXIQjeXj5UcK/exec';
-let S=null,collectTimer=null,currentLesson=null,quizAnswers=[],coinChallenge=null,mathChallenge=null;
-let memoryCards=[],memoryOpen=[],memoryMatched=[];
-const $=id=>document.getElementById(id),esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function browserToken(){if(initData)return '';const k='RR_EARNING_SESSION';let t='';try{t=localStorage.getItem(k)||'';}catch(e){}if(t.length<20){t=(crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random().toString(36).slice(2))+Math.random().toString(36).slice(2);try{localStorage.setItem(k,t);}catch(e){}}return t;}
-const token=browserToken();
-function toast(m){const e=$('toast');e.textContent=m;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',3200);}
-async function call(action,payload={}){const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action,initData,payload:Object.assign({browserToken:token},payload)})});const j=await r.json();if(!j.ok)throw new Error(j.error||'Request failed');return j.data;}
-function go(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));if(id==='quiz')renderQuiz();if(id==='leaderboard')renderLeaderboard();if(id==='withdraw')refresh();}
-document.querySelectorAll('#nav button').forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
-document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
+/* ====== Put your Apps Script Web App (/exec) URL here ====== */
+const API = 'https://script.google.com/macros/s/AKfycbwmvQklBwd7YwjqvP0vCxRcNXS0TKDIgUF6TVpO6TWuD3dnFkz8IUuWL2ARzWrCPNrm/exec';
+/* ================================================================ */
+const tg = window.Telegram && Telegram.WebApp;
+if (tg) { tg.ready(); tg.expand(); }
 
-function render(){
- $('welcomeName').textContent='Welcome, '+(S.name||'Crypto Explorer')+' 👋';$('headAvatar').textContent=(S.name||'RR').slice(0,2).toUpperCase();
- $('hCoins').innerHTML=Number(S.coins||0).toLocaleString()+' <small>COINS</small>';$('hUsd').textContent='Estimated value $'+Number(S.usd||0).toFixed(4);
- $('hRefs').textContent='👥 '+Number(S.referrals||0)+' Referrals';$('hLessons').textContent='📚 '+(S.completedLessons||[]).length+'/5 Lessons';$('hTasks').textContent=S.tasksDone||0;
- const myRank=(S.leaderboard||[]).find(x=>x.id===S.id);$('hScore').textContent=myRank?myRank.score:0;
- $('lessonList').innerHTML=(S.lessons||[]).map((l,i)=>`<div class="card lesson"><div class="lessonicon">${['₿','⛓️','🔗','🔐','💵'][i]}</div><div style="flex:1"><b>${esc(l.title)}</b><p class="muted" style="margin:5px 0 9px">${esc(l.desc)}</p><button class="secondary" onclick="openLesson('${esc(l.id)}')">${(S.completedLessons||[]).includes(l.id)?'Review Lesson':'Open Lesson'}</button> ${(S.completedLessons||[]).includes(l.id)?'<span class="badge">Completed</span>':''}</div></div>`).join('');
- $('taskList').innerHTML=(S.channels||[]).map(c=>`<div class="card"><div class="row"><div><b>${esc(c.name)}</b><div class="muted">Reward: ${c.reward} Coins</div></div>${c.done?'<span class="badge">Claimed</span>':`<button onclick="openChannel('${esc(c.url)}')">Join</button>`}</div>${c.done?'':`<button class="secondary" style="width:100%;margin-top:9px" onclick="claimTask(${c.index})">Verify & Claim</button>`}</div>`).join('');
- $('adCounter').textContent=(S.ads?.homeMonetag||0)+'/10 ads today';$('watchAdBtn').disabled=(S.ads?.homeMonetag||0)>=10;$('taskAdMonetagCount').textContent=(S.ads?.taskMonetag||0)+'/10 ads today';$('taskAdAdsunCount').textContent=(S.ads?.taskAdsun||0)+'/10 ads today';$('refLink').value=S.refLink||'';$('refCount').textContent=S.referrals||0;
- $('friendList').innerHTML=(S.friends||[]).length?S.friends.map(f=>`<div class="item"><b>${esc(f.username?'@'+f.username:f.name)}</b><div class="small">ID: ${esc(f.id)} • Ads watched: ${f.adsWatched||0}/10</div>${f.claimed?'<span class="badge">Reward claimed</span>':f.eligible?`<button style="margin-top:8px" onclick="claimReferral('${esc(f.id)}')">Claim ${S.cfg.refReward} Coins</button>`:'<span class="muted">Friend must join both channels and watch 10 valid ads to unlock</span>'}</div>`).join(''):'<div class="muted">No invited friends yet.</div>';
- $('pName').textContent=S.name||'User';$('pId').textContent='Telegram ID: '+S.id;$('pCoins').textContent=Number(S.coins||0).toLocaleString();$('pRefs').textContent=S.referrals||0;$('pTasks').textContent=S.tasksDone||0;$('pLessons').textContent=(S.completedLessons||[]).length+'/5';
- $('withdrawCount').textContent=(S.history||[]).length+' Requests';
- $('withdrawHistory').innerHTML=(S.history||[]).length?S.history.map(h=>`<div class="card" style="margin-bottom:9px"><div class="row"><div><b>${esc(h.method)} • ${Number(h.coins).toLocaleString()} Coins</b><div class="muted">${esc(h.time)} • $${Number(h.usd||0).toFixed(4)}</div></div><span class="badge">${esc(h.status)}</span></div></div>`).join(''):'<div class="muted">No withdrawal history yet.</div>';
- $('paymentProofs').innerHTML=(S.paymentProofs||[]).length?S.paymentProofs.map(p=>`<div class="card" style="margin-bottom:9px"><div class="row"><div><b>✅ ${esc(p.name)}</b><div class="muted">${esc(p.method)} • ${Number(p.coins).toLocaleString()} Coins • ${esc(p.time)}</div></div><b style="color:var(--green)">$${Number(p.usd||0).toFixed(4)}</b></div></div>`).join(''):'<div class="muted">No payment proofs yet. Completed payments will appear here.</div>';
- $('wNote').textContent='Minimum withdrawal: $0.10 (1,000 Coins). Each Coin = $0.0001.';
- $('adminBox').style.display=S.isAdmin?'block':'none';renderCollecting();renderLeaderboard();calcUsd();
-}
-function openLesson(id){currentLesson=(S.lessons||[]).find(x=>x.id===id);if(!currentLesson)return;$('lessonTitle').textContent=currentLesson.title;$('lessonBody').textContent=currentLesson.body;$('lessonDone').disabled=(S.completedLessons||[]).includes(id);$('lessonDone').textContent=$('lessonDone').disabled?'Completed':'Complete Lesson';go('lessonDetail');}
-async function completeLesson(){try{S=await call('completeLesson',{lessonId:currentLesson.id});render();toast('Lesson progress saved!');go('learn');}catch(e){toast(e.message);}}
-function fmt(ms){let n=Math.max(0,Math.floor(ms/1000));return [Math.floor(n/3600),Math.floor(n%3600/60),n%60].map(x=>String(x).padStart(2,'0')).join(':');}
-function renderCollecting(){const c=S.collecting||{},btn=$('collectBtn');clearInterval(collectTimer);if(!c.startedAt){$('collectLabel').textContent='24 HOURS';$('collectTime').textContent='24:00:00';$('collectStatus').textContent='Ready to start';$('collectInfo').textContent='Start and return after 24 hours to collect 48 Coins.';btn.disabled=false;btn.textContent='Start Collecting';return;}if(c.ready){$('collectLabel').textContent='COMPLETED';$('collectTime').textContent='00:00:00';$('collectStatus').textContent='Coins are ready!';$('collectInfo').textContent='Claim your 48 Coins now.';btn.disabled=false;btn.textContent='Claim 48 Coins';return;}btn.disabled=true;btn.textContent='Collecting…';$('collectLabel').textContent='TIME LEFT';$('collectStatus').textContent='Collecting in progress';const end=Date.now()+Number(c.remainingMs||0);const tick=()=>{const left=end-Date.now();$('collectTime').textContent=fmt(left);if(left<=0){clearInterval(collectTimer);refresh();}};tick();collectTimer=setInterval(tick,1000);}
-async function collectAction(){const b=$('collectBtn');b.disabled=true;try{S=await call(S.collecting&&S.collecting.ready?'claimCollecting':'startCollecting');render();toast(S.collecting.startedAt?'Collecting started!':'48 Coins added!');}catch(e){toast(e.message);b.disabled=false;}}
-function renderQuiz(){if(S.quizDone){$('quizStatus').textContent='Completed today';$('quizArea').innerHTML='<div class="card">You have completed today’s quiz. Come back tomorrow! 🎉</div>';$('quizSubmit').disabled=true;return;}$('quizSubmit').disabled=false;quizAnswers=[];$('quizStatus').textContent='5 Questions';$('quizArea').innerHTML=(S.quiz||[]).map((q,i)=>`<div class="question"><b>${i+1}. ${esc(q.q)}</b>${q.a.map((a,j)=>`<button class="option" data-q="${i}" data-a="${j}">${esc(a)}</button>`).join('')}</div>`).join('');$('quizArea').querySelectorAll('.option').forEach(b=>b.addEventListener('click',()=>{const q=Number(b.dataset.q),a=Number(b.dataset.a);quizAnswers[q]=a;$('quizArea').querySelectorAll(`[data-q="${q}"]`).forEach(x=>x.classList.toggle('selected',x===b));}));}
-async function submitQuiz(){if(quizAnswers.length!==5||quizAnswers.some(x=>x===undefined)){toast('Answer all 5 questions first.');return;}try{const r=await call('submitQuiz',{answers:quizAnswers});S=r.state;render();$('quizArea').innerHTML=`<div class="card"><h2>Quiz completed 🎉</h2><p style="margin-top:8px">Your score: <b>${r.score}/${r.total}</b></p><p class="muted" style="margin-top:8px">You earned ${r.score} Coins.</p></div>`;$('quizSubmit').disabled=true;}catch(e){toast(e.message);}}
-async function startCoinGame(){try{coinChallenge=await call('newCoinChallenge');$('targetCoin').textContent=coinChallenge.target;$('gameResult').textContent='';$('coinChoices').innerHTML=coinChallenge.options.map((x,i)=>`<button class="coin" data-index="${i}">${x}</button>`).join('');$('coinChoices').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>playCoin(Number(b.dataset.index))));go('coinGame');}catch(e){toast(e.message);}}
-async function playCoin(answer){$('coinChoices').querySelectorAll('button').forEach(b=>b.disabled=true);try{const r=await call('submitCoinChallenge',{challengeId:coinChallenge.challengeId,answer});S=r.state;render();$('gameResult').textContent=r.correct?'Correct! +'+r.score+' Coins 🎉':'Not correct. Try a new round.'; }catch(e){$('gameResult').textContent=e.message;}}
-async function watchRewardAd(placement='home_monetag'){
- const btn=placement==='home_monetag'?$('watchAdBtn'):null;if(btn)btn.disabled=true;
- try{
-  const started=await call('startAd',{placement});
-  const ymid=started.ymid;
-  if(placement==='task_adsun'){
-    if(!window.Adsun)throw new Error('Ad is not available right now.');
-    const ctl=window.Adsun.init({blockId:'50269',debug:false,debugConsole:false});
-    ctl.addEventListener('onReward',()=>{setTimeout(refresh,1200);});
-    const result=await ctl.show();
-    if(!result||result.done!==true)throw new Error('Ad was not completed.');
-    // Browser completion is informational only. Coins are credited by the Adsun Reward URL callback.
-    toast('Ad completed. Server is verifying your reward. Refresh in a moment if needed.');
-  }else{
-    if(typeof window.show_12281843!=='function')throw new Error('Ad is loading. Please try again.');
-    const event=await window.show_12281843({ymid:ymid,requestVar:placement});
-    if(!event||event.reward_event_type!=='valued')throw new Error('This ad was not eligible for a reward.');
-    toast('Ad verified. Your reward will appear shortly.');
-  }
-  await new Promise(r=>setTimeout(r,2500));S=await call('init');render();
- }catch(e){$('adMessage').textContent=e.message||'Ad was not completed.';toast(e.message||'Ad not completed.');}
- finally{if(btn)btn.disabled=false;}
+let bt = '';
+try { bt = localStorage.getItem('rr_bt') || ''; if (!bt) { bt = (crypto.randomUUID()+crypto.randomUUID()).replace(/-/g,''); localStorage.setItem('rr_bt', bt); } } catch(e){ bt = 'x'.repeat(32); }
+
+async function call(action, payload = {}) {
+  payload.browserToken = bt;
+  const r = await fetch(API, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({ action, initData: (tg && tg.initData) || '', payload })
+  });
+  const j = await r.json();
+  if (!j.ok) throw new Error(j.error || 'Request failed');
+  return j.data;
 }
 
-function startMemoryGame(){const deck=['₿','₿','Ξ','Ξ','◎','◎','Ł','Ł'];memoryCards=deck.sort(()=>Math.random()-.5);memoryOpen=[];memoryMatched=[];$('memoryStatus').textContent='Find all four pairs.';$('memoryBoard').innerHTML=memoryCards.map((x,i)=>`<button class="coin" data-card="${i}" onclick="flipMemory(${i})">?</button>`).join('');go('memoryGame');}
-function flipMemory(i){if(memoryOpen.includes(i)||memoryMatched.includes(i)||memoryOpen.length===2)return;memoryOpen.push(i);drawMemory();if(memoryOpen.length===2){if(memoryCards[memoryOpen[0]]===memoryCards[memoryOpen[1]]){memoryMatched.push(...memoryOpen);memoryOpen=[];drawMemory();if(memoryMatched.length===memoryCards.length){$('memoryStatus').textContent='All pairs matched! Saving your reward…';call('recordMiniGame',{game:'Memory Match',score:5}).then(s=>{S=s;render();$('memoryStatus').textContent='Completed! +5 Coins. You can earn once per day.';}).catch(e=>$('memoryStatus').textContent=e.message);}}else setTimeout(()=>{memoryOpen=[];drawMemory();},750);}}
-function drawMemory(){document.querySelectorAll('[data-card]').forEach(b=>{const i=Number(b.dataset.card);b.textContent=(memoryMatched.includes(i)||memoryOpen.includes(i))?memoryCards[i]:'?';b.disabled=memoryMatched.includes(i);});}
-async function startMathGame(){try{mathChallenge=await call('newMathChallenge');$('mathPrompt').textContent=mathChallenge.question;$('mathStatus').textContent='Choose the correct answer.';$('mathOptions').innerHTML=mathChallenge.options.map((x,i)=>`<button class="coin" onclick="submitMathAnswer(${i})">${esc(x)}</button>`).join('');go('mathGame');}catch(e){toast(e.message);}}
-async function submitMathAnswer(index){$('mathOptions').querySelectorAll('button').forEach(b=>b.disabled=true);try{const r=await call('submitMathChallenge',{challengeId:mathChallenge.challengeId,answer:index});S=r.state;render();$('mathStatus').textContent=r.correct?'Correct! +'+r.score+' Coins 🎉':'Incorrect answer. Try a new challenge.';}catch(e){$('mathStatus').textContent=e.message;}}
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let S = null, view = 'home', busy = false, tick = null;
 
-function renderLeaderboard(){if(!S)return;const list=S.leaderboard||[];$('leaderList').innerHTML=list.length?list.map((x,i)=>`<div class="rank"><div class="ranknum">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</div><div><b>${esc(x.name||'Player')}</b><div class="small">${esc(x.id===S.id?'You':'Player')}</div></div><b>${Number(x.score)} pts</b></div>`).join(''):'<div class="card muted">No game scores yet. You could be the first winner!</div>';
- $('prizeList').innerHTML=(S.prizes||[]).length?S.prizes.map(p=>`<div class="item"><b>🏆 ${esc(p.note||'Winner Prize')}</b><div class="muted">Winner: ${esc(p.winner)} • ${p.coins} Coins • ${esc(p.time)}</div></div>`).join(''):'<div class="muted">No winner has been announced yet.</div>';}
-async function awardPrize(){try{S=await call('adminAwardPrize',{winnerId:$('winnerId').value.trim(),coins:$('prizeCoins').value,note:$('prizeNote').value.trim()||'Winner Prize'});render();$('winnerId').value='';$('prizeCoins').value='';$('prizeNote').value='';toast('One Winner Prize awarded successfully.');}catch(e){toast(e.message);}}
-function openChannel(url){if(tg&&tg.openTelegramLink)tg.openTelegramLink(url);else window.open(url,'_blank');}
-async function claimTask(i){try{S=await call('claimTask',{index:i});render();toast('Task reward added!');}catch(e){toast(e.message);}}
-async function claimReferral(id){try{S=await call('claimReferral',{friendId:id});render();toast('Referral Coins added!');}catch(e){toast(e.message);}}
-function copyRef(){const v=$('refLink');v.select();try{document.execCommand('copy');toast('Referral link copied!');}catch(e){toast('Copy not supported');}}
-function shareRef(){const url='https://t.me/share/url?url='+encodeURIComponent(S.refLink)+'&text='+encodeURIComponent('Join RR Crypto Earning!');if(tg&&tg.openTelegramLink)tg.openTelegramLink(url);else window.open(url,'_blank');}
-function calcUsd(){if(!$('wUsd'))return;const rate=S&&S.cfg?Number(S.cfg.rate):0;$('wUsd').textContent='Estimated value: $'+((Number($('wCoins').value)||0)*rate).toFixed(4);}
-async function doWithdraw(){const b=$('wBtn');b.disabled=true;try{S=await call('withdraw',{method:$('wMethod').value,address:$('wAddr').value.trim(),coins:$('wCoins').value});render();$('wAddr').value='';$('wCoins').value='';toast('Withdrawal request submitted.');}catch(e){toast(e.message);}b.disabled=false;}
-async function refresh(){try{S=await call('init');render();}catch(e){toast(e.message);}}
-async function checkGate(){const st=$('gateStatus');st.textContent='Checking both channel memberships…';try{const r=await call('verifyChannels');if(!r.joined){st.textContent='Please join both channels and try again.';return false;}$('joinGate').style.display='none';S=await call('init');render();$('splash').style.display='none';return true;}catch(e){st.textContent=e.message||'Could not verify. Open inside Telegram.';return false;}}
-async function boot(){try{if(!initData){$('smsg').textContent='Open this Mini App inside Telegram.';$('splash').style.display='none';$('joinGate').style.display='flex';$('gateStatus').textContent='Telegram app session is required.';return;}const ok=await checkGate();if(!ok){$('splash').style.display='none';$('joinGate').style.display='flex';}}catch(e){$('smsg').innerHTML=esc(e.message)+'<br><br><button onclick="location.reload()">Retry</button>';}}
+function toast(m) { const t = $('toast'); t.textContent = m; t.style.display = 'block'; clearTimeout(toast.t); toast.t = setTimeout(() => t.style.display = 'none', 3200); }
+async function run(fn) { if (busy) return; busy = true; try { return await fn(); } catch (e) { toast(e.message); } finally { busy = false; } }
+function setState(s) { S = s; S._at = Date.now(); render(); }
+
+async function boot() {
+  if (!API || API.startsWith('PASTE')) { $('app').innerHTML = '<div class="center">Set the API URL in index.html.</div>'; return; }
+  try {
+    const v = await call('verifyChannels');
+    if (!v.joined) return gate(v);
+    setState(await call('init'));
+  } catch (e) { $('app').innerHTML = '<div class="center bad">' + esc(e.message) + '<br><br><button onclick="boot()">Retry</button></div>'; }
+}
+function gate(v) {
+  $('app').innerHTML = '<main style="padding-top:30px"><div class="card"><h2>Join required channels</h2>' +
+    v.channels.map((c, i) => '<div class="row"><span>' + esc(c.name) + ' ' + (c.joined ? '<span class="ok">✔</span>' : '') + '</span>' +
+      (c.joined ? '' : '<button class="sec" style="width:auto" onclick="openLink(\'' + esc(c.url) + '\')">Join</button>') + '</div>').join('') +
+    '<br><button onclick="boot()">I joined — Continue</button></div></main>';
+}
+function openLink(u) { if (tg && u.startsWith('https://t.me/')) tg.openTelegramLink(u); else window.open(u, '_blank'); }
+
+/* ---------- Rendering ---------- */
+const NAV = [['home','🏠','Home'],['learn','📚','Learn'],['games','🎮','Games'],['ranks','🏆','Ranks'],['invite','👥','Invite'],['profile','👤','Profile']];
+const PARENT = { quiz: 'learn', tasks: 'home' };
+function go(v) { view = v; render(); window.scrollTo(0, 0); }
+function render() {
+  if (!S) return;
+  const on = PARENT[view] || view;
+  const body = ({ home, learn, quiz, games, ranks, tasks, invite, profile })[view]();
+  $('app').innerHTML =
+    '<header><h1>' + esc(S.appName) + '</h1><div class="bal"><b>' + S.coins.toLocaleString() + ' 🪙</b><small>$' + S.usd + '</small></div></header>' +
+    '<main>' + body + '</main><nav>' + NAV.map(n => '<div class="' + (n[0] === on ? 'on' : '') + '" onclick="go(\'' + n[0] + '\')"><span>' + n[1] + '</span>' + n[2] + '</div>').join('') + '</nav>';
+  startTick();
+}
+
+function adCard(place, label, used) {
+  return '<div class="card"><b>▶ ' + label + '</b><div class="mut">Earn ' + S.cfg.adReward + ' Coins per completed ad • 10 ads per day</div>' +
+    '<div class="mut">' + used + '/10 ads today</div><br><button onclick="watchAd(\'' + place + '\')">Watch Ad</button>' +
+    '<div class="mut" style="margin-top:8px">Coins are added right after the ad finishes.</div></div>';
+}
+function home() {
+  const t = (v, ic, a, b) => '<div class="card tile" onclick="go(\'' + v + '\')"><div class="ic">' + ic + '</div><b>' + a + '</b><small>' + b + '</small></div>';
+  return '<div class="grid">' + t('learn','📚','Crypto Learning','Learn in English') + t('games','🎮','Mini Games','Play & earn coins') +
+    t('quiz','🧠','Daily Quiz','Test your knowledge') + t('ranks','🏆','Leaderboard','Top players & winner prize') +
+    t('tasks','✅','Tasks','Complete channel tasks') + t('invite','👥','Invite Friends','Grow your community') + '</div>' +
+    adCard('home_monetag', 'Watch Ads', S.ads.homeMonetag) + collectCard();
+}
+function collectCard() {
+  const c = S.collecting; let inner;
+  if (!c.startedAt) inner = '<button onclick="startCollect()">Start Collecting</button>';
+  else if (c.ready || remaining() <= 0) inner = '<button onclick="claimCollect()">Claim ' + S.cfg.collectReward + ' Coins</button>';
+  else inner = '<div class="center" style="padding:10px"><b id="cd" style="font-size:26px"></b><div class="mut">Collecting…</div></div>';
+  return '<div class="card"><div class="mut" style="text-align:center">DAILY REWARD</div><h2 style="text-align:center">⏳ Daily Collecting</h2>' +
+    '<div class="mut" style="text-align:center;margin-bottom:10px">' + S.cfg.collectHours + ' hours → ' + S.cfg.collectReward + ' Coins</div>' + inner + '</div>';
+}
+function remaining() { return S.collecting.remainingMs - (Date.now() - S._at); }
+function startTick() {
+  clearInterval(tick);
+  const el = $('cd'); if (!el) return;
+  const f = () => { const r = remaining(); if (r <= 0) { clearInterval(tick); render(); return; }
+    const h = Math.floor(r / 3600000), m = Math.floor(r % 3600000 / 60000), s = Math.floor(r % 60000 / 1000);
+    el.textContent = [h, m, s].map(x => String(x).padStart(2, '0')).join(':'); };
+  f(); tick = setInterval(f, 1000);
+}
+const startCollect = () => run(async () => { setState(await call('startCollecting')); });
+const claimCollect = () => run(async () => { setState(await call('claimCollecting')); toast('Coins added!'); });
+ function learn() {
+  return '<h2>📚 Crypto Learning</h2>' + S.lessons.map(l => {
+    const d = S.completedLessons.includes(l.id);
+    return '<div class="card"><b>' + esc(l.title) + (d ? ' <span class="ok">✔</span>' : '') + '</b><div class="mut">' + esc(l.desc) + '</div><p>' + esc(l.body) + '</p>' +
+      (d ? '' : '<button class="sec" onclick="doneLesson(\'' + l.id + '\')">Mark complete</button>') + '</div>';
+  }).join('') + '<button onclick="go(\'quiz\')">🧠 Daily Quiz</button>';
+}
+const doneLesson = id => run(async () => { setState(await call('completeLesson', { lessonId: id })); });
+
+let qa = [];
+function quiz() {
+  if (S.quizDone) return '<h2>🧠 Daily Quiz</h2><div class="card">Today\'s quiz is already submitted. Come back tomorrow!</div>';
+  return '<h2>🧠 Daily Quiz</h2>' + S.quiz.map((q, i) => '<div class="card"><b>' + (i + 1) + '. ' + esc(q.q) + '</b>' +
+    q.a.map((a, j) => '<label class="row"><span>' + esc(a) + '</span><input type="radio" name="q' + i + '" value="' + j + '" style="width:auto" onchange="qa[' + i + ']=' + j + '"></label>').join('') + '</div>').join('') +
+    '<button onclick="sendQuiz()">Submit</button>';
+}
+const sendQuiz = () => run(async () => {
+  if (qa.filter(x => x !== undefined).length < S.quiz.length) throw new Error('Answer all questions.');
+  const r = await call('submitQuiz', { answers: qa }); qa = []; toast('Score ' + r.score + '/' + r.total + ' • +' + r.score + ' coins'); setState(r.state);
+});
+
+function tasks() {
+  return '<h2>✅ Channel Tasks</h2>' + S.channels.map(c => '<div class="card"><b>' + esc(c.name) + '</b> <span class="mut">+' + c.reward + ' coins</span><br><br>' +
+    (c.done ? '<span class="ok">Completed ✔</span>' : '<div class="grid"><button class="sec" onclick="openLink(\'' + esc(c.url) + '\')">Open</button><button onclick="claimTask(' + c.index + ')">Claim</button></div>') + '</div>').join('') +
+    adCard('task_monetag', 'Task Ad (Monetag)', S.ads.taskMonetag) + adCard('task_adsun', 'Task Ad (Adsun)', S.ads.taskAdsun);
+}
+const claimTask = i => run(async () => { setState(await call('claimTask', { index: i })); toast('Task reward added'); });
+
+/* ---------- Ads ---------- */
+async function watchAd(place) {
+  await run(async () => {
+    if (place === 'task_adsun') {
+      // TODO: add the Adsun SDK here -> window.showAdsunAd = () => <Adsun show call>
+      if (typeof window.showAdsunAd !== 'function') throw new Error('Adsun ad SDK is not added yet.');
+    } else if (typeof window.show_12281843 !== 'function') throw new Error('Monetag SDK did not load.');
+    const r = await call('startAd', { placement: place });
+    if (place === 'task_adsun') await window.showAdsunAd(r.ymid);
+    else await window.show_12281843({ ymid: r.ymid });
+    setState(await call('claimAd', { ymid: r.ymid }));
+    toast('+' + S.cfg.adReward + ' coins added!');
+  });
+}
+
+/* ---------- Games ---------- */
+let ch = null, mm = null;
+function games() {
+  return '<h2>🎮 Mini Games</h2>' +
+    '<div class="card"><b>🪙 Find Correct Coin</b> <span class="mut">+10</span><div id="coinBox" style="margin-top:8px"><button onclick="newChallenge(\'coin\')">Play</button></div></div>' +
+    '<div class="card"><b>➕ Math Challenge</b> <span class="mut">+10</span><div id="mathBox" style="margin-top:8px"><button onclick="newChallenge(\'math\')">Play</button></div></div>' +
+    '<div class="card"><b>🧩 Memory Match</b> <span class="mut">+5 (once daily)</span><div id="memBox" style="margin-top:8px"><button onclick="startMem()">Play</button></div></div>';
+}
+const newChallenge = kind => run(async () => {
+  ch = await call(kind === 'coin' ? 'newCoinChallenge' : 'newMathChallenge');
+  const box = $(kind === 'coin' ? 'coinBox' : 'mathBox');
+  box.innerHTML = '<div style="font-size:20px;text-align:center">' + (kind === 'coin' ? esc(ch.prompt) + ': <b>' + esc(ch.target) + '</b>' : esc(ch.question)) + '</div>' +
+    '<div class="opts">' + ch.options.map((o, i) => '<button onclick="answer(\'' + kind + '\',' + i + ')">' + esc(o) + '</button>').join('') + '</div>';
+});
+const answer = (kind, i) => run(async () => {
+  const r = await call(kind === 'coin' ? 'submitCoinChallenge' : 'submitMathChallenge', { challengeId: ch.challengeId, answer: i });
+  toast(r.correct ? 'Correct! +' + r.score : 'Wrong answer'); setState(r.state);
+});
+function startMem() {
+  const e = ['₿','Ξ','◎','Ł','Ð','◆'], c = [...e, ...e].sort(() => Math.random() - .5);
+  mm = { c, open: [], done: [], lock: false }; drawMem();
+}
+function drawMem() {
+  $('memBox').innerHTML = '<div class="mem">' + mm.c.map((x, i) => {
+    const show = mm.open.includes(i) || mm.done.includes(i);
+    return '<div class="' + (mm.done.includes(i) ? 'm' : show ? 'f' : '') + '" onclick="flip(' + i + ')">' + (show ? x : '?') + '</div>'; }).join('') + '</div>';
+}
+function flip(i) {
+  if (mm.lock || mm.open.includes(i) || mm.done.includes(i)) return;
+  mm.open.push(i); drawMem();
+  if (mm.open.length < 2) return;
+  const [a, b] = mm.open;
+  if (mm.c[a] === mm.c[b]) { mm.done.push(a, b); mm.open = []; drawMem(); if (mm.done.length === mm.c.length) winMem(); }
+  else { mm.lock = true; setTimeout(() => { mm.open = []; mm.lock = false; drawMem(); }, 800); }
+}
+const winMem = () => run(async () => { setState(await call('recordMiniGame', { game: 'Memory Match' })); toast('Memory Match +5 coins'); });
+
+/* ---------- Ranks / Invite / Profile ---------- */
+function ranks() {
+  return '<h2>🏆 Leaderboard</h2><div class="card">' + (S.leaderboard.map((p, i) => '<div class="row"><span>' + (i + 1) + '. ' + esc(p.name) + '</span><b>' + p.score + '</b></div>').join('') || '<span class="mut">No scores yet</span>') + '</div>' +
+    '<h2>🎁 Winner Prizes</h2><div class="card">' + (S.prizes.map(p => '<div class="row"><span>' + esc(p.winner) + '<div class="mut">' + esc(p.note) + ' • ' + esc(p.time) + '</div></span><b>' + p.coins + '</b></div>').join('') || '<span class="mut">No prizes yet</span>') + '</div>' +
+    '<h2>💸 Payment Proofs</h2><div class="card">' + (S.paymentProofs.map(p => '<div class="row"><span>' + esc(p.name) + '<div class="mut">' + esc(p.method) + ' • ' + esc(p.time) + '</div></span><b class="ok">$' + p.usd + '</b></div>').join('') || '<span class="mut">No payments yet</span>') + '</div>';
+}
+function invite() {
+  return '<h2>👥 Invite Friends</h2><div class="card"><div class="mut">Earn ' + S.cfg.refReward + ' coins when a friend watches 10 valid ads.</div>' +
+    '<input id="rl" readonly value="' + esc(S.refLink) + '"><div class="grid"><button class="sec" onclick="copyLink()">Copy</button><button onclick="shareLink()">Share</button></div></div>' +
+    '<div class="card"><b>' + S.referrals + '</b> friends • <b>' + S.referralCoins + '</b> coins earned</div>' +
+    S.friends.map(f => '<div class="card"><div class="row"><span>' + esc(f.name) + '<div class="mut">' + f.adsWatched + '/10 ads</div></span>' +
+      (f.claimed ? '<span class="ok">Claimed ✔</span>' : f.eligible ? '<button style="width:auto" onclick="claimRef(\'' + esc(f.id) + '\')">Claim</button>' : '<span class="mut">Pending</span>') + '</div></div>').join('');
+}
+const copyLink = () => { navigator.clipboard?.writeText(S.refLink).then(() => toast('Link copied')).catch(() => { $('rl').select(); document.execCommand('copy'); toast('Link copied'); }); };
+const shareLink = () => { const u = 'https://t.me/share/url?url=' + encodeURIComponent(S.refLink) + '&text=' + encodeURIComponent('Earn coins with me!'); openLink(u.replace('https://t.me/share', 'https://t.me/share')); };
+const claimRef = id => run(async () => { setState(await call('claimReferral', { friendId: id })); toast('Referral reward added'); });
+
+function profile() {
+  return '<h2>👤 ' + esc(S.name) + '</h2><div class="card"><div class="row"><span>ID</span><b>' + esc(S.id) + '</b></div><div class="row"><span>Tasks done</span><b>' + S.tasksDone + '</b></div>' +
+    '<div class="row"><span>Coins</span><b>' + S.coins + '</b></div></div>' +
+    '<div class="card"><b>💸 Withdraw</b><div class="mut">Minimum ' + S.cfg.min + ' coins ($' + (S.cfg.min * S.cfg.rate).toFixed(2) + ')</div>' +
+    '<select id="wm"><option>USDT</option><option>TON</option></select><input id="wa" placeholder="Wallet address"><input id="wc" type="number" placeholder="Coins" min="' + S.cfg.min + '">' +
+    '<button onclick="withdraw()">Request Withdrawal</button></div>' +
+    '<div class="card"><b>History</b>' + (S.history.map(h => '<div class="row"><span>' + esc(h.method) + ' • ' + h.coins + '<div class="mut">' + esc(h.time) + '</div></span><b class="' + (String(h.status).toLowerCase() === 'paid' ? 'ok' : '') + '">' + esc(h.status) + '</b></div>').join('') || '<div class="mut">No withdrawals yet</div>') + '</div>' +
+    (S.isAdmin ? '<div class="card"><b>🛠 Admin: Award prize</b><input id="pw" placeholder="Winner user ID"><input id="pc" type="number" placeholder="Coins"><input id="pn" placeholder="Note"><button onclick="award()">Award</button></div>' : '');
+}
+const withdraw = () => run(async () => {
+  setState(await call('withdraw', { method: $('wm').value, address: $('wa').value, coins: $('wc').value })); toast('Withdrawal requested');
+});
+const award = () => run(async () => { setState(await call('adminAwardPrize', { winnerId: $('pw').value, coins: $('pc').value, note: $('pn').value })); toast('Prize awarded'); });
+
 boot();
-</script></body></html>
+</script>
+</body>
+</html>
