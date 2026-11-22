@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="theme-color" content="#090d1b"><title>RR Crypto Earning</title>
-<link rel="preconnect" href="https://script.google.com"><link rel="preconnect" href="https://script.googleusercontent.com">
-<script src="https://telegram.org/js/telegram-web-app.js"></script><script async src="//libtl.com/sdk.js" data-zone="12281843" data-sdk="show_12281843"></script><script async src="https://api.adsun.io/sdk.js"></script>
+<script src="https://telegram.org/js/telegram-web-app.js"></script><script src="//libtl.com/sdk.js" data-zone="12281843" data-sdk="show_12281843"></script><script src="https://api.adsun.io/sdk.js"></script>
 <style>
 :root{--bg:#090d1b;--panel:#121a2d;--card:#17223a;--line:#273653;--gold:#f5c451;--cyan:#55d6e8;--text:#f5f7ff;--muted:#9eabc5;--green:#57d69b}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -10%,#1d3152 0,#090d1b 42%);color:var(--text);font-family:Inter,system-ui,Arial,sans-serif;padding:0 0 86px}
@@ -46,10 +45,24 @@ nav{position:fixed;bottom:0;left:0;right:0;z-index:50;background:#0c1424f5;borde
 <section class="page" id="games"><div class="sectionhead"><h2>🎮 RR Mini Games</h2><span class="badge">Play & Learn</span></div><div class="card"><div class="row"><div><b>🔎 Find the Correct Coin</b><p class="muted" style="margin-top:5px">Find the target symbol and select the matching coin.</p></div><span style="font-size:28px">🪙</span></div><button style="width:100%;margin-top:13px" onclick="startCoinGame()">Play Now</button></div><div class="card"><b>🧠 Memory Match</b><p class="muted" style="margin:7px 0 12px">Match all crypto symbol pairs before time runs out.</p><button style="width:100%" onclick="startMemoryGame()">Play Memory Match</button></div><div class="card"><b>🧮 Math Challenge</b><p class="muted" style="margin:7px 0 12px">Solve a challenging math question. Each round is validated by the server.</p><button style="width:100%" onclick="startMathGame()">Play Math Challenge</button></div></section>
 <section class="page" id="coinGame"><button class="secondary" onclick="go('games')">← Games</button><div class="card" style="margin-top:12px;text-align:center"><div class="eyebrow">FIND THE CORRECT COIN</div><h2 style="margin:12px 0">Find This Symbol</h2><div class="target" id="targetCoin">₿</div><div class="muted" style="margin-top:8px">Select the correct symbol from the six options below.</div><div class="coinchoices" id="coinChoices"></div><div id="gameResult" class="muted" aria-live="polite"></div><button class="secondary" style="width:100%;margin-top:12px" onclick="startCoinGame()">New Round</button></div></section>
 <section class="page" id="memoryGame"><button class="secondary" onclick="go('games')">← Games</button><div class="card" style="margin-top:12px"><h2>Memory Match</h2><p class="muted">Match all pairs. Complete the board to earn up to 5 Coins once per day.</p><div id="memoryBoard" class="coinchoices"></div><div id="memoryStatus" class="muted"></div></div></section><section class="page" id="mathGame"><button class="secondary" onclick="go('games')">← Games</button><div class="card" style="margin-top:12px"><h2>Math Challenge</h2><p class="muted" id="mathPrompt">Get a new challenge.</p><div id="mathOptions" class="coinchoices"></div><div id="mathStatus" class="muted" style="margin-top:10px"></div><button class="secondary" style="width:100%;margin-top:12px" onclick="startMathGame()">New Challenge</button></div></section><section class="page" id="quiz"><div class="sectionhead"><h2>🧠 Daily Crypto Quiz</h2><span class="badge" id="quizStatus">Daily</span></div><div id="quizArea"></div><button id="quizSubmit" style="width:100%" onclick="submitQuiz()">Submit Answers</button></section>
+<section class="page" id="leaderboard"><div class="sectionhead"><h2>🏆 Leaderboard</h2><span class="muted">Game points</span></div><div class="winner"><div class="eyebrow">🏆 ONE WINNER PRIZE</div><b>Winner Prize</b><p class="muted" style="margin-top:6px">The admin decides the prize amount in Coins. The prize appears only after the winner is officially announced.</p></div><div id="leaderList"></div><div class="sectionhead"><h2>🎁 Winner Announcements</h2></div><div id="prizeList" class="card"><div class="muted">No winner has been announced yet.</div></div><div id="adminBox" style="display:none" class="card"><h3>Admin — Award Winner Prize</h3><p class="muted" style="margin:7px 0">Select one winner and award the number of Coins you choose.</p><label class="muted">Winner Telegram User ID</label><input id="winnerId" placeholder="Winner user ID"><label class="muted">Prize Coins</label><input id="prizeCoins" type="number" min="1" placeholder="Enter the prize amount in Coins"><label class="muted">Announcement note</label><input id="prizeNote" placeholder="Winner Prize"><button style="width:100%" onclick="awardPrize()">Award One Prize</button></div></section>
+<section class="page" id="tasks"><div class="sectionhead"><h2>✅ Tasks</h2><span class="muted">Earn Coins</span></div><div class="note">Channel membership verification works only inside Telegram.</div><div id="taskList"></div><div class="card" style="margin-top:12px"><b>▶ Watch Ads</b><div class="muted">Earn 3 Coins per completed ad • Task ads 10/day</div><div class="muted" id="taskAdMonetagCount">0/10</div><button id="taskAdMonetagBtn" style="width:100%;margin-top:10px" onclick="watchRewardAd('task_monetag')">Watch Ads</button></div><div class="card" style="margin-top:10px"><b>▶ Watch Ads</b><div class="muted">Earn 3 Coins per completed ad • Task ads 10/day</div><div class="muted" id="taskAdAdsunCount">0/10</div><button id="taskAdAdsunBtn" style="width:100%;margin-top:10px" onclick="watchRewardAd('task_adsun')">Watch Ads</button></div></section>
+<section class="page" id="friends"><div class="sectionhead"><h2>👥 Invite Friends</h2></div><div class="card"><div class="muted">Your personal referral link</div><input id="refLink" readonly><div class="row"><button onclick="copyRef()">Copy Link</button><button class="secondary" onclick="shareRef()">Share</button></div></div><div class="card"><div class="muted">Total invited friends</div><h2 id="refCount">0</h2><div class="muted">Referral reward unlocks after your friend completes 10 valid ads.</div></div><div class="card"><b>Your Friends</b><div id="friendList" style="margin-top:10px"></div></div></section>
+<section class="page" id="withdraw">
+ <div class="sectionhead"><h2>💸 Withdraw</h2><span class="badge">1 Coin = $0.0001</span></div>
+ <div class="card" style="margin-bottom:12px"><div class="row"><div><div class="muted">MINIMUM WITHDRAWAL</div><h2 style="margin:5px 0;color:var(--gold)">$0.10</h2><div class="muted">1,000 Coins required</div></div><div style="font-size:34px">💰</div></div></div>
+ <div class="note" id="wNote"></div>
+ <div class="card"><label class="muted">Payment Network</label><select id="wMethod"><option>USDT</option><option>TON</option></select><label class="muted">Wallet Address</label><input id="wAddr" placeholder="Enter wallet address"><label class="muted">Coins</label><input id="wCoins" type="number" min="1000" placeholder="Minimum 1,000 coins" oninput="calcUsd()"><div class="muted" id="wUsd">Estimated value: $0.0000</div><button id="wBtn" style="width:100%;margin-top:12px" onclick="doWithdraw()">Submit Withdrawal</button></div>
+ <div class="sectionhead"><h2>Withdrawal History</h2><span class="badge" id="withdrawCount">0 Requests</span></div><div id="withdrawHistory"></div>
+ <div class="sectionhead"><h2>✅ Recent Payment Proofs</h2><span class="muted">Latest paid withdrawals</span></div><div id="paymentProofs"></div>
+</section>
+<section class="page" id="profile"><div class="sectionhead"><h2>👤 My Profile</h2></div><div class="card"><h2 id="pName">User</h2><p class="muted" id="pId"></p><div class="row" style="margin-top:16px"><span class="muted">Coin Balance</span><b id="pCoins">0</b></div><div class="row"><span class="muted">Referrals</span><b id="pRefs">0</b></div><div class="row"><span class="muted">Tasks Completed</span><b id="pTasks">0</b></div><div class="row"><span class="muted">Lessons Completed</span><b id="pLessons">0/5</b></div></div><div class="note">Crypto assets are volatile. RR Crypto Earning educational content is not financial advice. Never share wallet seed phrases or private keys.</div></section>
+</main>
+<nav id="nav"><button class="active" data-page="home"><span>🏠</span>Home</button><button data-page="learn"><span>📚</span>Learn</button><button data-page="games"><span>🎮</span>Games</button><button data-page="leaderboard"><span>🏆</span>Ranks</button><button data-page="friends"><span>👥</span>Invite</button><button data-page="profile"><span>👤</span>Profile</button></nav>
 <script>
 'use strict';
 const tg=window.Telegram&&window.Telegram.WebApp?window.Telegram.WebApp:null;if(tg){tg.ready();tg.expand();}
-const initData=tg?tg.initData:'';const API_URL='https://script.google.com/macros/s/AKfycbwSwTVl66AoEua1fAgmymSw4BhT6cUN6B7ffBr7OsDis5SQFXJlFmS0mK-FKy1N8tJD/exec';
+const initData=tg?tg.initData:'';const API_URL='https://script.google.com/macros/s/AKfycbxPwo-McsKuAjxWbgL30ofnGjO4ExZ85wq7TRgGs2u6AJFgOcd4L_eWuxlpQAQwkd_s/exec';
 let adBusy=false,S=null,collectTimer=null,currentLesson=null,quizAnswers=[],coinChallenge=null,mathChallenge=null;
 let memoryCards=[],memoryOpen=[],memoryMatched=[];
 const $=id=>document.getElementById(id),esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -78,24 +91,19 @@ function render(){
 }
 
 /* ---------- ADS ---------- */
-function waitFor(fn,ms){return new Promise(res=>{const t=Date.now();(function p(){if(fn()||Date.now()-t>ms)return res();setTimeout(p,100)})()})}
 async function showAd(provider,ymid){
- if(provider==='adsun'){await waitFor(()=>window.Adsun,4000);if(!window.Adsun)throw new Error('Ad is not available right now.');const ctl=window.Adsun.init({blockId:'50269',debug:false,debugConsole:false});const r=await ctl.show();if(!r||r.done!==true)throw new Error('Ad was not completed. No reward given.');return;}
- await waitFor(()=>typeof window.show_12281843==='function',4000);
+ if(provider==='adsun'){if(!window.Adsun)throw new Error('Ad is not available right now.');const ctl=window.Adsun.init({blockId:'50269',debug:false,debugConsole:false});const r=await ctl.show();if(!r||r.done!==true)throw new Error('Ad was not completed. No reward given.');return;}
  if(typeof window.show_12281843!=='function')throw new Error('Ad is loading. Please try again.');
  const e=await window.show_12281843({ymid:ymid,requestVar:'rr'});
  if(e&&e.reward_event_type==='not_valued')throw new Error('Ad was not completed. No reward given.');
 }
 async function adGate(placement,action,payload){const st=await call('startAd',{placement});await showAd('monetag',st.ymid);return call(action,Object.assign({adId:st.ymid},payload||{}));}
-let adCdUntil=0,adCdTimer=null,adPre={},adPreFail={};
+let adCdUntil=0,adCdTimer=null;
 function adCooldown(ms){adCdUntil=Date.now()+ms;clearInterval(adCdTimer);adCdTimer=setInterval(()=>{if(Date.now()>=adCdUntil)clearInterval(adCdTimer);if(S)renderAds();},500);if(S)renderAds();}
-function prefetchAd(pl){if((adPre[pl]&&Date.now()-adPre[pl].t<780000)||Date.now()-(adPreFail[pl]||0)<30000)return;adPre[pl]={t:Date.now(),p:call('startAd',{placement:pl}).catch(()=>{delete adPre[pl];adPreFail[pl]=Date.now();return null;})};}
 async function watchRewardAd(placement='home_monetag'){
  if(adBusy||Date.now()<adCdUntil)return;adBusy=true;const btn=placement==='home_monetag'?$('watchAdBtn'):placement==='task_monetag'?$('taskAdMonetagBtn'):$('taskAdAdsunBtn');if(btn){btn.disabled=true;btn.textContent='Loading ad…';}
  try{
-  let st=null;const pre=adPre[placement];delete adPre[placement];
-  if(pre&&Date.now()-pre.t<780000)st=await pre.p;
-  if(!st)st=await call('startAd',{placement});
+  const st=await call('startAd',{placement});
   await showAd(placement==='task_adsun'?'adsun':'monetag',st.ymid);
   const rw=(S&&S.cfg&&S.cfg.adReward)||3,key=placement==='home_monetag'?'homeMonetag':placement==='task_monetag'?'taskMonetag':'taskAdsun';
   toast('Ad completed! +'+rw+' Coins');$('adMessage').textContent='Ad completed. +'+rw+' Coins added.';
@@ -110,7 +118,6 @@ function renderAds(){
  if(S.adWaitMs>0){const w=S.adWaitMs;S.adWaitMs=0;adCooldown(w+1000);return;}
  const A=S.ads||{},left=Math.ceil((adCdUntil-Date.now())/1000),set=(n,b,t)=>{if(!b)return;if(n>=10){b.disabled=true;b.textContent='Daily limit reached';}else if(left>0){b.disabled=true;b.textContent='Wait '+left+'s';}else{b.disabled=adBusy;if(!adBusy)b.textContent=t;}};
  set(A.homeMonetag||0,$('watchAdBtn'),'Watch Ad');set(A.taskMonetag||0,$('taskAdMonetagBtn'),'Watch Ads');set(A.taskAdsun||0,$('taskAdAdsunBtn'),'Watch Ads');
- if(left<=0&&!adBusy&&!document.hidden){const pg=(document.querySelector('.page.active')||{}).id;if(pg==='home'&&(A.homeMonetag||0)<10)prefetchAd('home_monetag');if(pg==='tasks'){if((A.taskMonetag||0)<10)prefetchAd('task_monetag');if((A.taskAdsun||0)<10)prefetchAd('task_adsun');}}
 }
 
 /* ---------- CLAIM POPUP ---------- */
@@ -129,8 +136,7 @@ function renderCollecting(){const c=S.collecting||{},btn=$('collectBtn'),rw=S.cf
 async function collectAction(){if(adBusy)return;adBusy=true;const b=$('collectBtn');b.disabled=true;const claim=S.collecting&&S.collecting.ready;
  try{S=await adGate(claim?'gate_mining_claim':'gate_mining_start',claim?'claimCollecting':'startCollecting');render();toast(claim?S.cfg.collectReward+' Coins added!':'Mining started!');}
  catch(e){toast((e&&e.message)||'Ad was not completed. No reward given.');b.disabled=false;}finally{adBusy=false;}}
-
-/* ---------- QUIZ ---------- */
+ /* ---------- QUIZ ---------- */
 function renderQuiz(){if(S.quizDone){$('quizStatus').textContent='Completed today';$('quizArea').innerHTML='<div class="card">You have completed today’s quiz. Come back tomorrow! 🎉</div>';$('quizSubmit').disabled=true;return;}$('quizSubmit').disabled=false;quizAnswers=[];$('quizStatus').textContent='5 Questions';$('quizArea').innerHTML=(S.quiz||[]).map((q,i)=>`<div class="question"><b>${i+1}. ${esc(q.q)}</b>${q.a.map((a,j)=>`<button class="option" data-q="${i}" data-a="${j}">${esc(a)}</button>`).join('')}</div>`).join('');$('quizArea').querySelectorAll('.option').forEach(b=>b.addEventListener('click',()=>{const q=Number(b.dataset.q),a=Number(b.dataset.a);quizAnswers[q]=a;$('quizArea').querySelectorAll(`[data-q="${q}"]`).forEach(x=>x.classList.toggle('selected',x===b));}));}
 async function submitQuiz(){if(quizAnswers.length!==5||quizAnswers.some(x=>x===undefined)){toast('Answer all 5 questions first.');return;}try{const r=await call('submitQuiz',{answers:quizAnswers});S=r.state;render();$('quizArea').innerHTML=`<div class="card"><h2>Quiz completed 🎉</h2><p style="margin-top:8px">Your score: <b>${r.score}/${r.total}</b></p><p class="muted" style="margin-top:8px">You earned ${r.score} Coins.</p></div>`;$('quizSubmit').disabled=true;}catch(e){toast(e.message);}}
 
@@ -156,115 +162,18 @@ async function submitMathAnswer(index){$('mathOptions').querySelectorAll('button
 async function claimMath(cid){if(adBusy)return false;adBusy=true;try{S=await adGate('gate_math','claimMathChallenge',{challengeId:cid});render();$('mathStatus').textContent='+'+S.cfg.mathReward+' Coins claimed! Start a new challenge.';toast('+'+S.cfg.mathReward+' Coins claimed!');return true;}catch(e){toast((e&&e.message)||'Ad was not completed. No reward given.');return false;}finally{adBusy=false;}}
 
 /* ---------- LEADERBOARD / MISC ---------- */
-function renderLeaderboard(){if(!S)return;const list=S.leaderboard||[];$('leaderList').innerHTML=list.length?list.map((x
-<script>
-'use strict';
-const tg=window.Telegram&&window.Telegram.WebApp?window.Telegram.WebApp:null;if(tg){tg.ready();tg.expand();}
-const initData=tg?tg.initData:'';const API_URL='https://script.google.com/macros/s/AKfycbynR4N3viToXOKgOPjhaVr1nW9ALp16R9zi5JQaSvKAsusqw3R8TuQiNnbmi_iFlivYFA/exec';
-let adBusy=false,S=null,collectTimer=null,currentLesson=null,quizAnswers=[],coinChallenge=null,mathChallenge=null;
-let memoryCards=[],memoryOpen=[],memoryMatched=[];
-const $=id=>document.getElementById(id),esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function browserToken(){if(initData)return '';const k='RR_EARNING_SESSION';let t='';try{t=localStorage.getItem(k)||'';}catch(e){}if(t.length<20){t=(crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random().toString(36).slice(2))+Math.random().toString(36).slice(2);try{localStorage.setItem(k,t);}catch(e){}}return t;}
-const token=browserToken();
-function toast(m){const e=$('toast');e.textContent=m;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',3200);}
-async function call(action,payload={}){const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action,initData,payload:Object.assign({browserToken:token},payload)})});const j=await r.json();if(!j.ok)throw new Error(j.error||'Request failed');return j.data;}
-function go(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));if(id==='quiz')renderQuiz();if(id==='leaderboard')renderLeaderboard();if(id==='withdraw')refresh();}
-document.querySelectorAll('#nav button').forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
-document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
-
-function render(){
- $('welcomeName').textContent='Welcome, '+(S.name||'Crypto Explorer')+' 👋';$('headAvatar').textContent=(S.name||'RR').slice(0,2).toUpperCase();
- $('hCoins').innerHTML=Number(S.coins||0).toLocaleString()+' <small>COINS</small>';$('hUsd').textContent='Estimated value $'+Number(S.usd||0).toFixed(4);
- $('hRefs').textContent='👥 '+Number(S.referrals||0)+' Referrals';$('hLessons').textContent='📚 '+(S.completedLessons||[]).length+'/5 Lessons';$('hTasks').textContent=S.tasksDone||0;
- const myRank=(S.leaderboard||[]).find(x=>x.id===S.id);$('hScore').textContent=myRank?myRank.score:0;
- $('taskList').innerHTML=(S.channels||[]).map(c=>`<div class="card"><div class="row"><div><b>${esc(c.name)}</b><div class="muted">Reward: ${c.reward} Coins</div></div>${c.done?'<span class="badge">Claimed</span>':`<button onclick="openChannel('${esc(c.url)}')">Join</button>`}</div>${c.done?'':`<button class="secondary" style="width:100%;margin-top:9px" onclick="claimTask(${c.index})">Verify & Claim</button>`}</div>`).join('');
- $('adCounter').textContent=(S.ads?.homeMonetag||0)+'/10 ads today';$('taskAdMonetagCount').textContent=(S.ads?.taskMonetag||0)+'/10 ads today';$('taskAdAdsunCount').textContent=(S.ads?.taskAdsun||0)+'/10 ads today';$('refLink').value=S.refLink||'';$('refCount').textContent=S.referrals||0;
- $('friendList').innerHTML=(S.friends||[]).length?S.friends.map(f=>`<div class="item"><b>${esc(f.username?'@'+f.username:f.name)}</b><div class="small">ID: ${esc(f.id)} • Ads watched: ${f.adsWatched||0}/10</div>${f.claimed?'<span class="badge">Reward claimed</span>':f.eligible?`<button style="margin-top:8px" onclick="claimReferral('${esc(f.id)}')">🔓 Unlocked — Claim ${S.cfg.refReward} Coins</button>`:'<span class="muted">Friend must join both channels and watch 10 valid ads to unlock</span>'}</div>`).join(''):'<div class="muted">No invited friends yet.</div>';
- $('pName').textContent=S.name||'User';$('pId').textContent='Telegram ID: '+S.id;$('pCoins').textContent=Number(S.coins||0).toLocaleString();$('pRefs').textContent=S.referrals||0;$('pTasks').textContent=S.tasksDone||0;$('pLessons').textContent=(S.completedLessons||[]).length+'/5';
- $('withdrawCount').textContent=(S.history||[]).length+' Requests';
- $('withdrawHistory').innerHTML=(S.history||[]).length?S.history.map(h=>`<div class="card" style="margin-bottom:9px"><div class="row"><div><b>${esc(h.method)} • ${Number(h.coins).toLocaleString()} Coins</b><div class="muted">${esc(h.time)} • $${Number(h.usd||0).toFixed(4)}</div></div><span class="badge">${esc(h.status)}</span></div></div>`).join(''):'<div class="muted">No withdrawal history yet.</div>';
- $('paymentProofs').innerHTML=(S.paymentProofs||[]).length?S.paymentProofs.map(p=>`<div class="card" style="margin-bottom:9px"><div class="row"><div><b>✅ ${esc(p.name)}</b><div class="muted">${esc(p.method)} • ${Number(p.coins).toLocaleString()} Coins • ${esc(p.time)}</div></div><b style="color:var(--green)">$${Number(p.usd||0).toFixed(4)}</b></div></div>`).join(''):'<div class="muted">No payment proofs yet. Completed payments will appear here.</div>';
- $('wNote').textContent='Minimum withdrawal: $0.10 (1,000 Coins). Each Coin = $0.0001.';
- $('adminBox').style.display=S.isAdmin?'block':'none';renderCollecting();renderLeaderboard();renderAds();renderLessons();calcUsd();
-}
-
-/* ---------- ADS ---------- */
-function waitFor(fn,ms){return new Promise(res=>{const t=Date.now();(function p(){if(fn()||Date.now()-t>ms)return res();setTimeout(p,100)})()})}
-async function showAd(provider,ymid){
- if(provider==='adsun'){await waitFor(()=>window.Adsun,4000);if(!window.Adsun)throw new Error('Ad is not available right now.');const ctl=window.Adsun.init({blockId:'50269',debug:false,debugConsole:false});const r=await ctl.show();if(!r||r.done!==true)throw new Error('Ad was not completed. No reward given.');return;}
- await waitFor(()=>typeof window.show_12281843==='function',4000);
- if(typeof window.show_12281843!=='function')throw new Error('Ad is loading. Please try again.');
- const e=await window.show_12281843({ymid:ymid,requestVar:'rr'});
- if(e&&e.reward_event_type==='not_valued')throw new Error('Ad was not completed. No reward given.');
-}
-async function adGate(placement,action,payload){const st=await call('startAd',{placement});await showAd('monetag',st.ymid);return call(action,Object.assign({adId:st.ymid},payload||{}));}
-let adCdUntil=0,adCdTimer=null,adPre={},adPreFail={};
-function adCooldown(ms){adCdUntil=Date.now()+ms;clearInterval(adCdTimer);adCdTimer=setInterval(()=>{if(Date.now()>=adCdUntil)clearInterval(adCdTimer);if(S)renderAds();},500);if(S)renderAds();}
-function prefetchAd(pl){if((adPre[pl]&&Date.now()-adPre[pl].t<780000)||Date.now()-(adPreFail[pl]||0)<30000)return;adPre[pl]={t:Date.now(),p:call('startAd',{placement:pl}).catch(()=>{delete adPre[pl];adPreFail[pl]=Date.now();return null;})};}
-async function watchRewardAd(placement='home_monetag'){
- if(adBusy||Date.now()<adCdUntil)return;adBusy=true;const btn=placement==='home_monetag'?$('watchAdBtn'):placement==='task_monetag'?$('taskAdMonetagBtn'):$('taskAdAdsunBtn');if(btn){btn.disabled=true;btn.textContent='Loading ad…';}
- try{
-  let st=null;const pre=adPre[placement];delete adPre[placement];
-  if(pre&&Date.now()-pre.t<780000)st=await pre.p;
-  if(!st)st=await call('startAd',{placement});
-  await showAd(placement==='task_adsun'?'adsun':'monetag',st.ymid);
-  const rw=(S&&S.cfg&&S.cfg.adReward)||3,key=placement==='home_monetag'?'homeMonetag':placement==='task_monetag'?'taskMonetag':'taskAdsun';
-  toast('Ad completed! +'+rw+' Coins');$('adMessage').textContent='Ad completed. +'+rw+' Coins added.';
-  if(S){S.coins=Number(S.coins||0)+rw;S.usd=S.coins*0.0001;S.ads=S.ads||{};S.ads[key]=(S.ads[key]||0)+1;adCooldown(16000);}
-  try{S=await call('completeAd',{ymid:st.ymid});}
-  catch(e){const m=(e&&e.message)||'';if(/already used/i.test(m)){S=await call('init');}else{S=await call('init');throw e;}}
- }
- catch(e){const m=(e&&e.message)||'Ad was not completed. No reward given.';$('adMessage').textContent=m;toast(m);}
- finally{adBusy=false;if(S)render();}
-}
-function renderAds(){
- if(S.adWaitMs>0){const w=S.adWaitMs;S.adWaitMs=0;adCooldown(w+1000);return;}
- const A=S.ads||{},left=Math.ceil((adCdUntil-Date.now())/1000),set=(n,b,t)=>{if(!b)return;if(n>=10){b.disabled=true;b.textContent='Daily limit reached';}else if(left>0){b.disabled=true;b.textContent='Wait '+left+'s';}else{b.disabled=adBusy;if(!adBusy)b.textContent=t;}};
- set(A.homeMonetag||0,$('watchAdBtn'),'Watch Ad');set(A.taskMonetag||0,$('taskAdMonetagBtn'),'Watch Ads');set(A.taskAdsun||0,$('taskAdAdsunBtn'),'Watch Ads');
- if(left<=0&&!adBusy&&!document.hidden){const pg=(document.querySelector('.page.active')||{}).id;if(pg==='home'&&(A.homeMonetag||0)<10)prefetchAd('home_monetag');if(pg==='tasks'){if((A.taskMonetag||0)<10)prefetchAd('task_monetag');if((A.taskAdsun||0)<10)prefetchAd('task_adsun');}}
-}
-
-/* ---------- CLAIM POPUP ---------- */
-function openClaim(title,text,fn){$('claimTitle').textContent=title;$('claimText').textContent=text;const b=$('claimBtn');b.disabled=false;b.onclick=async()=>{b.disabled=true;const ok=await fn();if(ok)closeClaim();else b.disabled=false;};$('claimModal').style.display='flex';}
-function closeClaim(){$('claimModal').style.display='none';}
-
-/* ---------- LESSONS ---------- */
-function renderLessons(){const done=S.completedLessons||[],cl=S.claimedLessons||[];$('lessonList').innerHTML=(S.lessons||[]).map((l,i)=>`<div class="card lesson"><div class="lessonicon">${['₿','⛓️','🔗','🔐','💵'][i]}</div><div style="flex:1"><b>${esc(l.title)}</b><p class="muted" style="margin:5px 0 9px">${esc(l.desc)}</p><button class="secondary" onclick="openLesson('${esc(l.id)}')">${done.includes(l.id)?'Review Lesson':'Open Lesson'}</button> ${cl.includes(l.id)?'<span class="badge">Reward claimed</span>':done.includes(l.id)?`<button onclick="claimLesson('${esc(l.id)}')">Claim ${S.cfg.lessonReward} Coins</button>`:''}</div></div>`).join('');}
-function openLesson(id){currentLesson=(S.lessons||[]).find(x=>x.id===id);if(!currentLesson)return;$('lessonTitle').textContent=currentLesson.title;$('lessonBody').textContent=currentLesson.body;$('lessonDone').disabled=(S.completedLessons||[]).includes(id);$('lessonDone').textContent=$('lessonDone').disabled?'Completed':'Complete Lesson';go('lessonDetail');}
-async function completeLesson(){const id=currentLesson.id;try{S=await call('completeLesson',{lessonId:id});render();go('learn');openClaim('Lesson completed! 🎉','Watch a short ad to claim '+S.cfg.lessonReward+' Coins.',()=>claimLesson(id));}catch(e){toast(e.message);}}
-async function claimLesson(id){if(adBusy)return false;adBusy=true;try{S=await adGate('gate_lesson','claimLesson',{lessonId:id});render();toast('+'+S.cfg.lessonReward+' Coins claimed!');return true;}catch(e){toast((e&&e.message)||'Ad was not completed. No reward given.');return false;}finally{adBusy=false;}}
-
-/* ---------- MINING ---------- */
-function fmt(ms){let n=Math.max(0,Math.floor(ms/1000));return [Math.floor(n/3600),Math.floor(n%3600/60),n%60].map(x=>String(x).padStart(2,'0')).join(':');}
-function renderCollecting(){const c=S.collecting||{},btn=$('collectBtn'),rw=S.cfg.collectReward;clearInterval(collectTimer);if(!c.startedAt){$('collectLabel').textContent='24 HOURS';$('collectTime').textContent='24:00:00';$('collectStatus').textContent='Ready to start';$('collectInfo').textContent='Watch an ad to start mining. Return after 24 hours to claim '+rw+' Coins.';btn.disabled=false;btn.textContent='Start Mining';return;}if(c.ready){$('collectLabel').textContent='COMPLETED';$('collectTime').textContent='00:00:00';$('collectStatus').textContent='Coins are ready!';$('collectInfo').textContent='Watch an ad to claim your '+rw+' Coins.';btn.disabled=false;btn.textContent='Claim '+rw+' Coins';return;}btn.disabled=true;btn.textContent='Mining…';$('collectLabel').textContent='TIME LEFT';$('collectStatus').textContent='Mining in progress';const end=Date.now()+Number(c.remainingMs||0);const tick=()=>{const left=end-Date.now();$('collectTime').textContent=fmt(left);if(left<=0){clearInterval(collectTimer);refresh();}};tick();collectTimer=setInterval(tick,1000);}
-async function collectAction(){if(adBusy)return;adBusy=true;const b=$('collectBtn');b.disabled=true;const claim=S.collecting&&S.collecting.ready;
- try{S=await adGate(claim?'gate_mining_claim':'gate_mining_start',claim?'claimCollecting':'startCollecting');render();toast(claim?S.cfg.collectReward+' Coins added!':'Mining started!');}
- catch(e){toast((e&&e.message)||'Ad was not completed. No reward given.');b.disabled=false;}finally{adBusy=false;}}
-
-/* ---------- QUIZ ---------- */
-function renderQuiz(){if(S.quizDone){$('quizStatus').textContent='Completed today';$('quizArea').innerHTML='<div class="card">You have completed today’s quiz. Come back tomorrow! 🎉</div>';$('quizSubmit').disabled=true;return;}$('quizSubmit').disabled=false;quizAnswers=[];$('quizStatus').textContent='5 Questions';$('quizArea').innerHTML=(S.quiz||[]).map((q,i)=>`<div class="question"><b>${i+1}. ${esc(q.q)}</b>${q.a.map((a,j)=>`<button class="option" data-q="${i}" data-a="${j}">${esc(a)}</button>`).join('')}</div>`).join('');$('quizArea').querySelectorAll('.option').forEach(b=>b.addEventListener('click',()=>{const q=Number(b.dataset.q),a=Number(b.dataset.a);quizAnswers[q]=a;$('quizArea').querySelectorAll(`[data-q="${q}"]`).forEach(x=>x.classList.toggle('selected',x===b));}));}
-async function submitQuiz(){if(quizAnswers.length!==5||quizAnswers.some(x=>x===undefined)){toast('Answer all 5 questions first.');return;}try{const r=await call('submitQuiz',{answers:quizAnswers});S=r.state;render();$('quizArea').innerHTML=`<div class="card"><h2>Quiz completed 🎉</h2><p style="margin-top:8px">Your score: <b>${r.score}/${r.total}</b></p><p class="muted" style="margin-top:8px">You earned ${r.score} Coins.</p></div>`;$('quizSubmit').disabled=true;}catch(e){toast(e.message);}}
-
-/* ---------- FIND CORRECT COIN ---------- */
-async function startCoinGame(){$('targetCoin').textContent='…';$('gameResult').textContent='Loading…';$('coinChoices').innerHTML='';go('coinGame');try{coinChallenge=await call('newCoinChallenge');$('targetCoin').textContent=coinChallenge.target;$('gameResult').textContent='';$('coinChoices').innerHTML=coinChallenge.options.map((x,i)=>`<button class="coin" data-index="${i}">${x}</button>`).join('');$('coinChoices').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>playCoin(Number(b.dataset.index))));}catch(e){$('gameResult').textContent=e.message;}}
-async function playCoin(answer){$('coinChoices').querySelectorAll('button').forEach(b=>b.disabled=true);
- try{const cid=coinChallenge.challengeId,r=await call('submitCoinChallenge',{challengeId:cid,answer});S=r.state;render();
-  if(r.correct){$('gameResult').textContent='Correct! 🎉 Claim your coins.';openClaim('Correct answer! 🎉','Watch a short ad to claim '+r.score+' Coins.',()=>claimCoin(cid));}
-  else $('gameResult').textContent='Not correct. Try a new round.';}catch(e){$('gameResult').textContent=e.message;}}
-async function claimCoin(cid){if(adBusy)return false;adBusy=true;try{S=await adGate('gate_math','claimMathChallenge',{challengeId:cid});render();$('gameResult').textContent='+'+S.cfg.mathReward+' Coins claimed! Start a new round.';toast('+'+S.cfg.mathReward+' Coins claimed!');return true;}catch(e){toast((e&&e.message)||'Ad was not completed. No reward given.');return false;}finally{adBusy=false;}}
-
-/* ---------- MEMORY MATCH ---------- */
-function startMemoryGame(){const deck=['₿','₿','Ξ','Ξ','◎','◎','Ł','Ł'];memoryCards=deck.sort(()=>Math.random()-.5);memoryOpen=[];memoryMatched=[];$('memoryStatus').textContent='Find all four pairs.';$('memoryBoard').innerHTML=memoryCards.map((x,i)=>`<button class="coin" data-card="${i}" onclick="flipMemory(${i})">?</button>`).join('');go('memoryGame');}
-function flipMemory(i){if(memoryOpen.includes(i)||memoryMatched.includes(i)||memoryOpen.length===2)return;memoryOpen.push(i);drawMemory();if(memoryOpen.length===2){if(memoryCards[memoryOpen[0]]===memoryCards[memoryOpen[1]]){memoryMatched.push(...memoryOpen);memoryOpen=[];drawMemory();if(memoryMatched.length===memoryCards.length){$('memoryStatus').textContent='All pairs matched! Saving your reward…';call('recordMiniGame',{game:'Memory Match',score:5}).then(s=>{S=s;render();$('memoryStatus').textContent='Completed! +5 Coins. You can earn once per day.';}).catch(e=>$('memoryStatus').textContent=e.message);}}else setTimeout(()=>{memoryOpen=[];drawMemory();},750);}}
-function drawMemory(){document.querySelectorAll('[data-card]').forEach(b=>{const i=Number(b.dataset.card);b.textContent=(memoryMatched.includes(i)||memoryOpen.includes(i))?memoryCards[i]:'?';b.disabled=memoryMatched.includes(i);});}
-
-/* ---------- MATH CHALLENGE ---------- */
-async function startMathGame(){$('mathPrompt').textContent='Loading…';$('mathOptions').innerHTML='';$('mathStatus').textContent='';go('mathGame');try{mathChallenge=await call('newMathChallenge');$('mathPrompt').textContent=mathChallenge.question;$('mathStatus').textContent='Choose the correct answer.';$('mathOptions').innerHTML=mathChallenge.options.map((x,i)=>`<button class="coin" onclick="submitMathAnswer(${i})">${esc(x)}</button>`).join('');}catch(e){$('mathStatus').textContent=e.message;}}
-async function submitMathAnswer(index){$('mathOptions').querySelectorAll('button').forEach(b=>b.disabled=true);
- try{const cid=mathChallenge.challengeId,r=await call('submitMathChallenge',{challengeId:cid,answer:index});S=r.state;render();
-  if(r.correct){$('mathStatus').textContent='Correct! 🎉 Claim your coins.';openClaim('Correct answer! 🎉','Watch a short ad to claim '+r.score+' Coins.',()=>claimMath(cid));}
-  else $('mathStatus').textContent='Incorrect answer. Try a new challenge.';}catch(e){$('mathStatus').textContent=e.message;}}
-async function claimMath(cid){if(adBusy)return false;adBusy=true;try{S=await adGate('gate_math','claimMathChallenge',{challengeId:cid});render();$('mathStatus').textContent='+'+S.cfg.mathReward+' Coins claimed! Start a new challenge.';toast('+'+S.cfg.mathReward+' Coins claimed!');return true;}catch(e){toast((e&&e.message)||'Ad was not completed. No reward given.');return false;}finally{adBusy=false;}}
-
-/* ---------- LEADERBOARD / MISC ---------- */
-function renderLeaderboard(){if(!S)return;const list=S.leaderboard||[];$('leaderList').innerHTML=list.length?list.map((x                                                                                                                      
+function renderLeaderboard(){if(!S)return;const list=S.leaderboard||[];$('leaderList').innerHTML=list.length?list.map((x,i)=>`<div class="rank"><div class="ranknum">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</div><div><b>${esc(x.name||'Player')}</b><div class="small">${esc(x.id===S.id?'You':'Player')}</div></div><b>${Number(x.score)} pts</b></div>`).join(''):'<div class="card muted">No game scores yet. You could be the first winner!</div>';
+ $('prizeList').innerHTML=(S.prizes||[]).length?S.prizes.map(p=>`<div class="item"><b>🏆 ${esc(p.note||'Winner Prize')}</b><div class="muted">Winner: ${esc(p.winner)} • ${p.coins} Coins • ${esc(p.time)}</div></div>`).join(''):'<div class="muted">No winner has been announced yet.</div>';}
+async function awardPrize(){try{S=await call('adminAwardPrize',{winnerId:$('winnerId').value.trim(),coins:$('prizeCoins').value,note:$('prizeNote').value.trim()||'Winner Prize'});render();$('winnerId').value='';$('prizeCoins').value='';$('prizeNote').value='';toast('One Winner Prize awarded successfully.');}catch(e){toast(e.message);}}
+function openChannel(url){if(tg&&tg.openTelegramLink)tg.openTelegramLink(url);else window.open(url,'_blank');}
+async function claimTask(i){try{S=await call('claimTask',{index:i});render();toast('Task reward added!');}catch(e){toast(e.message);}}
+async function claimReferral(id){if(adBusy)return;adBusy=true;try{S=await adGate('gate_referral','claimReferral',{friendId:id});render();toast('Referral Coins added!');}catch(e){toast((e&&e.message)||'Ad was not completed. No reward given.');}finally{adBusy=false;}}
+function copyRef(){const v=$('refLink');v.select();try{document.execCommand('copy');toast('Referral link copied!');}catch(e){toast('Copy not supported');}}
+function shareRef(){const url='https://t.me/share/url?url='+encodeURIComponent(S.refLink)+'&text='+encodeURIComponent('Join RR Crypto Earning!');if(tg&&tg.openTelegramLink)tg.openTelegramLink(url);else window.open(url,'_blank');}
+function calcUsd(){if(!$('wUsd'))return;const rate=S&&S.cfg?Number(S.cfg.rate):0;$('wUsd').textContent='Estimated value: $'+((Number($('wCoins').value)||0)*rate).toFixed(4);}
+async function doWithdraw(){const b=$('wBtn');b.disabled=true;try{S=await call('withdraw',{method:$('wMethod').value,address:$('wAddr').value.trim(),coins:$('wCoins').value});render();$('wAddr').value='';$('wCoins').value='';toast('Withdrawal request submitted.');}catch(e){toast(e.message);}b.disabled=false;}
+async function refresh(){try{S=await call('init');render();}catch(e){toast(e.message);}}
+async function checkGate(){const st=$('gateStatus');st.textContent='Checking both channel memberships…';try{const r=await call('verifyChannels');if(!r.joined){st.textContent='Please join both channels and try again.';return false;}$('joinGate').style.display='none';S=await call('init');render();$('splash').style.display='none';return true;}catch(e){st.textContent=e.message||'Could not verify. Open inside Telegram.';return false;}}
+async function boot(){try{if(!initData){$('smsg').textContent='Open this Mini App inside Telegram.';$('splash').style.display='none';$('joinGate').style.display='flex';$('gateStatus').textContent='Telegram app session is required.';return;}const ok=await checkGate();if(!ok){$('splash').style.display='none';$('joinGate').style.display='flex';}}catch(e){$('smsg').innerHTML=esc(e.message)+'<br><br><button onclick="location.reload()">Retry</button>';}}
+boot();
+</script></body></html>
