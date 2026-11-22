@@ -46,7 +46,7 @@ nav{position:fixed;bottom:0;left:0;right:0;z-index:50;background:#0c1424f5;borde
 <section class="page" id="games"><div class="sectionhead"><h2>🎮 RR Mini Games</h2><span class="badge">Play & Learn</span></div><div class="card"><div class="row"><div><b>🔎 Find the Correct Coin</b><p class="muted" style="margin-top:5px">Find the target symbol and select the matching coin.</p></div><span style="font-size:28px">🪙</span></div><button style="width:100%;margin-top:13px" onclick="startCoinGame()">Play Now</button></div><div class="card"><b>🧠 Memory Match</b><p class="muted" style="margin:7px 0 12px">Match all crypto symbol pairs before time runs out.</p><button style="width:100%" onclick="startMemoryGame()">Play Memory Match</button></div><div class="card"><b>🧮 Math Challenge</b><p class="muted" style="margin:7px 0 12px">Solve a challenging math question. Each round is validated by the server.</p><button style="width:100%" onclick="startMathGame()">Play Math Challenge</button></div></section>
 <section class="page" id="coinGame"><button class="secondary" onclick="go('games')">← Games</button><div class="card" style="margin-top:12px;text-align:center"><div class="eyebrow">FIND THE CORRECT COIN</div><h2 style="margin:12px 0">Find This Symbol</h2><div class="target" id="targetCoin">₿</div><div class="muted" style="margin-top:8px">Select the correct symbol from the six options below.</div><div class="coinchoices" id="coinChoices"></div><div id="gameResult" class="muted" aria-live="polite"></div><button class="secondary" style="width:100%;margin-top:12px" onclick="startCoinGame()">New Round</button></div></section>
 <section class="page" id="memoryGame"><button class="secondary" onclick="go('games')">← Games</button><div class="card" style="margin-top:12px"><h2>Memory Match</h2><p class="muted">Match all pairs. Complete the board to earn up to 5 Coins once per day.</p><div id="memoryBoard" class="coinchoices"></div><div id="memoryStatus" class="muted"></div></div></section><section class="page" id="mathGame"><button class="secondary" onclick="go('games')">← Games</button><div class="card" style="margin-top:12px"><h2>Math Challenge</h2><p class="muted" id="mathPrompt">Get a new challenge.</p><div id="mathOptions" class="coinchoices"></div><div id="mathStatus" class="muted" style="margin-top:10px"></div><button class="secondary" style="width:100%;margin-top:12px" onclick="startMathGame()">New Challenge</button></div></section><section class="page" id="quiz"><div class="sectionhead"><h2>🧠 Daily Crypto Quiz</h2><span class="badge" id="quizStatus">Daily</span></div><div id="quizArea"></div><button id="quizSubmit" style="width:100%" onclick="submitQuiz()">Submit Answers</button></section>
-<section class="page" id="leaderboard"><div class="sectionhead"><h2>🏆 Leaderboard</h2><span class="muted">Game points</span></div><div class="winner"><div class="eyebrow">🏆 ONE WINNER PRIZE</div><b>Winner Prize</b><p class="muted" style="margin-top:6px">The admin decides the prize amount in Coins. The prize appears only after the winner is officially announced.</p></div><div id="leaderList"></div><div class="sectionhead"><h2>🎁 Winner Announcements</h2></div><div id="prizeList" class="card"><div class="muted">No winner has been announced yet.</div></div><div id="adminBox" style="display:none" class="card"><h3>Admin — Award Winner Prize</h3><p class="muted" style="margin:7px 0">Select one winner and award the number of Coins you choose.</p><label class="muted">Winner Telegram User ID</label><input id="winnerId" placeholder="Winner user ID"><label class="muted">Prize Coins</label><input id="prizeCoins" type="number" min="1" placeholder="Enter the prize amount in Coins"><label class="muted">Announcement note</label><input id="prizeNote" placeholder="Winner Prize"><button style="width:100%" onclick="awardPrize()">Award One Prize</button></div></section>
+ <section class="page" id="leaderboard"><div class="sectionhead"><h2>🏆 Leaderboard</h2><span class="muted">Game points</span></div><div class="winner"><div class="eyebrow">🏆 ONE WINNER PRIZE</div><b>Winner Prize</b><p class="muted" style="margin-top:6px">The admin decides the prize amount in Coins. The prize appears only after the winner is officially announced.</p></div><div id="leaderList"></div><div class="sectionhead"><h2>🎁 Winner Announcements</h2></div><div id="prizeList" class="card"><div class="muted">No winner has been announced yet.</div></div><div id="adminBox" style="display:none" class="card"><h3>Admin — Award Winner Prize</h3><p class="muted" style="margin:7px 0">Select one winner and award the number of Coins you choose.</p><label class="muted">Winner Telegram User ID</label><input id="winnerId" placeholder="Winner user ID"><label class="muted">Prize Coins</label><input id="prizeCoins" type="number" min="1" placeholder="Enter the prize amount in Coins"><label class="muted">Announcement note</label><input id="prizeNote" placeholder="Winner Prize"><button style="width:100%" onclick="awardPrize()">Award One Prize</button></div></section>
 <section class="page" id="tasks"><div class="sectionhead"><h2>✅ Tasks</h2><span class="muted">Earn Coins</span></div><div class="note">Channel membership verification works only inside Telegram.</div><div id="taskList"></div><div class="card" style="margin-top:12px"><b>▶ Watch Ads</b><div class="muted">Earn 3 Coins per completed ad • Task ads 10/day</div><div class="muted" id="taskAdMonetagCount">0/10</div><button id="taskAdMonetagBtn" style="width:100%;margin-top:10px" onclick="watchRewardAd('task_monetag')">Watch Ads</button></div><div class="card" style="margin-top:10px"><b>▶ Watch Ads</b><div class="muted">Earn 3 Coins per completed ad • Task ads 10/day</div><div class="muted" id="taskAdAdsunCount">0/10</div><button id="taskAdAdsunBtn" style="width:100%;margin-top:10px" onclick="watchRewardAd('task_adsun')">Watch Ads</button></div></section>
 <section class="page" id="friends"><div class="sectionhead"><h2>👥 Invite Friends</h2></div><div class="card"><div class="muted">Your personal referral link</div><input id="refLink" readonly><div class="row"><button onclick="copyRef()">Copy Link</button><button class="secondary" onclick="shareRef()">Share</button></div></div><div class="card"><div class="muted">Total invited friends</div><h2 id="refCount">0</h2><div class="muted">Referral reward unlocks after your friend completes 10 valid ads.</div></div><div class="card"><b>Your Friends</b><div id="friendList" style="margin-top:10px"></div></div></section>
 <section class="page" id="withdraw">
@@ -63,7 +63,7 @@ nav{position:fixed;bottom:0;left:0;right:0;z-index:50;background:#0c1424f5;borde
 <script>
 'use strict';
 const tg=window.Telegram&&window.Telegram.WebApp?window.Telegram.WebApp:null;if(tg){tg.ready();tg.expand();}
-const initData=tg?tg.initData:'';const API_URL='https://script.google.com/macros/s/AKfycbyBILp1HIO7SyKVPreM2Jt9iLobpglqj5Jq950Cz4QOxgZ22ao5JciDwHUEzmU6eiyv/exec';
+const initData=tg?tg.initData:'';const API_URL='https://script.google.com/macros/s/AKfycbx__pm84wGCF4rhyvSmwLzvEhQn3u17mrY4q8al3qkPIajjIcwDD59NJTtS7Z9uHGVj/exec';
 let adBusy=false,S=null,collectTimer=null,currentLesson=null,quizAnswers=[],coinChallenge=null,mathChallenge=null;
 let memoryCards=[],memoryOpen=[],memoryMatched=[];
 const $=id=>document.getElementById(id),esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -92,29 +92,40 @@ function render(){
 }
 
 /* ---------- ADS ---------- */
+function waitFor(fn,ms){return new Promise(res=>{const t=Date.now();(function p(){if(fn()||Date.now()-t>ms)return res();setTimeout(p,100)})()})}
 async function showAd(provider,ymid){
- if(provider==='adsun'){if(!window.Adsun)throw new Error('Ad is not available right now.');const ctl=window.Adsun.init({blockId:'50269',debug:false,debugConsole:false});const r=await ctl.show();if(!r||r.done!==true)throw new Error('Ad was not completed. No reward given.');return;}
+ if(provider==='adsun'){await waitFor(()=>window.Adsun,4000);if(!window.Adsun)throw new Error('Ad is not available right now.');const ctl=window.Adsun.init({blockId:'50269',debug:false,debugConsole:false});const r=await ctl.show();if(!r||r.done!==true)throw new Error('Ad was not completed. No reward given.');return;}
+ await waitFor(()=>typeof window.show_12281843==='function',4000);
  if(typeof window.show_12281843!=='function')throw new Error('Ad is loading. Please try again.');
  const e=await window.show_12281843({ymid:ymid,requestVar:'rr'});
  if(e&&e.reward_event_type==='not_valued')throw new Error('Ad was not completed. No reward given.');
 }
 async function adGate(placement,action,payload){const st=await call('startAd',{placement});await showAd('monetag',st.ymid);return call(action,Object.assign({adId:st.ymid},payload||{}));}
+let adCdUntil=0,adCdTimer=null,adPre={},adPreFail={};
+function adCooldown(ms){adCdUntil=Date.now()+ms;clearInterval(adCdTimer);adCdTimer=setInterval(()=>{if(Date.now()>=adCdUntil)clearInterval(adCdTimer);if(S)renderAds();},500);if(S)renderAds();}
+function prefetchAd(pl){if((adPre[pl]&&Date.now()-adPre[pl].t<780000)||Date.now()-(adPreFail[pl]||0)<30000)return;adPre[pl]={t:Date.now(),p:call('startAd',{placement:pl}).catch(()=>{delete adPre[pl];adPreFail[pl]=Date.now();return null;})};}
 async function watchRewardAd(placement='home_monetag'){
- if(adBusy)return;adBusy=true;const btn=placement==='home_monetag'?$('watchAdBtn'):placement==='task_monetag'?$('taskAdMonetagBtn'):$('taskAdAdsunBtn');if(btn)btn.disabled=true;
+ if(adBusy||Date.now()<adCdUntil)return;adBusy=true;const btn=placement==='home_monetag'?$('watchAdBtn'):placement==='task_monetag'?$('taskAdMonetagBtn'):$('taskAdAdsunBtn');if(btn){btn.disabled=true;btn.textContent='Loading ad…';}
  try{
-  const st=await call('startAd',{placement});
+  let st=null;const pre=adPre[placement];delete adPre[placement];
+  if(pre&&Date.now()-pre.t<780000)st=await pre.p;
+  if(!st)st=await call('startAd',{placement});
   await showAd(placement==='task_adsun'?'adsun':'monetag',st.ymid);
-  const rw=(S&&S.cfg&&S.cfg.adReward)||3;
+  const rw=(S&&S.cfg&&S.cfg.adReward)||3,key=placement==='home_monetag'?'homeMonetag':placement==='task_monetag'?'taskMonetag':'taskAdsun';
   toast('Ad completed! +'+rw+' Coins');$('adMessage').textContent='Ad completed. +'+rw+' Coins added.';
-  if(S){S.coins=Number(S.coins||0)+rw;S.usd=S.coins*0.0001;render();}
+  if(S){S.coins=Number(S.coins||0)+rw;S.usd=S.coins*0.0001;S.ads=S.ads||{};S.ads[key]=(S.ads[key]||0)+1;adCooldown(16000);}
   try{S=await call('completeAd',{ymid:st.ymid});}
   catch(e){const m=(e&&e.message)||'';if(/already used/i.test(m)){S=await call('init');}else{S=await call('init');throw e;}}
  }
  catch(e){const m=(e&&e.message)||'Ad was not completed. No reward given.';$('adMessage').textContent=m;toast(m);}
  finally{adBusy=false;if(S)render();}
 }
-function renderAds(){const A=S.ads||{},set=(n,b,t)=>{if(!b)return;b.disabled=n>=10;b.textContent=n>=10?'Daily limit reached':t};
- set(A.homeMonetag||0,$('watchAdBtn'),'Watch Ad');set(A.taskMonetag||0,$('taskAdMonetagBtn'),'Watch Ads');set(A.taskAdsun||0,$('taskAdAdsunBtn'),'Watch Ads');}
+function renderAds(){
+ if(S.adWaitMs>0){const w=S.adWaitMs;S.adWaitMs=0;adCooldown(w+1000);return;}
+ const A=S.ads||{},left=Math.ceil((adCdUntil-Date.now())/1000),set=(n,b,t)=>{if(!b)return;if(n>=10){b.disabled=true;b.textContent='Daily limit reached';}else if(left>0){b.disabled=true;b.textContent='Wait '+left+'s';}else{b.disabled=adBusy;if(!adBusy)b.textContent=t;}};
+ set(A.homeMonetag||0,$('watchAdBtn'),'Watch Ad');set(A.taskMonetag||0,$('taskAdMonetagBtn'),'Watch Ads');set(A.taskAdsun||0,$('taskAdAdsunBtn'),'Watch Ads');
+ if(left<=0&&!adBusy&&!document.hidden){const pg=(document.querySelector('.page.active')||{}).id;if(pg==='home'&&(A.homeMonetag||0)<10)prefetchAd('home_monetag');if(pg==='tasks'){if((A.taskMonetag||0)<10)prefetchAd('task_monetag');if((A.taskAdsun||0)<10)prefetchAd('task_adsun');}}
+}
 
 /* ---------- CLAIM POPUP ---------- */
 function openClaim(title,text,fn){$('claimTitle').textContent=title;$('claimText').textContent=text;const b=$('claimBtn');b.disabled=false;b.onclick=async()=>{b.disabled=true;const ok=await fn();if(ok)closeClaim();else b.disabled=false;};$('claimModal').style.display='flex';}
@@ -138,7 +149,7 @@ function renderQuiz(){if(S.quizDone){$('quizStatus').textContent='Completed toda
 async function submitQuiz(){if(quizAnswers.length!==5||quizAnswers.some(x=>x===undefined)){toast('Answer all 5 questions first.');return;}try{const r=await call('submitQuiz',{answers:quizAnswers});S=r.state;render();$('quizArea').innerHTML=`<div class="card"><h2>Quiz completed 🎉</h2><p style="margin-top:8px">Your score: <b>${r.score}/${r.total}</b></p><p class="muted" style="margin-top:8px">You earned ${r.score} Coins.</p></div>`;$('quizSubmit').disabled=true;}catch(e){toast(e.message);}}
 
 /* ---------- FIND CORRECT COIN ---------- */
-async function startCoinGame(){try{coinChallenge=await call('newCoinChallenge');$('targetCoin').textContent=coinChallenge.target;$('gameResult').textContent='';$('coinChoices').innerHTML=coinChallenge.options.map((x,i)=>`<button class="coin" data-index="${i}">${x}</button>`).join('');$('coinChoices').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>playCoin(Number(b.dataset.index))));go('coinGame');}catch(e){toast(e.message);}}
+async function startCoinGame(){$('targetCoin').textContent='…';$('gameResult').textContent='Loading…';$('coinChoices').innerHTML='';go('coinGame');try{coinChallenge=await call('newCoinChallenge');$('targetCoin').textContent=coinChallenge.target;$('gameResult').textContent='';$('coinChoices').innerHTML=coinChallenge.options.map((x,i)=>`<button class="coin" data-index="${i}">${x}</button>`).join('');$('coinChoices').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>playCoin(Number(b.dataset.index))));}catch(e){$('gameResult').textContent=e.message;}}
 async function playCoin(answer){$('coinChoices').querySelectorAll('button').forEach(b=>b.disabled=true);
  try{const cid=coinChallenge.challengeId,r=await call('submitCoinChallenge',{challengeId:cid,answer});S=r.state;render();
   if(r.correct){$('gameResult').textContent='Correct! 🎉 Claim your coins.';openClaim('Correct answer! 🎉','Watch a short ad to claim '+r.score+' Coins.',()=>claimCoin(cid));}
@@ -151,7 +162,7 @@ function flipMemory(i){if(memoryOpen.includes(i)||memoryMatched.includes(i)||mem
 function drawMemory(){document.querySelectorAll('[data-card]').forEach(b=>{const i=Number(b.dataset.card);b.textContent=(memoryMatched.includes(i)||memoryOpen.includes(i))?memoryCards[i]:'?';b.disabled=memoryMatched.includes(i);});}
 
 /* ---------- MATH CHALLENGE ---------- */
-async function startMathGame(){try{mathChallenge=await call('newMathChallenge');$('mathPrompt').textContent=mathChallenge.question;$('mathStatus').textContent='Choose the correct answer.';$('mathOptions').innerHTML=mathChallenge.options.map((x,i)=>`<button class="coin" onclick="submitMathAnswer(${i})">${esc(x)}</button>`).join('');go('mathGame');}catch(e){toast(e.message);}}
+async function startMathGame(){$('mathPrompt').textContent='Loading…';$('mathOptions').innerHTML='';$('mathStatus').textContent='';go('mathGame');try{mathChallenge=await call('newMathChallenge');$('mathPrompt').textContent=mathChallenge.question;$('mathStatus').textContent='Choose the correct answer.';$('mathOptions').innerHTML=mathChallenge.options.map((x,i)=>`<button class="coin" onclick="submitMathAnswer(${i})">${esc(x)}</button>`).join('');}catch(e){$('mathStatus').textContent=e.message;}}
 async function submitMathAnswer(index){$('mathOptions').querySelectorAll('button').forEach(b=>b.disabled=true);
  try{const cid=mathChallenge.challengeId,r=await call('submitMathChallenge',{challengeId:cid,answer:index});S=r.state;render();
   if(r.correct){$('mathStatus').textContent='Correct! 🎉 Claim your coins.';openClaim('Correct answer! 🎉','Watch a short ad to claim '+r.score+' Coins.',()=>claimMath(cid));}
@@ -159,18 +170,4 @@ async function submitMathAnswer(index){$('mathOptions').querySelectorAll('button
 async function claimMath(cid){if(adBusy)return false;adBusy=true;try{S=await adGate('gate_math','claimMathChallenge',{challengeId:cid});render();$('mathStatus').textContent='+'+S.cfg.mathReward+' Coins claimed! Start a new challenge.';toast('+'+S.cfg.mathReward+' Coins claimed!');return true;}catch(e){toast((e&&e.message)||'Ad was not completed. No reward given.');return false;}finally{adBusy=false;}}
 
 /* ---------- LEADERBOARD / MISC ---------- */
-function renderLeaderboard(){if(!S)return;const list=S.leaderboard||[];$('leaderList').innerHTML=list.length?list.map((x,i)=>`<div class="rank"><div class="ranknum">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</div><div><b>${esc(x.name||'Player')}</b><div class="small">${esc(x.id===S.id?'You':'Player')}</div></div><b>${Number(x.score)} pts</b></div>`).join(''):'<div class="card muted">No game scores yet. You could be the first winner!</div>';
- $('prizeList').innerHTML=(S.prizes||[]).length?S.prizes.map(p=>`<div class="item"><b>🏆 ${esc(p.note||'Winner Prize')}</b><div class="muted">Winner: ${esc(p.winner)} • ${p.coins} Coins • ${esc(p.time)}</div></div>`).join(''):'<div class="muted">No winner has been announced yet.</div>';}
-async function awardPrize(){try{S=await call('adminAwardPrize',{winnerId:$('winnerId').value.trim(),coins:$('prizeCoins').value,note:$('prizeNote').value.trim()||'Winner Prize'});render();$('winnerId').value='';$('prizeCoins').value='';$('prizeNote').value='';toast('One Winner Prize awarded successfully.');}catch(e){toast(e.message);}}
-function openChannel(url){if(tg&&tg.openTelegramLink)tg.openTelegramLink(url);else window.open(url,'_blank');}
-async function claimTask(i){try{S=await call('claimTask',{index:i});render();toast('Task reward added!');}catch(e){toast(e.message);}}
-async function claimReferral(id){if(adBusy)return;adBusy=true;try{S=await adGate('gate_referral','claimReferral',{friendId:id});render();toast('Referral Coins added!');}catch(e){toast((e&&e.message)||'Ad was not completed. No reward given.');}finally{adBusy=false;}}
-function copyRef(){const v=$('refLink');v.select();try{document.execCommand('copy');toast('Referral link copied!');}catch(e){toast('Copy not supported');}}
-function shareRef(){const url='https://t.me/share/url?url='+encodeURIComponent(S.refLink)+'&text='+encodeURIComponent('Join RR Crypto Earning!');if(tg&&tg.openTelegramLink)tg.openTelegramLink(url);else window.open(url,'_blank');}
-function calcUsd(){if(!$('wUsd'))return;const rate=S&&S.cfg?Number(S.cfg.rate):0;$('wUsd').textContent='Estimated value: $'+((Number($('wCoins').value)||0)*rate).toFixed(4);}
-async function doWithdraw(){const b=$('wBtn');b.disabled=true;try{S=await call('withdraw',{method:$('wMethod').value,address:$('wAddr').value.trim(),coins:$('wCoins').value});render();$('wAddr').value='';$('wCoins').value='';toast('Withdrawal request submitted.');}catch(e){toast(e.message);}b.disabled=false;}
-async function refresh(){try{S=await call('init');render();}catch(e){toast(e.message);}}
-async function checkGate(){const st=$('gateStatus');st.textContent='Checking…';try{S=await call('init');$('joinGate').style.display='none';render();$('splash').style.display='none';return true;}catch(e){const m=(e&&e.message)||'';st.textContent=/join both/i.test(m)?'Please join both channels and try again.':(m||'Could not verify. Open inside Telegram.');return false;}}
-async function boot(){try{if(!initData){$('smsg').textContent='Open this Mini App inside Telegram.';$('splash').style.display='none';$('joinGate').style.display='flex';$('gateStatus').textContent='Telegram app session is required.';return;}const ok=await checkGate();if(!ok){$('splash').style.display='none';$('joinGate').style.display='flex';}}catch(e){$('smsg').innerHTML=esc(e.message)+'<br><br><button onclick="location.reload()">Retry</button>';}}
-boot();
-</script></body></html>
+function renderLeaderboard(){if(!S)return;const list=S.leaderboard||[];$('leaderList').innerHTML=list.length?list.map((x
