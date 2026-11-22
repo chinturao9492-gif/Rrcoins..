@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="theme-color" content="#090d1b"><title>RR Crypto Earning</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script><script src="//libtl.com/sdk.js" data-zone="12281843" data-sdk="show_12281843"></script><script src="https://api.adsun.io/sdk.js"></script>
+<link rel="preconnect" href="https://script.google.com"><link rel="preconnect" href="https://script.googleusercontent.com">
+<script src="https://telegram.org/js/telegram-web-app.js"></script><script async src="//libtl.com/sdk.js" data-zone="12281843" data-sdk="show_12281843"></script><script async src="https://api.adsun.io/sdk.js"></script>
 <style>
 :root{--bg:#090d1b;--panel:#121a2d;--card:#17223a;--line:#273653;--gold:#f5c451;--cyan:#55d6e8;--text:#f5f7ff;--muted:#9eabc5;--green:#57d69b}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -10%,#1d3152 0,#090d1b 42%);color:var(--text);font-family:Inter,system-ui,Arial,sans-serif;padding:0 0 86px}
@@ -62,7 +63,7 @@ nav{position:fixed;bottom:0;left:0;right:0;z-index:50;background:#0c1424f5;borde
 <script>
 'use strict';
 const tg=window.Telegram&&window.Telegram.WebApp?window.Telegram.WebApp:null;if(tg){tg.ready();tg.expand();}
-const initData=tg?tg.initData:'';const API_URL='https://script.google.com/macros/s/AKfycbyLpJ1P4CUQWkDRItoBVsxEyj--pgUDAAOYwCLtY-qMAE1RK7FTTmQ8f4HdIsyFydC7/exec';
+const initData=tg?tg.initData:'';const API_URL='https://script.google.com/macros/s/AKfycbyBILp1HIO7SyKVPreM2Jt9iLobpglqj5Jq950Cz4QOxgZ22ao5JciDwHUEzmU6eiyv/exec';
 let adBusy=false,S=null,collectTimer=null,currentLesson=null,quizAnswers=[],coinChallenge=null,mathChallenge=null;
 let memoryCards=[],memoryOpen=[],memoryMatched=[];
 const $=id=>document.getElementById(id),esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -100,7 +101,15 @@ async function showAd(provider,ymid){
 async function adGate(placement,action,payload){const st=await call('startAd',{placement});await showAd('monetag',st.ymid);return call(action,Object.assign({adId:st.ymid},payload||{}));}
 async function watchRewardAd(placement='home_monetag'){
  if(adBusy)return;adBusy=true;const btn=placement==='home_monetag'?$('watchAdBtn'):placement==='task_monetag'?$('taskAdMonetagBtn'):$('taskAdAdsunBtn');if(btn)btn.disabled=true;
- try{const st=await call('startAd',{placement});await showAd(placement==='task_adsun'?'adsun':'monetag',st.ymid);S=await call('completeAd',{ymid:st.ymid});toast('Ad completed! +'+S.cfg.adReward+' Coins');$('adMessage').textContent='Ad completed. +'+S.cfg.adReward+' Coins added.';}
+ try{
+  const st=await call('startAd',{placement});
+  await showAd(placement==='task_adsun'?'adsun':'monetag',st.ymid);
+  const rw=(S&&S.cfg&&S.cfg.adReward)||3;
+  toast('Ad completed! +'+rw+' Coins');$('adMessage').textContent='Ad completed. +'+rw+' Coins added.';
+  if(S){S.coins=Number(S.coins||0)+rw;S.usd=S.coins*0.0001;render();}
+  try{S=await call('completeAd',{ymid:st.ymid});}
+  catch(e){const m=(e&&e.message)||'';if(/already used/i.test(m)){S=await call('init');}else{S=await call('init');throw e;}}
+ }
  catch(e){const m=(e&&e.message)||'Ad was not completed. No reward given.';$('adMessage').textContent=m;toast(m);}
  finally{adBusy=false;if(S)render();}
 }
@@ -161,7 +170,7 @@ function shareRef(){const url='https://t.me/share/url?url='+encodeURIComponent(S
 function calcUsd(){if(!$('wUsd'))return;const rate=S&&S.cfg?Number(S.cfg.rate):0;$('wUsd').textContent='Estimated value: $'+((Number($('wCoins').value)||0)*rate).toFixed(4);}
 async function doWithdraw(){const b=$('wBtn');b.disabled=true;try{S=await call('withdraw',{method:$('wMethod').value,address:$('wAddr').value.trim(),coins:$('wCoins').value});render();$('wAddr').value='';$('wCoins').value='';toast('Withdrawal request submitted.');}catch(e){toast(e.message);}b.disabled=false;}
 async function refresh(){try{S=await call('init');render();}catch(e){toast(e.message);}}
-async function checkGate(){const st=$('gateStatus');st.textContent='Checking both channel memberships…';try{const r=await call('verifyChannels');if(!r.joined){st.textContent='Please join both channels and try again.';return false;}$('joinGate').style.display='none';S=await call('init');render();$('splash').style.display='none';return true;}catch(e){st.textContent=e.message||'Could not verify. Open inside Telegram.';return false;}}
+async function checkGate(){const st=$('gateStatus');st.textContent='Checking…';try{S=await call('init');$('joinGate').style.display='none';render();$('splash').style.display='none';return true;}catch(e){const m=(e&&e.message)||'';st.textContent=/join both/i.test(m)?'Please join both channels and try again.':(m||'Could not verify. Open inside Telegram.');return false;}}
 async function boot(){try{if(!initData){$('smsg').textContent='Open this Mini App inside Telegram.';$('splash').style.display='none';$('joinGate').style.display='flex';$('gateStatus').textContent='Telegram app session is required.';return;}const ok=await checkGate();if(!ok){$('splash').style.display='none';$('joinGate').style.display='flex';}}catch(e){$('smsg').innerHTML=esc(e.message)+'<br><br><button onclick="location.reload()">Retry</button>';}}
 boot();
 </script></body></html>
