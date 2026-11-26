@@ -165,8 +165,7 @@ function renderAds(){
  const A=S.ads||{},left=Math.ceil((adCdUntil-Date.now())/1000),set=(n,b,t)=>{if(!b)return;if(n>=10){b.disabled=true;b.textContent='Daily limit reached';}else if(adBusy){b.disabled=true;}else if(left>0){b.disabled=true;b.textContent='Wait '+left+'s';}else{b.disabled=false;b.textContent=t;}};
  set(A.homeMonetag||0,$('watchAdBtn'),'Watch Ad');set(A.taskMonetag||0,$('taskAdMonetagBtn'),'Watch Ads');set(A.taskAdsun||0,$('taskAdAdsunBtn'),'Watch Ads');
 }
-
-/* ---------- CLAIM POPUP ---------- */
+ /* ---------- CLAIM POPUP ---------- */
 function openClaim(title,text,fn){$('claimTitle').textContent=title;$('claimText').textContent=text;const b=$('claimBtn');b.disabled=false;b.onclick=async()=>{b.disabled=true;const ok=await fn();if(ok)closeClaim();else b.disabled=false;};$('claimModal').style.display='flex';}
 function closeClaim(){$('claimModal').style.display='none';}
 
@@ -211,4 +210,18 @@ async function claimMath(cid){if(adBusy)return false;adBusy=true;try{S=await adG
 /* ---------- LEADERBOARD / MISC ---------- */
 function renderLeaderboard(){if(!S)return;const list=S.leaderboard||[];$('leaderList').innerHTML=list.length?list.map((x,i)=>`<div class="rank"><div class="ranknum">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</div><div><b>${esc(x.name||'Player')}</b><div class="small">${esc(x.id===S.id?'You':'Player')}</div></div><b>${Number(x.score)} pts</b></div>`).join(''):'<div class="card muted">No game scores yet. You could be the first winner!</div>';
  $('prizeList').innerHTML=(S.prizes||[]).length?S.prizes.map(p=>`<div class="item"><b>🏆 ${esc(p.note||'Winner Prize')}</b><div class="muted">Winner: ${esc(p.winner)} • ${p.coins} Coins • ${esc(p.time)}</div></div>`).join(''):'<div class="muted">No winner has been announced yet.</div>';}
-async function awardPrize(){try{S=await call('adminAwardPrize',{winnerId:$('winnerId').value.trim(),coins:$('prizeCoins').value,no
+async function awardPrize(){try{S=await call('adminAwardPrize',{winnerId:$('winnerId').value.trim(),coins:$('prizeCoins').value,note:$('prizeNote').value.trim()||'Winner Prize'});render();$('winnerId').value='';$('prizeCoins').value='';$('prizeNote').value='';toast('One Winner Prize awarded successfully.');}catch(e){toast(e.message);}}
+function openChannel(url){if(tg&&tg.openTelegramLink)tg.openTelegramLink(url);else window.open(url,'_blank');}
+async function claimTask(i){try{S=await call('claimTask',{index:i});render();toast('Task reward added!');}catch(e){toast(e.message);}}
+async function claimReferral(id){if(adBusy)return;adBusy=true;try{S=await adGate('gate_referral','claimReferral',{friendId:id});render();toast('Referral Coins added!');}catch(e){toast((e&&e.message)||'Ad was not completed. No reward given.');}finally{adBusy=false;}}
+function copyRef(){const v=$('refLink');v.select();try{document.execCommand('copy');toast('Referral link copied!');}catch(e){toast('Copy not supported');}}
+function shareRef(){const url='https://t.me/share/url?url='+encodeURIComponent(S.refLink)+'&text='+encodeURIComponent('Join Coin Spark!');if(tg&&tg.openTelegramLink)tg.openTelegramLink(url);else window.open(url,'_blank');}
+async function doWithdraw(){const b=$('wBtn');b.disabled=true;try{S=await call('withdraw',{method:$('wMethod').value,address:$('wAddr').value.trim(),coins:$('wCoins').value});render();$('wAddr').value='';$('wCoins').value='';toast('Withdrawal request submitted.');}catch(e){toast(e.message);}b.disabled=false;}
+async function refresh(){try{S=await call('init');render();}catch(e){toast(e.message);}}
+async function checkGate(){const st=$('gateStatus');st.textContent='Checking both channel memberships…';try{const r=await call('verifyChannels');if(!r.joined){st.textContent='Please join both channels and try again.';return false;}$('joinGate').style.display='none';S=await call('init');render();$('splash').style.display='none';return true;}catch(e){st.textContent=e.message||'Could not verify. Open inside Telegram.';return false;}}
+async function boot(){try{if(!initData){$('smsg').textContent='Open this Mini App inside Telegram.';$('splash').style.display='none';$('joinGate').style.display='flex';$('gateStatus').textContent='Telegram app session is required.';return;}
+ try{S=await call('init');render();$('splash').style.display='none';}
+ catch(e){if(/join both|join.*channel/i.test(e.message||'')){$('splash').style.display='none';$('joinGate').style.display='flex';}else throw e;}
+ }catch(e){$('smsg').innerHTML=esc(e.message)+'<br><br><button onclick="location.reload()">Retry</button>';}}
+boot();
+</script></body></html>
