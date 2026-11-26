@@ -95,7 +95,7 @@ button:not(.secondary):not(.outline):not(.coin):not(.option):not(.feature):not([
 <script>
 'use strict';
 const tg=window.Telegram&&window.Telegram.WebApp?window.Telegram.WebApp:null;if(tg){tg.ready();tg.expand();}
-const initData=tg?tg.initData:'';const API_URL='https://script.google.com/macros/s/AKfycbzUIYFVqYS3jZMB8cqzTGdVeoVSlC8XhO6kHl70D_jvTrR9VmpWpR6aUFSn-rFo-eRg/exec';
+const initData=tg?tg.initData:'';const API_URL='https://script.google.com/macros/s/AKfycbzXwQ9qXkmOXucwihbZ7OXqr9yGdmHPcgZXvkGUzh1TU8qgeFBFOazu7QZwJkS101cC/exec';
 let adBusy=false,S=null,collectTimer=null,currentLesson=null,quizAnswers=[],coinChallenge=null,mathChallenge=null,lastSync=0;
 let memoryCards=[],memoryOpen=[],memoryMatched=[];
 const $=id=>document.getElementById(id),esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
